@@ -1,30 +1,24 @@
 package com.it.demo.Entities;
 
-import java.util.Date;
-
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-@Entity
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Impaye {
+public class SenarioStre {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id;
-private Date DEFAULT_DATE;
-private  Integer DPD;
-private  boolean RESTRCUTRED_FLAG;
-private Date RESTRUCTURED_DATE;
-private boolean  RESCHEDULE_FLAG;
-private Date RESCHDULE_DATE;
-@OneToOne
- private Engagement engagement;
+private long senario_id;
+private String Risque_name;
+@ManyToOne
+private Risque risquestres;
+
 }
