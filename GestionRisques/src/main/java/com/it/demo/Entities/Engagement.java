@@ -4,15 +4,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+
+import org.hibernate.annotations.Cascade;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +32,7 @@ public class Engagement {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	
 	private long ACCOUNT_NUMBER;
-
+@Enumerated(EnumType.STRING)
 	private TypeEngagement typeEnga;
 	private Boolean FACILITY_ID;
 	private double NOMINAL_EXPOSURE;
@@ -46,12 +52,16 @@ public class Engagement {
 	private  double Solde_Balance;
 	
 	@ManyToOne
+	@JoinColumn(name = "id_risque",referencedColumnName = "id")
+	
 	private Risque  risque;
 	
-	@OneToOne (mappedBy = "engagement")	
+	@OneToOne (mappedBy = "engagement" ,cascade = CascadeType.ALL,fetch = FetchType.LAZY)	
 	private Impaye impaye;
+	
 	@OneToOne
 	private Produit produit;
+	
 	@ManyToMany(mappedBy = "lisEngagement",fetch = FetchType.EAGER)
 	 private List<Garantie>listgarantie = new ArrayList<>();
 }
