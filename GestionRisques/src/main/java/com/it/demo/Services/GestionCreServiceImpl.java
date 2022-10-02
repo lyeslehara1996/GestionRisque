@@ -17,10 +17,10 @@ import com.it.demo.Entities.Impaye;
 import com.it.demo.Entities.Produit;
 import com.it.demo.Entities.Risque;
 import com.it.demo.Entities.SenarioStre;
-import com.it.demo.Repositorry.ImpayeRepository;
-import com.it.demo.Repositorry.ProduitRepository;
-import com.it.demo.Repositorry.RisqueRepository;
-import com.it.demo.Repositorry.SenarioStressRepository;
+import com.it.demo.Repositories.ImpayeRepository;
+import com.it.demo.Repositories.ProduitRepository;
+import com.it.demo.Repositories.RisqueRepository;
+import com.it.demo.Repositories.SenarioStressRepository;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

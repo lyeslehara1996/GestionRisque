@@ -1,10 +1,10 @@
-package com.it.demo.Repositorry;
+package com.it.demo.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import com.it.demo.Entities.SenarioStre;
+import com.it.demo.Entities.Impaye;
 @RepositoryRestResource
-public interface SenarioStressRepository extends JpaRepository<SenarioStre,Long>{
+public interface ImpayeRepository extends JpaRepository<Impaye, Long>{
 
 }

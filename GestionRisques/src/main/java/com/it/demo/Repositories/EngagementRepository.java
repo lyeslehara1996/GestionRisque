@@ -1,4 +1,4 @@
-package com.it.demo.Repositorry;
+package com.it.demo.Repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;

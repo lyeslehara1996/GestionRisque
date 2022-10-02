@@ -1,4 +1,4 @@
-package com.it.demo.Repositorry;
+package com.it.demo.Repositories;
 
 import java.util.List;
 import java.util.Optional;
