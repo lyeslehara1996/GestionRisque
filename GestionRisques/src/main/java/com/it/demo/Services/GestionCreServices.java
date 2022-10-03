@@ -13,7 +13,7 @@ import com.it.demo.Entities.SenarioStre;
 
 public interface GestionCreServices {
 	
-	//produitImapye
+//produitImapye
 Produit addtoProduit(Produit produit);
 List<Produit> getAllProduit();
 Optional<Produit> findById(String id );
@@ -25,13 +25,11 @@ List<Risque> getAllRisque();
 Optional<Risque> findByIdRisque(long id );
 ResponseEntity<Risque> updateRisque( Risque risque);
 
-
 //senario Stress
 SenarioStre addtoSenario(SenarioStre senario);
 List<SenarioStre>getAllsenario();
 Optional<SenarioStre> findByIdSenario(long id );
 ResponseEntity<SenarioStre> updateSenario( SenarioStre senario);
-
 
 //impayé
 Impaye addtoImaye(Impaye impaye);
