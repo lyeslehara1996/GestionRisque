@@ -17,8 +17,10 @@
                 </li>
                </ul>
             </div>
+           
             <div class="card-body">
-                  <form [formGroup]="userFormgroup" >
+              <div class="text-danger text-center" *ngIf="errorMessage" >{{errorMessage}}</div>
+                  <form [formGroup]="userFormGroup"  (ngSubmit)="handleLogin()">
                     <div class="mb-3 text-left" >
                         <label for="exampleFormControlInput1" class="form-label">Username</label>
                         <input  type="text" formControlName="username" class="form-control" id="username" name="username" placeholder="Username" >

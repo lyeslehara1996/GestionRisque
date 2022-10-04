@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "AuthApp": {
+    "App": {
       "projectType": "application",
       "schematics": {},
       "root": "",
@@ -13,7 +13,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/auth-app",
+            "outputPath": "dist/app",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -23,10 +23,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.css"          
+              "src/styles.css"
             ],
-            "scripts": [
-                 ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -65,10 +64,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "AuthApp:build:production"
+              "browserTarget": "App:build:production"
             },
             "development": {
-              "browserTarget": "AuthApp:build:development"
+              "browserTarget": "App:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +75,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "AuthApp:build"
+            "browserTarget": "App:build"
           }
         },
         "test": {
@@ -100,6 +99,6 @@
     }
   },
   "cli": {
-    "analytics": "a2ff3aa8-2b89-4b13-91f8-a5c1cbb3e6bc"
+    "analytics": "013891d1-85f8-40f1-b4f4-74b813fe44cc"
   }
 }

@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import {NgForm} from '@angular/forms';
 import { UserService } from '../_services/UserService/user.service';
 import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms';
+import { AuthServiceService } from '../_services/AuthService/auth-service.service';
+import { AppUser } from '../Models/AppUser';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -9,31 +12,38 @@ import { FormGroup, FormControl, Validators, FormBuilder }  from '@angular/forms
 })
 export class HomeComponent implements OnInit {
 
-  userFormgroup! :FormGroup;
-
+  userFormGroup! :FormGroup;
+  errorMessage: any;
 
   constructor(
-    private userService:UserService,
-    private  fb:FormBuilder
+    private authService:AuthServiceService,
+    private  fb:FormBuilder,
+    private router:Router
     ) { }
 
   ngOnInit(): void {
-    this.userFormgroup = this.fb.group({
+    this.userFormGroup = this.fb.group({
       username: this.fb.control(""),
       password: this.fb.control("")
     });
 
   }
-  Login(loginForm:NgForm){
-    console.log(loginForm.value)
-    // this.userService.Login(loginForm.value).subscribe(
-    //   (Response)=>{
-    //     console.log(Response);
-    //   },
-    //     (error) =>{
-    //       console.log(error);
-    //     }
-      
-    // );
+  
+  handleLogin(){
+    let username = this.userFormGroup.value.username;
+    let password = this.userFormGroup.value.password;
+
+  this.authService.login(username,password).subscribe({
+    next :(appUser:AppUser) =>{
+      this.authService.authenticationUsers(appUser).subscribe({
+        next : (data)=>{
+          this.router.navigateByUrl("/Admin")
+        }
+      });
+    },
+    error : (err)=>{
+      this.errorMessage=err;
+    }
+  });
   }
 }
