@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
-
+import { HomeComponent } from './home/home.component';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
-import { HomeComponent } from './home/home.component';
+
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { FooterComponent } from './footer/footer.component';
@@ -14,8 +14,12 @@ import { ForbidenComponent } from './forbiden/forbiden.component';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AuthModule } from './auth/auth.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +38,10 @@ import { AuthModule } from './auth/auth.module';
     FormsModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AuthModule
+    MatInputModule,
+    MatCheckboxModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
     
     
   ],

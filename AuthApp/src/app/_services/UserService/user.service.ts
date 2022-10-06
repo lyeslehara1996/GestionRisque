@@ -16,8 +16,25 @@ export class UserService {
  
   constructor(private httpClient: HttpClient) { }
 
+//get users methode 
 
-  // public Login(){
-  //   return this.httpClient.post(this.PATH_API +"/Auth/signin",Data,{headers:this.requestHeader})
-  // }
+  public getUsers(yrl:any):Observable <any> {
+    return this.httpClient.get(this.PATH_API+"api/user");
+  }
+
+  //add Users methode
+
+
+  //get roles methode 
+
+
+  // add role methode 
+
+
+  //add role to user methode 
+
+
+
+
+  
 }

@@ -7,15 +7,18 @@ import * as uuid from "uuid";
   providedIn: 'root'
 })
 export class AuthServiceService {
+  private loginUrl = 'http://localhost:8085/Auth/signin';
 users :AppUser[] =[];
 authenticationUser : AppUser | undefined;
 
   constructor() { 
-    this.users.push({userid:"1",username:"user1",password:"1234",roles:["Admin"]})
-    this.users.push({userid:"2",username:"user4",password:"12345",roles:["Utilisateur"]})
-    this.users.push({userid:"3",username:"user2",password:"12346",roles:["Admin"]})
+    this.users.push({userid:"1",nameUser:"doe",username:"user1",password:"1234",roles:["Admin"]})
+    this.users.push({userid:"2",nameUser:"doe",username:"user4",password:"12345",roles:["Utilisateur"]})
+    this.users.push({userid:"3",nameUser:"doe",username:"user2",password:"12346",roles:["Admin"]})
 
   }
+
+
 
 public login(username:string,password:string):Observable<AppUser>{
   let AppUser = this.users.find(u => u.username == username);

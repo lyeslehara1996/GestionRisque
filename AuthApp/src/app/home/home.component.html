@@ -1,39 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
 
-    <div class="container  " style=" margin-top: 100px; ">
-        <div class="card">
-            <div class="card-header">
-              <ul class="nav nav-tabs card-header-tabs">
-                <li class="nav-item">
-                  <a class="nav-link active" aria-current="true" href="#">Formulaire d'authentification</a>
-                </li>
-               </ul>
-            </div>
-           
-            <div class="card-body">
-              <div class="text-danger text-center" *ngIf="errorMessage" >{{errorMessage}}</div>
-                  <form [formGroup]="userFormGroup"  (ngSubmit)="handleLogin()">
-                    <div class="mb-3 text-left" >
-                        <label for="exampleFormControlInput1" class="form-label">Username</label>
-                        <input  type="text" formControlName="username" class="form-control" id="username" name="username" placeholder="Username" >
-                      </div>
-                      <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Password</label>
-                        <input type="password"formControlName="password" class="form-control" id="password" name="password" placeholder="password" >
-                      </div>
-              <input type="submit" class="btn btn-primary text-center" value="login">
-            </form>
-            </div>
-          </div>
-    </div>
-    
-</body>
-</html>
+ <div class="login-page">
+  <div class="content px20">
+    <form class="login-form" #myForm="ngForm" >
+      <div class="text-center">
+        <h2 class="app-name">Material Admin</h2>
+      </div>
+      <div fxLayout="row">
+        <div fxFlexFill>
+          <mat-form-field class="w-100">
+            <input matInput placeholder="Email">
+          </mat-form-field>
+          <mat-form-field class="w-100">
+            <input matInput type="password" placeholder="Password">
+          </mat-form-field>
+        </div>
+      </div>
+   
+      <div fxLayout="row">
+        <div fxFlexFill>
+          <button type="submit" mat-raised-button color="primary" class="w-100">Login</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
