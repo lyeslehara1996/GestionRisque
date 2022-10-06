@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthServiceService } from '../_services/AuthService/auth-service.service';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,11 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  constructor() {}
+  constructor(private authService:AuthServiceService) {}
   public LoginForm!: FormGroup;
+
   ngOnInit() {
+    
     this.LoginForm = new FormGroup({
       username: new FormControl('', [
         Validators.required,
@@ -22,7 +25,8 @@ export class HomeComponent implements OnInit {
   public hasError = (controlName: string, errorName: string) => {
     return this.LoginForm.controls[controlName].hasError(errorName);
   };
+
   onSubmit() {
-    console.log(this.LoginForm.value);
+
   }
 }
