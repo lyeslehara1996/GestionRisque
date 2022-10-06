@@ -18,18 +18,25 @@ export class UserService {
 
 //get users methode 
 
-  public getUsers(yrl:any):Observable <any> {
+  public getUsers(url:any):Observable <any> {
     return this.httpClient.get(this.PATH_API+"api/user");
   }
 
   //add Users methode
+  public AddUsers(url:any):Observable <any> {
+    return this.httpClient.get(this.PATH_API+"api/user");
+  }
 
 
   //get roles methode 
-
+  public getRoles(url:any):Observable <any> {
+    return this.httpClient.get(this.PATH_API+"api/user");
+  }
 
   // add role methode 
-
+  public AddRoles(url:any):Observable <any> {
+    return this.httpClient.get(this.PATH_API+"api/user");
+  }
 
   //add role to user methode 
 
