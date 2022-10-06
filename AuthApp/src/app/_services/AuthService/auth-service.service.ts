@@ -1,3 +1,4 @@
+import { HttpClient,HttpHeaders  } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { AppUser } from 'src/app/Models/AppUser';
@@ -7,19 +8,27 @@ import * as uuid from "uuid";
   providedIn: 'root'
 })
 export class AuthServiceService {
-  private loginUrl = 'http://localhost:8085/Auth/signin';
+  private AUTH_API = 'http://localhost:8085/Auth/signin';
+   httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+  };
 users :AppUser[] =[];
 
 authenticationUser : AppUser | undefined;
 
-  constructor() { 
+  constructor(    private http: HttpClient) { 
     this.users.push({userid:"1",nameUser:"doe",username:"user1",password:"1234",roles:["Admin"]})
     this.users.push({userid:"2",nameUser:"doe",username:"user4",password:"12345",roles:["Utilisateur"]})
     this.users.push({userid:"3",nameUser:"doe",username:"user2",password:"12346",roles:["Admin"]})
 
   }
 
-
+  Login(username: string, password: string): Observable<any> {
+    return this.http.post(this.AUTH_API , {
+      username,
+      password
+    }, this.httpOptions);
+  }
 
 public login(username:string,password:string):Observable<AppUser>{
   
