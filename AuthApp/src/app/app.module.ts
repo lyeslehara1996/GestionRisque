@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { BrowserModule } from '@angular/platform-browser';
-import { HomeComponent } from './home/home.component';
+import { HomeComponent } from './authentification/home/home.component';
 import { AppComponent } from './app.component';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -17,8 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 @NgModule({
   declarations: [
     AppComponent,
-    HomeComponent,
-  ],
+     ],
 
 
   imports: [
@@ -32,7 +31,8 @@ import { MatInputModule } from '@angular/material/input';
     MatButtonModule,
     BrowserAnimationsModule,
     
-    
+
+
   ],
   providers: [],
   bootstrap: [AppComponent]
