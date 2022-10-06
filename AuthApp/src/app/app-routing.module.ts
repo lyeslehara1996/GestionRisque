@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { Routes, RouterModule } from '@angular/router'; 
-import { PageNotFoundComponent } from 'src/page-not-found/page-not-found.component';
+
+import { NotFoundComponent } from './not-found/not-found.component';
 const routes: Routes= [
   {path:'',component:HomeComponent},
   {path:'home',component:HomeComponent},
@@ -11,7 +12,7 @@ const routes: Routes= [
   {path:'Admin',component:AdminComponent},
   {
     path: '**',
-    component: PageNotFoundComponent,
+    component: NotFoundComponent,
   },
 
 ]

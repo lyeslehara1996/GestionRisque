@@ -9,16 +9,20 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatCardModule } from '@angular/material/card';
 
+import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { HomeComponent } from './home/home.component';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-      HomeComponent
+      HomeComponent,
+      NotFoundComponent
      ],
 
 
@@ -32,10 +36,15 @@ import { HomeComponent } from './home/home.component';
     MatCheckboxModule,
     MatButtonModule,
     BrowserAnimationsModule,
+    MatCardModule,
+    MatIconModule
+    
+
     
 
 
   ],
+
   providers: [],
   bootstrap: [AppComponent]
 })

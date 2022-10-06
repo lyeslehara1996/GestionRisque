@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
+import { AppUser } from 'src/app/Models/AppUser';
 
 @Injectable({
   providedIn: 'root'
@@ -23,8 +24,8 @@ export class UserService {
   }
 
   //add Users methode
-  public AddUsers(url:any):Observable <any> {
-    return this.httpClient.get(this.PATH_API+"api/user");
+  public AddUsers( appUser:Object):Observable <any> {
+    return this.httpClient.get(this.PATH_API+"api/user",appUser);
   }
 
 
