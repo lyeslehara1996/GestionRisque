@@ -19,7 +19,7 @@ export class UserService {
 
 //get users methode 
 
-  public getUsers(url:any):Observable <any> {
+  public getUsers():Observable <any> {
     return this.httpClient.get(this.PATH_API+"users");
   }
 
