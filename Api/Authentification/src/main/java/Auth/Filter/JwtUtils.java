@@ -33,6 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
 public class JwtUtils {
+
 	private static final Logger logger = LoggerFactory.getLogger(AuthTockenFilter.class);
 	
 
@@ -40,7 +41,7 @@ public class JwtUtils {
 	public static final  String AUTH_HEADER = "Authorization";
 	public static final  String PREFIX = "Bearer ";
 	public static final  long EXCPIRE_ACCESS_TOKEN =1*60*1000;
-	public static final long EXCPIRE_refersh_TOKEN = 50*60*1000;
+	public static final long EXCPIRE_refersh_TOKEN = 15*60*1000;
 
 	// private final int jwtExpirationMs = new Date(System.currentTimeMillis() +
 	// 25*60* 1000);
@@ -48,10 +49,10 @@ public class JwtUtils {
 	public static String generateJwtAccessToken(Authentication authentication) {
 
 		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
-		Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+		Algorithm algorithm = Algorithm.HMAC256("secret12309");
 		return JWT.create()
 				.withSubject(userPrincipal.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis()+EXCPIRE_ACCESS_TOKEN))
+				.withExpiresAt(new Date(System.currentTimeMillis()+ 1 * 60 * 1000))
 				.withClaim("roles", userPrincipal.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
 				.sign(algorithm);
 			
@@ -60,10 +61,10 @@ public class JwtUtils {
 	public String generateJwtRefreshToken(Authentication authentication) {
 
 		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
-		Algorithm algorithm = Algorithm.HMAC256(jwtSecret);
+		Algorithm algorithm = Algorithm.HMAC256("secret12309");
 		return JWT.create()
 				.withSubject(userPrincipal.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis()+ EXCPIRE_refersh_TOKEN))
+				.withExpiresAt(new Date(System.currentTimeMillis()+ 50 * 60 * 1000))
 				.withClaim("roles", userPrincipal.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
 				.sign(algorithm);
 			
@@ -73,7 +74,7 @@ public class JwtUtils {
 	
 	public boolean validateJwtToken(String authToken) {
 		try {
-			Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);
+			Jwts.parser().setSigningKey("secret12309").parseClaimsJws(authToken);
 			return true;
 		} catch (SignatureException e) {
 			logger.error("Invalid JWT signature: {}", e.getMessage());

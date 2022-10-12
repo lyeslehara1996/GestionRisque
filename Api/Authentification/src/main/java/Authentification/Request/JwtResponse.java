@@ -14,16 +14,18 @@ import lombok.Setter;
 public class JwtResponse {
 
 
-	public JwtResponse(String jwtAccessTocken, String jwtRefreshToken, String username, List<String> roles) {
+	public JwtResponse(String jwtAccessTocken, String jwtRefreshToken, String username,String email, List<String> roles) {
 		super();
 		this.jwtAccessTocken = jwtAccessTocken;
-		JwtRefreshToken = jwtRefreshToken;
+		this.JwtRefreshToken = jwtRefreshToken;
 		this.username = username;
+		this.email=email;
 		this.roles = roles;
 	}
 	private String jwtAccessTocken;
 	private String JwtRefreshToken;
 	private String username;
+	private String email;
 	private List<String> roles;
 
 

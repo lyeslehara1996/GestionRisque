@@ -18,9 +18,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import Auth.Repository.PrivilegeRepository;
 import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
+import Auth.entities.Privilege;
 import Auth.entities.Role;
 import Auth.entities.User;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +39,8 @@ public class AccountServiceImpl  implements AccountService{
 	
 	@Autowired
 	private PasswordEncoder  passwordEncoder;
+	
+	private PrivilegeRepository privilegeRepository;
 	
 	public AccountServiceImpl(RoleRepository roleRepository, UserRepository userRepository) {
 		super();
@@ -63,6 +67,14 @@ public class AccountServiceImpl  implements AccountService{
 	}
 
 	@Override
+	public void addPrivilegesToRoles(@RequestBody String name, String nameP) {
+		Role role =roleRepository.getRolesByName(name);
+		Privilege privilege =privilegeRepository.getPrivilegeBynameP(nameP);
+		role.getPrivileges().add(privilege);
+
+	}
+
+	@Override
 	public void addRolleToUser(@RequestBody String username, String name) {
 		User user =userRepository.getUserByUsername(username);
 		Role role =roleRepository.getRolesByName(name);
@@ -71,8 +83,6 @@ public class AccountServiceImpl  implements AccountService{
 		log.info("i attribute role {} to user {}",user.getUsername(),role.getName());
 		
 	}
-
-
 	@Override
 	public List<User> ListUsers() {
 		// TODO Auto-generated method stub
@@ -84,6 +94,20 @@ public class AccountServiceImpl  implements AccountService{
 	public User getUser(String username) {
 		// TODO Auto-generated method stub
 		return userRepository.getUserByUsername(username);
+	}
+
+
+	@Override
+	public Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
+		// TODO Auto-generated method stub
+		 Role role = roleRepository.getRolesByName(name);
+	        if (role == null) {
+	            role = new Role();
+	            role.setName(name);
+	            role.setPrivileges(privileges);
+	            roleRepository.save(role);
+	        }
+	        return role;
 	}
 
 	

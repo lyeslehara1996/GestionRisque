@@ -20,26 +20,26 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource;
 
 import Auth.Filter.AuthTockenFilter;
 //import Auth.Filter.JwtAuthentificationFilter;
-import Auth.Filter.JwtAuthorizationFilter;
 import Auth.Filter.JwtEntryPoint;
+import Auth.Service.ServiceImp.UserDetailsServiceImp;
 
 
 @EnableWebSecurity
 @Configuration
 @EnableGlobalMethodSecurity(
-		// securedEnabled = true,
-		// jsr250Enabled = true,
+		securedEnabled = true,
+		jsr250Enabled = true,
 		prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 private final PasswordEncoder passwordEncoder;
 
-private final UserDetailsService userDetailsService;
+private final UserDetailsServiceImp userDetailsService;
 
 @Autowired
 private JwtEntryPoint unauthorizedHandler;
 
-	public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDetailsService) {
+	public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsServiceImp userDetailsService) {
 		super();
 		this.passwordEncoder = passwordEncoder;
 		this.userDetailsService = userDetailsService;
@@ -68,7 +68,7 @@ private JwtEntryPoint unauthorizedHandler;
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
 		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("Admin").and()
-		.authorizeRequests().antMatchers("/Auth/signin/**","/Auth/RefreshToken").permitAll()
+		.authorizeRequests().antMatchers("/Auth/signin/**").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -83,5 +83,6 @@ private JwtEntryPoint unauthorizedHandler;
 	}
 	
 
+	
 	
 }

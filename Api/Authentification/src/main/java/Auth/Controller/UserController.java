@@ -7,10 +7,13 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +28,7 @@ import com.auth0.jwt.algorithms.Algorithm;
 import Auth.Filter.JwtUtils;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
+import Auth.entities.Privilege;
 import Auth.entities.Role;
 import Auth.entities.RoleToUserForm;
 import Auth.entities.User;
@@ -40,6 +44,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
+@CrossOrigin("*")
 @Slf4j
 public class UserController {
 
@@ -47,11 +52,16 @@ public class UserController {
 	private AccountService accountService ;
 	
 	@GetMapping("/user")
-	public List<User> getUsers(){
-		return accountService.ListUsers();
+
+	public ResponseEntity<List<User>> getUsers(){
+		return ResponseEntity.ok()
+				.header("Resultat")
+				.body(	accountService.ListUsers());
+			
 	}
 	
 	 @RequestMapping(value = "/users/save", method = RequestMethod.POST)
+
 	public User saveUser(@RequestBody User user){
 		return accountService.addNewUser(user);
 	}
@@ -59,16 +69,27 @@ public class UserController {
 	@PostMapping("/roles/save")
 	public ResponseEntity<Role> saveRoles(@RequestBody Role role){
 		URI uri =URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/api/Roles/save").toUriString());
+		
 		return ResponseEntity.created(uri).body(accountService.addNewRolle(role));
 	}
-	
+
 	@PostMapping("/roles/addRolesToUsers")
 	public ResponseEntity<?> addRoleTOUser(@RequestBody RoleToUserForm form){
 		accountService.addRolleToUser(form.getUsername(), form.getName());
 		return ResponseEntity.ok().build();
 	}
 	
+	@PostMapping("/roles/addPrivilegesToRole")
+	public ResponseEntity<?> addPrivilegesToRoles(@RequestBody PrivilegesToRole formPrivilege){
+		accountService.addRolleToUser(formPrivilege.getName(), formPrivilege.getNameP());
+		return ResponseEntity.ok().build();
+	}
 
 	
-	
+}
+
+@Data
+class PrivilegesToRole{
+	String name;
+	String nameP;
 }

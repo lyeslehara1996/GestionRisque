@@ -17,6 +17,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,6 +43,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/Auth")
+@CrossOrigin("*")
 @Slf4j
 public class AuthController {
 
@@ -85,7 +87,7 @@ public class AuthController {
 					.map(item -> item.getAuthority())
 					.collect(Collectors.toList());
 			
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getUsername(),roles));
+			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getUsername(),userDetails.getEmail(),roles));
 	
 		}
 	}
@@ -97,7 +99,7 @@ public class AuthController {
 		if(authToken!=null && authToken.startsWith("Bearer ")) {
 			try {
 				String JwtRefreshToken = authToken.substring(7);
-				Algorithm algorithm = Algorithm.HMAC256("secret12309".getBytes());
+				Algorithm algorithm = Algorithm.HMAC256(jwtUtils.jwtSecret.getBytes());
 				JWTVerifier jwtVerfier= JWT.require(algorithm).build();
 				DecodedJWT decodedJWT =jwtVerfier.verify(JwtRefreshToken);
 		String nom =decodedJWT.getSubject();
@@ -112,7 +114,7 @@ public class AuthController {
 		
 		List<String> roles = appuser.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList());
 		
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getUsername(),roles));
+			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getUsername(),appuser.getEmail(),roles));
 	
 			}catch (Exception e) {
 			throw new RuntimeException("error tokens");

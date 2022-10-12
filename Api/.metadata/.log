@@ -435,3 +435,126 @@ java.util.concurrent.TimeoutException
 
 !ENTRY org.eclipse.ui 2 2 2022-10-10 17:19:31.558
 !MESSAGE Invalid property category path: org.springframework.ide.eclipse.beans.ui.properties.ProjectPropertyPage (bundle: org.springframework.ide.eclipse.xml.namespaces, propertyPage: org.springframework.ide.eclipse.beans.ui.namespaces.projectPropertyPage)
+!SESSION 2022-10-12 15:32:40.562 -----------------------------------------------
+eclipse.buildId=4.24.0.I20220607-0700
+java.version=17.0.3
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=fr_FR
+Framework arguments:  -product org.eclipse.epp.package.jee.product
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -product org.eclipse.epp.package.jee.product
+
+!ENTRY org.eclipse.jface 2 0 2022-10-12 15:33:59.692
+!MESSAGE Keybinding conflicts occurred.  They may interfere with normal accelerator operation.
+!SUBENTRY 1 org.eclipse.jface 2 0 2022-10-12 15:33:59.692
+!MESSAGE A conflict occurred for CTRL+SHIFT+T:
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.navigate.open.type,Open Type,
+		Open a type in a Java editor,
+		Category(org.eclipse.ui.category.navigate,Navigate,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@2be49c8c,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(CTRL+SHIFT+T,
+	ParameterizedCommand(Command(org.eclipse.lsp4e.symbolinworkspace,Go to Symbol in Workspace,
+		,
+		Category(org.eclipse.lsp4e.category,Language Servers,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@5f160341,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+!SUBENTRY 1 org.eclipse.jface 2 0 2022-10-12 15:33:59.692
+!MESSAGE A conflict occurred for ALT+SHIFT+R:
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.jdt.ui.edit.text.java.rename.element,Rename - Refactoring ,
+		Rename the selected element,
+		Category(org.eclipse.jdt.ui.category.refactoring,Refactor - Java,Java Refactoring Actions,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@31f5580b,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+Binding(ALT+SHIFT+R,
+	ParameterizedCommand(Command(org.eclipse.ui.edit.rename,Rename,
+		Rename the selected item,
+		Category(org.eclipse.ui.category.file,File,null,true),
+		org.eclipse.ui.internal.WorkbenchHandlerServiceHandler@56a8b19f,
+		,,true),null),
+	org.eclipse.ui.defaultAcceleratorConfiguration,
+	org.eclipse.ui.contexts.window,,,system)
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-12 15:34:15.015
+!MESSAGE Entering DelegatingStreamConnectionProvider()
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-12 15:34:15.016
+!MESSAGE DelegatingStreamConnectionProvider classloader = org.eclipse.osgi.internal.loader.EquinoxClassLoader@13c5d62e[org.springframework.tooling.boot.ls:1.38.0.202208110704(id=1020)]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-12 15:34:15.033
+!MESSAGE SpringBootLanguageServer exists!
+
+!ENTRY org.eclipse.egit.ui 2 0 2022-10-12 15:34:21.085
+!MESSAGE Warning: The environment variable HOME is not set. The following directory will be used to store the Git
+user global configuration and to define the default location to store repositories: 'C:\Users\pc'. If this is
+not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
+EGit might behave differently since they see different configuration options.
+This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+
+!ENTRY org.eclipse.ui 2 2 2022-10-12 15:35:09.381
+!MESSAGE Invalid property category path: org.springframework.ide.eclipse.beans.ui.properties.ProjectPropertyPage (bundle: org.springframework.ide.eclipse.xml.namespaces, propertyPage: org.springframework.ide.eclipse.beans.ui.namespaces.projectPropertyPage)
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-12 15:35:36.031
+!MESSAGE Boot LS startup time from start to initialized: 80924ms
+
+!ENTRY com.jaspersoft.studio 1 0 2022-10-12 15:35:36.358
+!MESSAGE Starting JaspersoftStudio bundle - Version: 6.20.0.final
+
+!ENTRY com.jaspersoft.studio.server 4 0 2022-10-12 15:35:36.800
+!MESSAGE An error occurred
+!STACK 0
+java.lang.RuntimeException: Could not instantiate serializer com.sun.org.apache.xml.internal.serialize.XMLSerializer: java.lang.IllegalAccessException: class org.exolab.castor.xml.BaseXercesJDK5Serializer cannot access class com.sun.org.apache.xml.internal.serialize.XMLSerializer (in module java.xml) because module java.xml does not export com.sun.org.apache.xml.internal.serialize to unnamed module @7fdfc90a
+	at org.exolab.castor.xml.BaseXercesJDK5Serializer.<init>(BaseXercesJDK5Serializer.java:53)
+	at org.exolab.castor.xml.XercesJDK5Serializer.<init>(XercesJDK5Serializer.java:27)
+	at org.exolab.castor.xml.XercesJDK5XMLSerializerFactory.getSerializer(XercesJDK5XMLSerializerFactory.java:29)
+	at org.exolab.castor.xml.util.XMLParserUtils.getSerializer(XMLParserUtils.java:261)
+	at org.castor.xml.AbstractInternalContext.getSerializer(AbstractInternalContext.java:321)
+	at org.exolab.castor.xml.Marshaller.configureSerializer(Marshaller.java:457)
+	at org.exolab.castor.xml.Marshaller.setWriter(Marshaller.java:404)
+	at org.exolab.castor.xml.Marshaller.<init>(Marshaller.java:358)
+	at net.sf.jasperreports.eclipse.util.CastorHelper.write(CastorHelper.java:164)
+	at net.sf.jasperreports.eclipse.util.CastorHelper.write(CastorHelper.java:223)
+	at com.jaspersoft.studio.prm.ParameterSetProvider.storeParameterSet(ParameterSetProvider.java:70)
+	at com.jaspersoft.studio.server.JRSBuiltInParameterProvider.init(JRSBuiltInParameterProvider.java:132)
+	at com.jaspersoft.studio.server.Activator$5.run(Activator.java:121)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY com.jaspersoft.studio.data 4 0 2022-10-12 15:35:37.322
+!MESSAGE An error occurred
+!STACK 0
+java.lang.RuntimeException: Could not instantiate serializer com.sun.org.apache.xml.internal.serialize.XMLSerializer: java.lang.IllegalAccessException: class org.exolab.castor.xml.BaseXercesJDK5Serializer cannot access class com.sun.org.apache.xml.internal.serialize.XMLSerializer (in module java.xml) because module java.xml does not export com.sun.org.apache.xml.internal.serialize to unnamed module @7fdfc90a
+	at org.exolab.castor.xml.BaseXercesJDK5Serializer.<init>(BaseXercesJDK5Serializer.java:53)
+	at org.exolab.castor.xml.XercesJDK5Serializer.<init>(XercesJDK5Serializer.java:27)
+	at org.exolab.castor.xml.XercesJDK5XMLSerializerFactory.getSerializer(XercesJDK5XMLSerializerFactory.java:29)
+	at org.exolab.castor.xml.util.XMLParserUtils.getSerializer(XMLParserUtils.java:261)
+	at org.castor.xml.AbstractInternalContext.getSerializer(AbstractInternalContext.java:321)
+	at org.exolab.castor.xml.Marshaller.configureSerializer(Marshaller.java:457)
+	at org.exolab.castor.xml.Marshaller.setWriter(Marshaller.java:404)
+	at org.exolab.castor.xml.Marshaller.<init>(Marshaller.java:358)
+	at net.sf.jasperreports.eclipse.util.CastorHelper.write(CastorHelper.java:164)
+	at net.sf.jasperreports.eclipse.util.CastorHelper.write(CastorHelper.java:223)
+	at com.jaspersoft.studio.prm.ParameterSetProvider.storeParameterSet(ParameterSetProvider.java:70)
+	at com.jaspersoft.studio.data.HttpBuiltInParameterProvider.init(HttpBuiltInParameterProvider.java:85)
+	at com.jaspersoft.studio.data.Activator$1.run(Activator.java:78)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-12 15:35:50.698
+!MESSAGE executing callback sts4.classpath.AefsURKL FAILED
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 4 0 2022-10-12 15:35:50.700
+!MESSAGE TimeoutException
+!STACK 0
+java.util.concurrent.TimeoutException
+	at java.base/java.util.concurrent.CompletableFuture.timedGet(CompletableFuture.java:1960)
+	at java.base/java.util.concurrent.CompletableFuture.get(CompletableFuture.java:2095)
+	at org.springframework.tooling.ls.eclipse.commons.LSP4ECommandExecutor.executeClientCommand(LSP4ECommandExecutor.java:37)
+	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.flush(SendClasspathNotificationsJob.java:177)
+	at org.springframework.tooling.jdt.ls.commons.classpath.SendClasspathNotificationsJob.run(SendClasspathNotificationsJob.java:148)
+	at org.eclipse.core.internal.jobs.Worker.run(Worker.java:63)

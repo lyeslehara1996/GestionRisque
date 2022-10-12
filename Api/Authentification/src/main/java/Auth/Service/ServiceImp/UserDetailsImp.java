@@ -1,5 +1,6 @@
 package Auth.Service.ServiceImp;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import Auth.entities.Privilege;
+import Auth.entities.Role;
 import Auth.entities.User;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +32,8 @@ public class UserDetailsImp implements UserDetails{
 
 	@JsonIgnore
 	private String password;
+	
+	private String email;
 
 	private Collection<? extends GrantedAuthority> authorities;
 	@Override
@@ -46,6 +51,7 @@ public class UserDetailsImp implements UserDetails{
 				user.getId(), 
 				user.getUsername(), 
 				user.getPassword(), 
+				user.getEmail(),
 				authorities);
 	}
 

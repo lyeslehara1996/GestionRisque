@@ -36,6 +36,8 @@ import lombok.Setter;
 @Getter
 @Setter
 @Table(name = "User")
+@AllArgsConstructor
+
 public class User  implements Serializable{
 
 	public User() {
@@ -43,20 +45,11 @@ public class User  implements Serializable{
 		// TODO Auto-generated constructor stub
 	}
 
-	public User(Long id, String username, String password, Collection<Role> roles) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.password = password;
-		this.roles = (List<Role>) roles;
-	}
+
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id ;
-	
-	@Column ( name =  "nom" )
-	private String nom;
 	
 	@Column ( name =  "Username" )
 	@Nullable

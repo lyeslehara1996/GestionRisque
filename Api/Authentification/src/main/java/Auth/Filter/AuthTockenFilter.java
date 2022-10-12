@@ -45,7 +45,8 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-if(request.getServletPath().equals("/api/refreshToken")) {
+
+		if(request.getServletPath().equals("/api/refreshToken") || request.getServletPath().equals("/Auth/signin")) {
 			filterChain.doFilter(request, response);
 		}else {
 		String authorizationTocken = request.getHeader("Authorization");
@@ -76,8 +77,7 @@ if(request.getServletPath().equals("/api/refreshToken")) {
 					filterChain.doFilter(request, response);
 		}
 	}
-}
 	
 	}
-
+}
 
