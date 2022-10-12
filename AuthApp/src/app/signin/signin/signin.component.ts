@@ -63,8 +63,7 @@ export class SigninComponent implements OnInit {
         this.isLoggedIn = true;
         this.roles = this.storageSService.getUser().roles;
     
-        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() ===false ){
-
+        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === false ){
           this.router.navigateByUrl('/Admin')
         }
         this.reloadPage();
