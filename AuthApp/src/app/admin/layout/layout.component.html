@@ -1,0 +1,15 @@
+<div class="layout-container">
+  <app-nav-bar (sideNavToggled)="snav.toggle()"></app-nav-bar>
+
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #snav class="sidenav mat-elevation-z10" >
+     
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <main class="main-container">
+        <app-slid-bar></app-slid-bar>
+        <router-outlet></router-outlet>
+      </main>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

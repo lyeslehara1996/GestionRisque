@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot, UrlTree } from '@angular/router';
 import { Observable } from 'rxjs';
-import { AuthServiceService } from '../_services/AuthService/auth-service.service';
+import { StorageSService } from '../_services/storageService/storage-s.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,15 +10,15 @@ import { AuthServiceService } from '../_services/AuthService/auth-service.servic
 
 export class AuthGGuard implements CanActivate {
 
-  constructor(private router :Router, private authservice: AuthServiceService){}
+  constructor(private router :Router, private storages: StorageSService){}
   canActivate(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     
-        let authenticated = this.authservice.isAuthenticated();
+        let authenticated = this.storages.isLoggedIn();
 
         if(authenticated == false){
-          this.router.navigateByUrl("/login");
+          this.router.navigateByUrl("/Signin");
           return false;
 
         }else{

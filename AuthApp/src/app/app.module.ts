@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { MatCardModule } from '@angular/material/card';
 
 import { MatIconModule } from '@angular/material/icon';
@@ -37,7 +37,8 @@ import { NotFoundComponent } from './not-found/not-found.component';
     MatButtonModule,
     BrowserAnimationsModule,
     MatCardModule,
-    MatIconModule
+    MatIconModule,
+    NgbModule
     
 
     

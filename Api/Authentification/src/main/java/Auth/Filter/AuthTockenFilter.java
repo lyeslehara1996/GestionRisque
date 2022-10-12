@@ -45,7 +45,9 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
-
+if(request.getServletPath().equals("/api/refreshToken")) {
+			filterChain.doFilter(request, response);
+		}else {
 		String authorizationTocken = request.getHeader("Authorization");
 		if(authorizationTocken != null && authorizationTocken.startsWith("Bearer ")) {
 			try {
@@ -74,6 +76,7 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 					filterChain.doFilter(request, response);
 		}
 	}
+}
 	
 	}
 

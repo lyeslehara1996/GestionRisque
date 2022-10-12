@@ -1,0 +1,30 @@
+<div class="login-page">
+    <div class="content px20">
+      <form class="login-form" [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+        <div class="text-center">
+          <h2 class="app-name">Authentification</h2>
+        </div>
+        <div fxLayout="row">
+          <div fxFlexFill>
+            <mat-form-field class="w-100">
+              <input matInput placeholder="Username" formControlName="username" ngModel  >
+              <mat-error *ngIf="hasError('username', 'required')">username is required</mat-error>
+              <mat-error *ngIf="hasError('username', 'minlength')">Your username must be more than 6 characters</mat-error>
+              <mat-error *ngIf="hasError('username', 'maxlength')">You have more than 10 characters</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100"> 
+              <input matInput type="password" placeholder="Password" for="password" name="password" formControlName="password" ngModel >
+              <mat-error *ngIf="hasError('password', 'required')">password is required</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+        <div fxLayout="row">
+          <div fxFlexFill>
+            <button type="submit" mat-raised-button color="primary" class="w-100" [disabled]="LoginForm.invalid" >Login</button>
+          </div>
+        </div>
+  
+      </form>
+    </div>
+  </div>
+  

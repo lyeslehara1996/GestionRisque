@@ -1,26 +1,49 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HomeComponent } from './home/home.component';
-import { AdminComponent } from './admin/admin.component';
+
+
 import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGGuard } from './_Guards/auth-g.guard';
 const routes: Routes = [
+
   {
     path: '',
-    component: HomeComponent,
+    loadChildren : () =>
+    import('./signin/signin.module').then((s)=> s.SigninModule),
   },
+  /*
   { path: 'home', component: HomeComponent },
+  /*
   {
     path: 'login',
     component: AdminComponent,
   },
+  */
   {
+
     path: 'Admin',
-    component: AdminComponent,
+    loadChildren: () =>
+    import('./admin/admin.module').then((m) => m.AdminModule),
     canActivate: [AuthGGuard],
+  
   },
+  {
+    path: 'Signin',
+    loadChildren : () =>
+    import('./signin/signin.module').then((s)=> s.SigninModule),
+  },
+  
+  /*
+  {
+
+    path: 'Login',
+    loadChildren: () =>
+    import('./login/login.module').then((m) => m.LoginModule),
+  
+  },
+  */
   {
     path: '**',
     component: NotFoundComponent,
@@ -29,7 +52,7 @@ const routes: Routes = [
 
 @NgModule({
   declarations: [],
-  imports: [RouterModule.forRoot(routes), CommonModule],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
 export class AppRoutingModule {}
