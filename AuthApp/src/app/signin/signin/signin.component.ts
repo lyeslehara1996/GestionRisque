@@ -18,8 +18,8 @@ export class SigninComponent implements OnInit {
 
   constructor(private authService:AuthServiceService,private storageSService:StorageSService,private router:Router) {}
   public LoginForm!: FormGroup;
-
   ngOnInit() {
+
     
     this.LoginForm = new FormGroup({
       username: new FormControl('', [
@@ -30,17 +30,21 @@ export class SigninComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
 
-    if (this.storageSService.getToken()) {
-      this.isLoggedIn = true;
+    if (this.storageSService.getToken() && this.storageSService.isLoggedIn() == true) {
+     
+      this.isLoggedIn == true;
+      this.isLoginFailed == false;
       this.roles = this.storageSService.getUser().roles;
       this.router.navigateByUrl('/Admin');
     }else{
       this.storageSService.signOut();
       this.router.navigate(['/Signin']);
-      this.isLoggedIn=false
+      this.isLoggedIn==false
+      this.isLoginFailed==true
    
     }
   }
+  
   public hasError = (controlName: string, errorName: string) => {
     return this.LoginForm.controls[controlName].hasError(errorName);
   };
@@ -53,22 +57,24 @@ export class SigninComponent implements OnInit {
       (Response:any)=>{
       
         this.storageSService.saveToken(Response.jwtAccessTocken);
-        this.storageSService.saveRefreshToken(Response.jwtRefreshToken );
         this.storageSService.saveUser(Response);
 
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.storageSService.getUser().roles;
     
-        if(this.roles[0]=='Admin'){
+        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() ===false ){
+
           this.router.navigateByUrl('/Admin')
         }
+        this.reloadPage();
       
       },
       (error)=>{
         this.errorMessage = error.error.message;
         this.isLoginFailed = true;
-        this.reloadPage();
+        this.isLoggedIn = false;
+      
       }
     )
   }
