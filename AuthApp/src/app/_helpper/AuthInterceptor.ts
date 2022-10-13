@@ -36,7 +36,7 @@ export class AuthInterceptor implements HttpInterceptor {
             })
           );
         }
-  
+  /*
     private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
       if (!this.isRefreshing) {
         this.isRefreshing = true;
@@ -75,7 +75,7 @@ export class AuthInterceptor implements HttpInterceptor {
        return request.clone({ headers: request.headers.set(TOKEN_HEADER_KEY, 'Bearer ' + token) });
 
     }
-
+*/
     private handle401Errores(request: HttpRequest<any>, next: HttpHandler) {
         if (!this.isRefreshing) {
           this.isRefreshing = true;
