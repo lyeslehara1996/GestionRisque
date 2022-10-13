@@ -6,6 +6,7 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { NotFoundComponent } from './not-found/not-found.component';
 import { AuthGGuard } from './_Guards/auth-g.guard';
+import { ListUserComponent } from './admin/layout/list-user/list-user.component';
 const routes: Routes = [
 
   {
@@ -13,14 +14,6 @@ const routes: Routes = [
     loadChildren : () =>
     import('./signin/signin.module').then((s)=> s.SigninModule),
   },
-  /*
-  { path: 'home', component: HomeComponent },
-  /*
-  {
-    path: 'login',
-    component: AdminComponent,
-  },
-  */
   {
 
     path: 'Admin',
@@ -34,20 +27,12 @@ const routes: Routes = [
     loadChildren : () =>
     import('./signin/signin.module').then((s)=> s.SigninModule),
   },
-  
-  /*
-  {
 
-    path: 'Login',
-    loadChildren: () =>
-    import('./login/login.module').then((m) => m.LoginModule),
-  
-  },
-  */
   {
     path: '**',
     component: NotFoundComponent,
   },
+  
 ];
 
 @NgModule({

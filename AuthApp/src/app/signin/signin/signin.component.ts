@@ -13,7 +13,7 @@ export class SigninComponent implements OnInit {
   
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage = '';
+  errorMessage ?:string[];
   roles: string[] = [];
 
   constructor(private authService:AuthServiceService,private storageSService:StorageSService,private router:Router) {}
@@ -70,7 +70,8 @@ export class SigninComponent implements OnInit {
       
       },
       (error)=>{
-        this.errorMessage = error.error.message;
+
+        console.log( error.message )
         this.isLoginFailed = true;
         this.isLoggedIn = false;
       
