@@ -17,7 +17,6 @@ import { MatTableModule } from '@angular/material/table'
 import { NavBarComponent } from './layout/nav-bar/nav-bar.component';
 import { LayoutComponent } from './layout/layout.component';
 import { DashboardModule } from './dashboard/dashboard.module';
-import { SlidBarComponent } from './layout/slid-bar/slid-bar.component';
 import { ListUserComponent } from './layout/list-user/list-user.component';
 import { AddUserComponent } from './layout/add-user/add-user.component';
 import { AddRoleComponent } from './layout/add-role/add-role.component';
@@ -26,7 +25,6 @@ import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-us
   declarations: [
     NavBarComponent,
      LayoutComponent,
-     SlidBarComponent,
      ListUserComponent,
      AddUserComponent,
      AddRoleComponent,
