@@ -25,20 +25,37 @@ public class RessourceController {
 	
 	
 	@PostMapping("/privilege/save")
-	public ResponseEntity<Privilege> savePrivileges(@RequestBody String nameP){
+	public ResponseEntity<Privilege> savePrivileges(@RequestBody Privilege privilege){
 		URI uri =URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/privilege/save").toUriString());
-		return ResponseEntity.created(uri).body(ressService.createPrivilegeIfNotFound(nameP));
+		try {
+			return ResponseEntity.created(uri).body(ressService.createPrivilegeIfNotFound(privilege));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().build();
 	}
 	
 	@PostMapping("/Ressource/save")
 	public ResponseEntity<Ressource> saveRessource(@RequestBody Ressource ressource){
 		URI uri =URI.create(ServletUriComponentsBuilder.fromCurrentContextPath().path("/privilege/save").toUriString());
-		return ResponseEntity.created(uri).body(ressService.CreateRessource(ressource));
+		try {
+			return ResponseEntity.created(uri).body(ressService.CreateRessource(ressource));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
-	@PostMapping("/roles/addPrivilegesToRessource")
+	@PostMapping("/ressource/addPrivilegesToRessource")
 	public ResponseEntity<?> addPrivilegesToRoles(@RequestBody PrivilegesToRessource formPrivilegeRessource){
-		ressService.addPrivilegeToRessource(formPrivilegeRessource.getName(), formPrivilegeRessource.getNameP());
+		try {
+			ressService.addPrivilegeToRessource(formPrivilegeRessource.getName(), formPrivilegeRessource.getNameP());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		return ResponseEntity.ok().build();
 	}
 

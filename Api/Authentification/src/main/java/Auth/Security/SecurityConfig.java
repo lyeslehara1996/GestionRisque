@@ -34,15 +34,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 private final PasswordEncoder passwordEncoder;
 
-private final UserDetailsServiceImp userDetailsService;
+
+private final UserDetailsService userDetailsService;
 
 @Autowired
 private JwtEntryPoint unauthorizedHandler;
 
-	public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsServiceImp userDetailsService) {
-		super();
-		this.passwordEncoder = passwordEncoder;
-		this.userDetailsService = userDetailsService;
+public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDetailsService) {
+	super();
+	this.passwordEncoder = passwordEncoder;
+	this.userDetailsService = userDetailsService;
 
 	}
 	@Bean
@@ -67,8 +68,8 @@ private JwtEntryPoint unauthorizedHandler;
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
-		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("Admin").and()
-		.authorizeRequests().antMatchers("/Auth/signin/**").permitAll()
+		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("CanReadUser").and()
+		.authorizeRequests().antMatchers("/Auth/signin/**","/Auth/RefreshToken/**","/api/Ressource/**","/api/privilege/**").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -82,6 +83,7 @@ private JwtEntryPoint unauthorizedHandler;
 		return super.authenticationManagerBean();
 	}
 	
+
 
 	
 	

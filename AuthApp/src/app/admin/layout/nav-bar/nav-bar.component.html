@@ -36,10 +36,10 @@
 <mat-card class="card">
      <mat-card-actions>
 
-      <button mat-button *ngIf="roles.includes('Utilisateur') || ('Admin') "  >List User</button>
-      <button mat-button *ngIf="roles.includes('Admin') "  >Add User </button>
-      <button mat-button *ngIf="roles.includes('Utilisateur') || ('Manager Risque') || ('Admin')"  >Add Role to user </button>
-      <button mat-button *ngIf="roles.includes('Admin') " >Delete Role </button>
+      <button (click)="onShowUsers()" mat-button *ngIf="roles.includes('CanReadUser') "  >List User</button>
+      <button mat-button *ngIf="roles.includes('CanAddUser')"  >Add User </button>
+      <button mat-button *ngIf="roles.includes('CanAddRoleToUser')"  >Add Role to user </button>
+      <button mat-button *ngIf="roles.includes('CanDeleteUser') || ('CanUpdateUser')" >Delete Role </button>
     </mat-card-actions>
   </mat-card>
 

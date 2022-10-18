@@ -31,7 +31,7 @@ export class SigninComponent implements OnInit {
     });
 
     if (this.storageSService.getToken() && this.storageSService.isLoggedIn() === true) {
-     
+     console.log(this.storageSService.getUser().privileges)
       this.isLoggedIn === true;
       this.isLoginFailed === false;
       this.roles = this.storageSService.getUser().roles;
@@ -59,12 +59,12 @@ export class SigninComponent implements OnInit {
         this.storageSService.saveToken(Response.jwtAccessTocken);
         this.storageSService.saveRefreshToken(Response.jwtRefreshToken);
         this.storageSService.saveUser(Response);
-
+        console.log(this.storageSService.getUser())
         this.isLoginFailed ===false;
         this.isLoggedIn === true;
         this.roles = this.storageSService.getUser().roles;
     
-        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === false ){
+        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === true ){
           this.router.navigateByUrl('/Admin')
         }
         this.reloadPage();

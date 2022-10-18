@@ -33,6 +33,4 @@ public class Privilege  implements Serializable{
 	private String Description;
 
 	
-	
-
 }

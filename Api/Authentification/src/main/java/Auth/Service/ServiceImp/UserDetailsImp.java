@@ -2,7 +2,9 @@ package Auth.Service.ServiceImp;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -43,9 +45,18 @@ public class UserDetailsImp implements UserDetails{
 	}
 	
 	public static UserDetailsImp build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(roles -> new SimpleGrantedAuthority(roles.getName()))
-				.collect(Collectors.toList());
+
+        Collection<GrantedAuthority> authorities = new HashSet<>();
+
+        for (Role roole : user.getRoles()) {
+            for (Privilege privileges : roole.getPrivileges()) {
+                authorities.add(new SimpleGrantedAuthority(privileges.getNameP()));
+            }
+        }
+		
+//		List<GrantedAuthority> authorities = user.getRoles().stream()
+//				.map(roles -> new SimpleGrantedAuthority(roles.getName()))
+//				.collect(Collectors.toList());
 
 		return new UserDetailsImp(
 				user.getId(), 

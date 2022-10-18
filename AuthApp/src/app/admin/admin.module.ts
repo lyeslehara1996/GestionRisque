@@ -21,6 +21,7 @@ import { ListUserComponent } from './layout/list-user/list-user.component';
 import { AddUserComponent } from './layout/add-user/add-user.component';
 import { AddRoleComponent } from './layout/add-role/add-role.component';
 import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-user.component';
+import { authInterceptorProviders } from '../_helpper/AuthInterceptor';
 @NgModule({
   declarations: [
     NavBarComponent,
@@ -46,6 +47,9 @@ import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-us
     MatMenuModule,
     MatTableModule
     
-  ]
+  ],
+    
+
+  providers: [authInterceptorProviders],
 })
 export class AdminModule { }

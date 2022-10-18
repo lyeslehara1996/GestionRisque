@@ -35,15 +35,17 @@ public class RessourceServiceImp  implements RessourceService{
 	//Create a new privilege
 	
 	@Override
-	public Privilege createPrivilegeIfNotFound(String nameP) {
-		// TODO Auto-generated method stub
-		   Privilege privilege = privilegeRepo.getPrivilegeBynameP(nameP);
-	        if (privilege == null) {
-	            privilege = new Privilege();
-	            privilege.setNameP(nameP);
-	            privilegeRepo.save(privilege);
-	        }
-	        return privilege;
+	public Privilege createPrivilegeIfNotFound(Privilege privilege) throws Exception {
+		Privilege privilegeByName = privilegeRepo.getPrivilegeBynameP(privilege.getNameP());
+		
+		if(privilegeByName != null) {
+			throw  new Exception("Le privilege dans le nom  "+privilege.getNameP()+"Existe deja creer un autre");
+		}else {
+			// TODO Auto-generated method stub
+			return privilegeRepo.save(privilege);
+		}
+		
+	    
 	}
 	
 	// affecter des privilege a les roles 
@@ -60,10 +62,11 @@ public class RessourceServiceImp  implements RessourceService{
 
 //Affecter des privileges a des ressources 
 	@Override
-	public void addPrivilegeToRessource(@RequestBody String name, String nameP) {
+	public void addPrivilegeToRessource(@RequestBody String name, String nameP) throws Exception{
 		// TODO Auto-generated method stub
 		Ressource ressource =ressourcesRepo.findRessourceByName(name);
 		Privilege privilege =privilegeRepo.getPrivilegeBynameP(nameP);
+		
 		ressource.getPrivileges().add(privilege);
 	}
 
@@ -71,9 +74,16 @@ public class RessourceServiceImp  implements RessourceService{
 	//Create a new ressource 
 	
 	@Override
-	public Ressource CreateRessource(@RequestBody Ressource ressource) {
-		// TODO Auto-generated method stub
-		return ressourcesRepo.save(ressource);
+	public Ressource CreateRessource(Ressource ressource) throws Exception{
+		Ressource ressourceByName = ressourcesRepo.findRessourceByName(ressource.getName());
+		
+		if(ressourceByName != null) {
+			throw  new Exception("Ressource existe deja !!");
+		}else {
+			// TODO Auto-generated method stub
+			return ressourcesRepo.save(ressource);
+		}
+		
 	}
 
 }

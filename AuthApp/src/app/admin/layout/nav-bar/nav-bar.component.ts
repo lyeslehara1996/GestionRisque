@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppUser } from 'src/app/Models/AppUser';
 import { StorageSService } from 'src/app/_services/storageService/storage-s.service';
+import { UserService } from 'src/app/_services/UserService/user.service';
 
 @Component({
   selector: 'app-nav-bar',
@@ -13,11 +15,12 @@ export class NavBarComponent implements OnInit {
   roles: string[] = [];
   username ?:string;
   errorMessage = '';
+  users ?:any|null=null 
 
-  constructor(private router:Router, private storageSer:StorageSService) { }
+  constructor(private router:Router, private storageSer:StorageSService,private userService:UserService) { }
 
   ngOnInit(): void {
-    this.roles=this.storageSer.getUser().roles[0];
+    this.roles=this.storageSer.getUser().privileges;
     this.username=this.storageSer.getUser().username;
   }
   onLoggedout() {
@@ -31,5 +34,17 @@ export class NavBarComponent implements OnInit {
     }
   }
 
+
+  onShowUsers(){
+    this.userService.getUsers().subscribe(
+      (data)=>{
+        this.users=data;
+        console.log(this.users)
+      },
+      (error)=>{
+        error;
+      }
+    )
+  }
 
 }
