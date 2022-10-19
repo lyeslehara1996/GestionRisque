@@ -15,5 +15,6 @@ public interface AccountService {
 	void addRolleToUser(String username, String name);
 	void addPrivilegesToRoles(String name, String nameP);
 	List<User> ListUsers();
+	List<Role> ListRoles() throws Exception;
 	User getUser(String username);
 }

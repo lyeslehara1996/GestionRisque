@@ -13,6 +13,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import Auth.Service.RessourceService;
 import Auth.Service.ServiceImp.RessourceServiceImp;
 import Auth.entities.Privilege;
+import Auth.entities.PrivilegeToRessourceForm;
+import Auth.entities.PrivilegeToRoleForm;
 import Auth.entities.Ressource;
 import lombok.Data;
 
@@ -48,8 +50,20 @@ public class RessourceController {
 		return null;
 	}
 	
+	
+	@PostMapping("/ressource/addPrivilegesToRole")
+	public ResponseEntity<?> addPrivilegesToRoles(@RequestBody PrivilegeToRoleForm formPrivilegeRole){
+		try {
+			ressService.addPrivilegesToRoles(formPrivilegeRole.getName(), formPrivilegeRole.getNameP());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return ResponseEntity.ok().build();
+	}
+
 	@PostMapping("/ressource/addPrivilegesToRessource")
-	public ResponseEntity<?> addPrivilegesToRoles(@RequestBody PrivilegesToRessource formPrivilegeRessource){
+	public ResponseEntity<?> addPrivilegesToRessource(@RequestBody PrivilegeToRessourceForm formPrivilegeRessource){
 		try {
 			ressService.addPrivilegeToRessource(formPrivilegeRessource.getName(), formPrivilegeRessource.getNameP());
 		} catch (Exception e) {
@@ -58,10 +72,4 @@ public class RessourceController {
 		}
 		return ResponseEntity.ok().build();
 	}
-
-}
-@Data
-class PrivilegesToRessource{
-	String name;
-	String nameP;
 }

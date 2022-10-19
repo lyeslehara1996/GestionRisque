@@ -87,13 +87,15 @@ public class AuthController {
 //			String JwtRefreshToken = jwtUtils.generateJwtRefreshToken(authentication);
 				UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();		
 				
-				List<String> roles = userDetails.getAuthorities().stream()
+
+				List<String> roles = userDetails.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList());
+				List<String> privileges = userDetails.getAuthorities().stream()
 						.map(item -> item.getAuthority())
 						.collect(Collectors.toList());
 				
 				
 				
-				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,userDetails.getUsername(),userDetails.getEmail(),roles));
+				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,userDetails.getUsername(),userDetails.getEmail(),roles,privileges));
 				
 			}
 			}

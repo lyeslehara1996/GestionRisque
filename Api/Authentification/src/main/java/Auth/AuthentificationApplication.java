@@ -47,6 +47,7 @@ public class AuthentificationApplication {
 			accountService.addNewRolle(new Role(null, "Contrôleur  ",new ArrayList<>()));
 			accountService.addNewRolle(new Role(null, "Viewer ",new ArrayList<>()));
 			
+			accountService.addNewRolle(new Role(null, "Chef de projet ",new ArrayList<>()));
 			//	Create User
 			accountService.addNewUser(new User(null,"Admin","admin@Risque.com","Admin1234",new ArrayList<>()));
 			accountService.addNewUser(new User(null,"LyesLehara","ManagerRisque@Risque.com","User4",new ArrayList<>()));
@@ -57,9 +58,12 @@ public class AuthentificationApplication {
 			accountService.addNewUser(new User(null,"Teyeb","Utilisateur@Risque.com","User6",new ArrayList<>()));
 			accountService.addNewUser(new User(null,"Utilisateur7","Utilisateur@Risque.com","User7",new ArrayList<>()));
 
+			accountService.addNewUser(new User(null,"Yanis","YanisZiani@Risque.com","Yanis",new ArrayList<>()));
+
 			//			Add Role to User
 
 			accountService.addRolleToUser("Admin", "Admin");
+			accountService.addRolleToUser("Admin", "Manager Risque");
 			accountService.addRolleToUser("LyesLehara", "Manager Risque");
 			accountService.addRolleToUser("User12345", "Utilisateur");
 			accountService.addRolleToUser("Utilisateur3", "Analyste Risque");
@@ -68,6 +72,7 @@ public class AuthentificationApplication {
 			accountService.addRolleToUser("Teyeb", "Utilisateur");
 			accountService.addRolleToUser("Utilisateur7", "Utilisateur");
 			
+			accountService.addRolleToUser("Yanis", "Chef de projet ");
 			//	Create Privileges
 			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddUser", "Ajouter_des_Utilisateurs "));
 			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadUser", "Consulter_des_Utilisateurs "));
@@ -86,8 +91,8 @@ public class AuthentificationApplication {
 //			
 			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddRolesToUser", "Ajouter_des_Roles_To_User "));
 			
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddPrivileges", "Ajouter_des_Privileges "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadPrivileges", "Ajouter_des_Privileges "));
+			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddPrivilegesToRoles", "Ajouter_des_Privileges_a_des_role "));
+			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadPrivileges", "Consulter_des_Privileges "));
 			
 			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddDATA", "Ajouter_des_DATA "));
 			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadDATA", "Consulter_des_DATA "));
@@ -112,6 +117,9 @@ public class AuthentificationApplication {
 			ressourceService.addPrivilegesToRoles("Admin","CanReadRoles");
 			ressourceService.addPrivilegesToRoles("Admin","CanUpdateRoles");
 			ressourceService.addPrivilegesToRoles("Admin","CanDeleteRoles");
+			
+			ressourceService.addPrivilegesToRoles("Admin","CanAddPrivilegesToRoles");
+			ressourceService.addPrivilegesToRoles("Admin","CanReadPrivileges");
 			
 			ressourceService.addPrivilegesToRoles("Admin","CanAddDATA");
 			ressourceService.addPrivilegesToRoles("Admin","CanReadDATA"); 

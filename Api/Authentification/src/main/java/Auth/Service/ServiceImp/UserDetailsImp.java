@@ -37,6 +37,8 @@ public class UserDetailsImp implements UserDetails{
 	
 	private String email;
 
+	private List<Role> roles = new ArrayList<>();
+	
 	private Collection<? extends GrantedAuthority> authorities;
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -63,6 +65,7 @@ public class UserDetailsImp implements UserDetails{
 				user.getUsername(), 
 				user.getPassword(), 
 				user.getEmail(),
+				user.getRoles(),
 				authorities);
 	}
 

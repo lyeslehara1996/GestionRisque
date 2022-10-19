@@ -30,8 +30,7 @@ export class AuthServiceService {
 
   constructor(private router:Router, private storageservice:StorageSService  , private http: HttpClient,private userservice:UserService) {  }
 
-  httpOptionsRefresh = this.userservice.httpOptions.headers.set('Authorization', "Bearer "+ sessionStorage.getItem('refreshtoken'));
-  
+ 
   public Login(Data:any) {
     return this.http.post(this.AUTH_API,Data);
   }

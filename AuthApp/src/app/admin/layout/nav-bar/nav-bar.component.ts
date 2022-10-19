@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AppUser } from 'src/app/Models/AppUser';
 import { StorageSService } from 'src/app/_services/storageService/storage-s.service';
@@ -18,11 +19,52 @@ export class NavBarComponent implements OnInit {
   users ?:any|null=null 
 
   constructor(private router:Router, private storageSer:StorageSService,private userService:UserService) { }
-
+  public AddUsersForm!: FormGroup;
   ngOnInit(): void {
     this.roles=this.storageSer.getUser().privileges;
     this.username=this.storageSer.getUser().username;
+
+    this.AddUsersForm = new FormGroup({
+      nom: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(25),
+      ]),
+
+
+      prenom: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(25),
+      ]),
+
+      username: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(25),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(25),
+      ]),
+      roles: new FormControl('', [
+        Validators.required,
+      ]),
+
+    });
+    
   }
+  public hasError = (controlName: string, errorName: string) => {
+    return this.AddUsersForm.controls[controlName].hasError(errorName);
+  };
+
+
+
   onLoggedout() {
     if(this.isLoggedIn == true){
       this.storageSer.signOut();
@@ -36,7 +78,7 @@ export class NavBarComponent implements OnInit {
 
 
   onShowUsers(){
-    this.userService.getUsers().subscribe(
+    this.userService.getAllUsers().subscribe(
       (data)=>{
         this.users=data;
         console.log(this.users)
@@ -46,5 +88,18 @@ export class NavBarComponent implements OnInit {
       }
     )
   }
+
+
+  onAddUsers(){
+
+
+  }
+
+  onShowRoles(){
+
+  }
+
+
+
 
 }

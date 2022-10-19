@@ -53,16 +53,26 @@ public class UserController {
 	private AccountService accountService ;
 	
 	@GetMapping("/user")
-	
 	public ResponseEntity<List<User>> getUsers(){
 		return ResponseEntity.ok()
-				.header("Resultat")
 				.body(	accountService.ListUsers());
 			
 	}
 	
+@GetMapping("/roles")
+	public ResponseEntity<List<Role>> getRoles(){
+		try {
+			return ResponseEntity.ok()
+					.body(	accountService.ListRoles());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+			
+	}
+	
 	 @RequestMapping(value = "/users/save", method = RequestMethod.POST)
-
 	public User saveUser(@RequestBody User user){
 		return accountService.addNewUser(user);
 	}

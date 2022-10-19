@@ -110,5 +110,19 @@ public class AccountServiceImpl  implements AccountService{
 	        return role;
 	}
 
+
+
+
+	@Override
+	public List<Role> ListRoles() throws Exception {
+		// TODO Auto-generated method stub
+		List<Role>   role = roleRepository.findAll();
+		if(role == null ) {
+			throw new Exception("La liste des roles est vide ");
+			
+		}
+		return roleRepository.findAll();
+	}
+
 	
 }

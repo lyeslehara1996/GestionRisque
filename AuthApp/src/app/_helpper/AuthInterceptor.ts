@@ -36,7 +36,8 @@ export class AuthInterceptor implements HttpInterceptor {
          // return this.handle401Error(authReq, next);
           //this.isRefreshing = false;
               this.tokenService.signOut();
-               this.router.navigateByUrl('/Signin')
+               this.router.navigateByUrl('/Signin');
+               
         }
 
         return throwError(error);
