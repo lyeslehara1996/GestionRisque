@@ -1,0 +1,5 @@
+package Auth.entities;
+
+public class PrivilegeToRoleForm {
+
+}

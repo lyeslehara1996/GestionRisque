@@ -1,0 +1,5 @@
+package Authentification.Request;
+
+public class JwtRefresh {
+
+}

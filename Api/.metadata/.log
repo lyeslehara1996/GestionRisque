@@ -137,3 +137,12 @@ java.io.FileNotFoundException: C:\Users\pc\Desktop\gestionrisques\Api\.metadata\
 
 !ENTRY org.eclipse.core.resources 2 10035 2022-10-13 11:19:10.723
 !MESSAGE The workspace will exit with unsaved changes in this session.
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-19 14:58:40.940
+!MESSAGE Entering DelegatingStreamConnectionProvider()
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-19 14:58:41.149
+!MESSAGE DelegatingStreamConnectionProvider classloader = org.eclipse.osgi.internal.loader.EquinoxClassLoader@7a442dc1[org.springframework.tooling.boot.ls:1.38.0.202208110704(id=1020)]
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2022-10-19 14:58:41.565
+!MESSAGE SpringBootLanguageServer exists!
