@@ -37,7 +37,6 @@ import Auth.Repository.UserRepository;
 import Auth.Service.ServiceImp.UserDetailsImp;
 import Auth.entities.User;
 import Authentification.Request.AuthRequest;
-import Authentification.Request.JwtRefresh;
 import Authentification.Request.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
