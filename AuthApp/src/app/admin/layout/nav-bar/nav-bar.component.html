@@ -3,12 +3,18 @@
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
   <div class="nav-brand tw-text-red-800 tw-font-larg" >
-   Dashboard {{username}}
+    <a routerLink="">  Dashboard {{username}}</a>
+ 
   </div>
   <div  >
-   <a class="text-balck-900" href="AddUsers">Ajouter des utilisateur</a>  
+   <a class="text-balck-900 mr-3" routerLink="Users">Gestion utilisateur</a>  
    </div>
-
+   <div  >
+    <a class="text-balck-900 mr-3" routerLink="Roles">Gestion des roles</a>  
+    </div>
+    <div  >
+      <a class="text-balck-900 mr-3" routerLink="Privilege">Gestion des Privilege</a>  
+      </div>
   <span class="nav-spacer "></span>
   <form class="hidden-sm" style="margin-right: 10px; margin-top: 8px">
     <mat-form-field style="font-size: 1rem;">
@@ -69,6 +75,8 @@
       <thead>
         <tr>
           <th>Id </th>
+          <th>Nom</th>
+          <th>Prenom</th>
           <th>Username</th>
           <th>Email </th>
         </tr>
@@ -76,6 +84,8 @@
       <tbody>
         <tr *ngFor="let p of users">
           <td>{{ p.id }}</td>
+          <td>{{ p.nom }}</td>
+          <td>{{ p.prenom }}</td>
           <td>{{ p.username }}</td>
           <td>{{ p.email }}</td>
           <td>

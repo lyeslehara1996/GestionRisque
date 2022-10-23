@@ -19,7 +19,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.data.relational.core.mapping.Embedded.Nullable;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -51,8 +51,14 @@ public class User  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id ;
 	
+	@Column ( name =  " Nom" )
+	private String Nom;
+	
+	@Column ( name =  " Prenom" )
+	private String Prenom;
+	
 	@Column ( name =  "Username" )
-	@Nullable
+	@Nullable()
 	private String username;
 	
 	@Column ( name =  "email" )

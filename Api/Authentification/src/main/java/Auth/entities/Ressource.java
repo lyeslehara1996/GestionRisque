@@ -13,6 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import org.springframework.lang.Nullable;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
@@ -33,6 +35,7 @@ public class Ressource implements Serializable {
 	private Long id;
 	
 	@Column(name ="nom_Res")
+	@Nullable
 	private String name;
 	
 	@Column(name="Description")

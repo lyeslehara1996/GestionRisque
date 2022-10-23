@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -69,7 +70,7 @@ public class AuthController {
 	
 	
 	@PostMapping("/signin")
-	public ResponseEntity<JwtResponse> authenticateUser( @RequestBody AuthRequest authRequest) throws Exception {
+	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody AuthRequest authRequest) throws Exception {
 
 		User usr = userRepository.getUserByUsername(authRequest.getUsername()); 
 		if(usr.getUsername() == null || usr.getPassword() == null) {
@@ -100,41 +101,4 @@ public class AuthController {
 			}
 			}
 		
-
-	
-//	@PostMapping("/RefreshToken")
-//	public ResponseEntity<JwtResponse> RefreshingToken( HttpServletRequest request, HttpServletResponse response) throws Exception {
-//	
-//		String authToken =request.getHeader("Authorization");
-//		if(authToken!=null && authToken.startsWith("Bearer ")) {
-//			try {
-//				String JwtRefreshToken = authToken.substring(7);
-//				Algorithm algorithm = Algorithm.HMAC256(jwtUtils.jwtSecret.getBytes());
-//				JWTVerifier jwtVerfier= JWT.require(algorithm).build();
-//				DecodedJWT decodedJWT =jwtVerfier.verify(JwtRefreshToken);
-//		String nom =decodedJWT.getSubject();
-//		User appuser = userRepository.getUserByUsername(nom);
-//		Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
-//
-//		String jwtAccessTocken =JWT.create().withSubject(appuser.getUsername()).
-//				withExpiresAt(new Date(System.currentTimeMillis()+ 360* 60 * 1000)).
-//				withIssuer(request.getRequestURI().toString())
-//				.withClaim("roles", appuser.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList()))
-//				.sign(algorithm); 
-//		List<String> roles = appuser.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList());
-//			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getUsername(),appuser.getEmail(),roles));
-//	
-//			}catch (Exception e) {
-//			throw new RuntimeException("error tokens");
-//				// TODO: handle exception
-//			}
-//			
-//			
-//		  	
-//		}else{
-//			throw new RuntimeException("refersh token required !!!") ;
-//		}
-//		}
-//	
-//	
 }

@@ -66,13 +66,7 @@ public class AccountServiceImpl  implements AccountService{
 		return roleRepository.save(role);
 	}
 
-	@Override
-	public void addPrivilegesToRoles(@RequestBody String name, String nameP) {
-		Role role =roleRepository.getRolesByName(name);
-		Privilege privilege =privilegeRepository.getPrivilegeBynameP(nameP);
-		role.getPrivileges().add(privilege);
 
-	}
 
 	@Override
 	public void addRolleToUser(@RequestBody String username, String name) {
@@ -97,19 +91,7 @@ public class AccountServiceImpl  implements AccountService{
 	}
 
 
-	@Override
-	public Role createRoleIfNotFound(String name, Collection<Privilege> privileges) {
-		// TODO Auto-generated method stub
-		 Role role = roleRepository.getRolesByName(name);
-	        if (role == null) {
-	            role = new Role();
-	            role.setName(name);
-	            role.setPrivileges(privileges);
-	            roleRepository.save(role);
-	        }
-	        return role;
-	}
-
+	
 
 
 

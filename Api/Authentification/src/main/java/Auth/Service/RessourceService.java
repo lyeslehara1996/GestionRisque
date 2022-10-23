@@ -9,8 +9,8 @@ public interface RessourceService {
 	
 	
 	
-	Privilege createPrivilegeIfNotFound (Privilege privilege) throws Exception;
-	void addPrivilegesToRoles(String name, String nameP);
+	Privilege createPrivilegeIfNotFound (Privilege Privilege_Name) throws Exception;
+	void addPrivilegesToRoles(String name, String PrivilegeName);
 	Ressource CreateRessource(Ressource ressource) throws Exception;
-	void addPrivilegeToRessource(String name, String nameP) throws Exception;
+	void addPrivilegeToRessource(String name, String Privilege_Name) throws Exception;
 }

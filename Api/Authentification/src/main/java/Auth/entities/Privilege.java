@@ -10,6 +10,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.lang.Nullable;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,6 +30,7 @@ public class Privilege  implements Serializable{
 	private Long id;
 	
 	@Column(name="Privilegename")
+	@Nullable
 	private String nameP ;
 	
 	@Column(name="Descriptions")

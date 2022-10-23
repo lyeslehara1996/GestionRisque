@@ -90,17 +90,5 @@ public class UserController {
 		return ResponseEntity.ok().build();
 	}
 	
-	@PostMapping("/roles/addPrivilegesToRole")
-	public ResponseEntity<?> addPrivilegesToRoles(@RequestBody PrivilegesToRole formPrivilege){
-		accountService.addRolleToUser(formPrivilege.getName(), formPrivilege.getNameP());
-		return ResponseEntity.ok().build();
-	}
-
 	
-}
-
-@Data
-class PrivilegesToRole{
-	String name;
-	String nameP;
 }

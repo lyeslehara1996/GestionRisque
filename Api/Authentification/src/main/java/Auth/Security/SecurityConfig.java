@@ -70,7 +70,7 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
 		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("CanReadUser").and()
 		.authorizeRequests().antMatchers("/api/roles/**").hasAnyAuthority("CanReadRoles").and()
-		.authorizeRequests().antMatchers("/Auth/signin/**","/Auth/RefreshToken/**","/api/ressource/**","/api/privilege/**").permitAll()
+		.authorizeRequests().antMatchers("/Auth/signin/**").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

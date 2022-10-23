@@ -49,16 +49,16 @@ public class AuthentificationApplication {
 			
 			accountService.addNewRolle(new Role(null, "Chef de projet ",new ArrayList<>()));
 			//	Create User
-			accountService.addNewUser(new User(null,"Admin","admin@Risque.com","Admin1234",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"LyesLehara","ManagerRisque@Risque.com","User4",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"User12345","Utilisateur@Risque.com","User1",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Utilisateur3","Anyliste@Risque.com","User2",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Oussama","Controller@Risque.com","User3",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Utilisateur5","Viwer@Risque.com","User5",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Teyeb","Utilisateur@Risque.com","User6",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Utilisateur7","Utilisateur@Risque.com","User7",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Administrateur","Administrateur","Admin","admin@Risque.com","Admin1234",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"djam","Deo","User12345","Utilisateur@Risque.com","User1",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"lam","djam","Utilisateur3","Anyliste@Risque.com","User2",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Oussama","Oussama","Oussama","Controller@Risque.com","User3",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Viewer","Viwer","Utilisateur5","Viwer@Risque.com","User5",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Teyeb","Teyeb","Teyeb","Utilisateur@Risque.com","User6",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"User7","User7","Utilisateur7","Utilisateur@Risque.com","User7",new ArrayList<>()));
 
-			accountService.addNewUser(new User(null,"Yanis","YanisZiani@Risque.com","Yanis",new ArrayList<>()));
+			accountService.addNewUser(new User(null,"Yanis","Yanis","Yanis","YanisZiani@Risque.com","Yanis",new ArrayList<>()));
 
 			//			Add Role to User
 
