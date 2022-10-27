@@ -187,31 +187,20 @@ public class RessourceServiceImp  implements RessourceService{
 		
 		Set<Permissions> ListPerm = role.getPermissions();
 
-		ListPerm.forEach(p->{
-		
-			if((p.getId() == id_Permissions)) {
-				
-				throw new RuntimeException("la Permission est deja desactiver");
-			
-			}
-		});
-			
+		System.out.println( ListPerm.contains(id_Permissions));
 		
 		if(role == null || permissions == null) {
 			throw new Exception("role ou permission n'existe pas");
 			
-		}else {
-			if(role.getPermissions().contains(id_Permissions))
-			{
-				throw new Exception("cette permission est desactiver ce role");
-			}else {
-				
-				role.getPermissions().remove(permissions);
+		}
+	else {
+		
+		role.getPermissions().remove(permissions);
+	}
 			
 			}
-		}
 		
-	}
+		
 
 
 	@Override
