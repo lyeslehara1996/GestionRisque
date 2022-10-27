@@ -30,6 +30,7 @@ import Auth.Service.ServiceImp.UserDetailsServiceImp;
 		securedEnabled = true,
 		jsr250Enabled = true,
 		prePostEnabled = true)
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 private final PasswordEncoder passwordEncoder;
@@ -67,10 +68,13 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 		http.cors().and().csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
-		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("CanReadUser").and()
-		.authorizeRequests().antMatchers("/api/roles/**").hasAnyAuthority("CanReadRoles").and()
-		.authorizeRequests().antMatchers("/Auth/signin/**").permitAll()
+		 .authorizeRequests(authorizeRequests ->
+	        authorizeRequests
+	            .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
+	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
+	    )
+
+		.authorizeRequests().antMatchers("/Auth/RefreshToken","/Auth/signin/**","/api/permissions/**","/api/ressources/**","/api/roles").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);

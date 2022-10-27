@@ -1,22 +1,15 @@
 package Auth.entities;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-
+import javax.annotation.Generated;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.MapsId;
 import javax.persistence.Table;
-
-import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -27,27 +20,27 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="Ressource")
+@Table
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Ressource implements Serializable {
+public class Niveau {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idNiv;
 	
-	@Column(name ="nom_Res")
-	@Nullable
-	private String name;
+	@Column(name = "nameniveau")
+	private String nameNiveau;
 	
-	@Column(name="Description")
-	private String Description;
-
-	@OneToMany(mappedBy = "ressources")
+	@Column(name = "Niveau")
+	private Integer niveauNumber;
+	
+	@ManyToOne()
 	@JsonIgnore
-	private List<Permissions> permissions = new ArrayList<>();
-
+	private Role roles;
+	
+	
 }

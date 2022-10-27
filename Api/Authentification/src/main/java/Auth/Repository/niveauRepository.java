@@ -3,11 +3,11 @@ package Auth.Repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 
-import Auth.entities.User;
+import Auth.entities.Niveau;
 
 @RepositoryRestResource
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface niveauRepository extends JpaRepository<Niveau, Long>{
 
-	public User getUserByUsername(String username);
-	public User getUserById(Long id_User);
+
+	public Niveau findNiveauByIdNiv(Long id_Niveau);
 }

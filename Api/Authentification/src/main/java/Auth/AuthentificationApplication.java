@@ -1,6 +1,7 @@
 package Auth;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.UUID;
 
 import org.springframework.boot.CommandLineRunner;
@@ -16,7 +17,10 @@ import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
 import Auth.Service.RessourceService;
+import Auth.entities.Niveau;
+import Auth.entities.Permissions;
 import Auth.entities.Privilege;
+import Auth.entities.Ressource;
 import Auth.entities.Role;
 import Auth.entities.User;
 @SpringBootApplication
@@ -40,113 +44,56 @@ public class AuthentificationApplication {
 		return args->{
 			//	Create Role 
 			
-			accountService.addNewRolle(new Role(null, "Admin",new ArrayList<>()));
-			accountService.addNewRolle(new Role(null, "Utilisateur",new ArrayList<>()));
-			accountService.addNewRolle(new Role(null, "Manager Risque ",new ArrayList<>()));
-			accountService.addNewRolle(new Role(null, "Analyste Risque ",new ArrayList<>()));
-			accountService.addNewRolle(new Role(null, "Contrôleur  ",new ArrayList<>()));
-			accountService.addNewRolle(new Role(null, "Viewer ",new ArrayList<>()));
-			
-			accountService.addNewRolle(new Role(null, "Chef de projet ",new ArrayList<>()));
-			//	Create User
-			accountService.addNewUser(new User(null,"Administrateur","Administrateur","Admin","admin@Risque.com","Admin1234",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"djam","Deo","User12345","Utilisateur@Risque.com","User1",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"lam","djam","Utilisateur3","Anyliste@Risque.com","User2",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Oussama","Oussama","Oussama","Controller@Risque.com","User3",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Viewer","Viwer","Utilisateur5","Viwer@Risque.com","User5",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"Teyeb","Teyeb","Teyeb","Utilisateur@Risque.com","User6",new ArrayList<>()));
-			accountService.addNewUser(new User(null,"User7","User7","Utilisateur7","Utilisateur@Risque.com","User7",new ArrayList<>()));
+			Role role1=accountService.addNewRolle(new Role(null, "Admin",  new ArrayList<>(), new ArrayList<>(),new HashSet()));
+			Role role2=accountService.addNewRolle(new Role(null, "Utilisateur",  new ArrayList<>(),new ArrayList<>(),new HashSet()));
+			Role role3=accountService.addNewRolle(new Role(null, "Manager Risque ", new ArrayList<>(),new ArrayList<>(),new HashSet()));
 
-			accountService.addNewUser(new User(null,"Yanis","Yanis","Yanis","YanisZiani@Risque.com","Yanis",new ArrayList<>()));
-
-			//			Add Role to User
-
-			accountService.addRolleToUser("Admin", "Admin");
-			accountService.addRolleToUser("Admin", "Manager Risque");
-			accountService.addRolleToUser("LyesLehara", "Manager Risque");
-			accountService.addRolleToUser("User12345", "Utilisateur");
-			accountService.addRolleToUser("Utilisateur3", "Analyste Risque");
-			accountService.addRolleToUser("Oussama", "Contrôleur");
-			accountService.addRolleToUser("Utilisateur5", "Viewer");
-			accountService.addRolleToUser("Teyeb", "Utilisateur");
-			accountService.addRolleToUser("Utilisateur7", "Utilisateur");
+////			//	Create User
+			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,null));
 			
-			accountService.addRolleToUser("Yanis", "Chef de projet ");
-			//	Create Privileges
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddUser", "Ajouter_des_Utilisateurs "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadUser", "Consulter_des_Utilisateurs "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanUpdateUser", "Modifier_des_Utilisateurs "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanDeleteUser", "Supprimer_des_Utilisateurs "));
+			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",role1,null));
+						
+//			// creer un niveau 
 			
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddRoles", "Ajouter_des_Roles "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadRoles", "Consulter_des_Roles "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanUpdateRoles", "Modifier_des_Roles "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanDeleteRoles", "Supprimer_des_Roles "));
+			Niveau Niv_1 = accountService.AddNiveau(new Niveau(null, "niveau1",1,role1));
+			Niveau Niv_2 = accountService.AddNiveau(new Niveau(null, "niveau2",2,role1));
 			
-//			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddRoles", "Ajouter_des_Roles "));
-//			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadRoles", "Consulter_des_Roles "));
-//			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanUpdateRoles", "Modifier_des_Roles "));
-//			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanDeleteRoles", "Supprimer_des_Roles "));
+			//creer agence 
+			
+			
 //			
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddRolesToUser", "Ajouter_des_Roles_To_User "));
+////			//	Create Privileges 
+////			
+			Privilege p1 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Saisir", "Effectuer Un ajout ", new ArrayList()));
+			Privilege p2 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Consulter", "Consulter, voir  ",new ArrayList()));
+			Privilege p3 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Editer", "Modification ", new ArrayList()));
+			Privilege p4 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Supprimer", "La suppression ",new ArrayList()));
+			Privilege p5 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Rechercher", "La Recherche ",new ArrayList()));
+			Privilege p6 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Valider", "La Validation ",new ArrayList()));
+			Privilege p7 = ressourceService.createPrivilegeIfNotFound(new Privilege(null, "Lancer", "Lancement ",new ArrayList()));
 			
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddPrivilegesToRoles", "Ajouter_des_Privileges_a_des_role "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadPrivileges", "Consulter_des_Privileges "));
+//			//			ressource 
 			
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanAddDATA", "Ajouter_des_DATA "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanReadDATA", "Consulter_des_DATA "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanUpdateDATA", "Modifier_des_DATA "));
-			ressourceService.createPrivilegeIfNotFound(new Privilege(null, "CanDeleteDATA", "Supprimer_des_DATA "));
-			
-			
-			//	Create Ressource
-			
-			
-			//	Add Privilege to ressource 
-			
-			
-			//	Add privilege to roles 
-			
-			ressourceService.addPrivilegesToRoles("Admin","CanAddUser");
-			ressourceService.addPrivilegesToRoles("Admin","CanReadUser");
-			ressourceService.addPrivilegesToRoles("Admin","CanUpdateUser");
-			ressourceService.addPrivilegesToRoles("Admin","CanDeleteUser");
-			
-			ressourceService.addPrivilegesToRoles("Admin","CanAddRoles");
-			ressourceService.addPrivilegesToRoles("Admin","CanReadRoles");
-			ressourceService.addPrivilegesToRoles("Admin","CanUpdateRoles");
-			ressourceService.addPrivilegesToRoles("Admin","CanDeleteRoles");
-			
-			ressourceService.addPrivilegesToRoles("Admin","CanAddPrivilegesToRoles");
-			ressourceService.addPrivilegesToRoles("Admin","CanReadPrivileges");
-			
-			ressourceService.addPrivilegesToRoles("Admin","CanAddDATA");
-			ressourceService.addPrivilegesToRoles("Admin","CanReadDATA"); 
-			ressourceService.addPrivilegesToRoles("Admin","CanUpdateDATA");
-			ressourceService.addPrivilegesToRoles("Admin","CanDeleteDATA");
-			
-			ressourceService.addPrivilegesToRoles("Manager Risque","CanReadUser");
-			ressourceService.addPrivilegesToRoles("Manager Risque","CanUpdateUser");
-			ressourceService.addPrivilegesToRoles("Manager Risque","CanReadRoles");
-			ressourceService.addPrivilegesToRoles("Manager Risque","CanUpdateRoles");
+			Ressource r1 = ressourceService.CreateRessource(new Ressource(null, "Rapport", "Ressource liee a un rapport",new ArrayList()));
+			Ressource r2 = ressourceService.CreateRessource(new Ressource(null, "User", "Ressource liee a un utilisateur",new ArrayList()));
+			Ressource r4 = ressourceService.CreateRessource(new Ressource(null, "Donnee", "Ressource liee aux donnees",new ArrayList()));
 			
 			
-			ressourceService.addPrivilegesToRoles("Analyste Risque","CanAddDATA");
-			ressourceService.addPrivilegesToRoles("Analyste Risque","CanReadDATA"); 
-			ressourceService.addPrivilegesToRoles("Analyste Risque","CanUpdateDATA");
-			ressourceService.addPrivilegesToRoles("Analyste Risque","CanDeleteDATA");
-
-			ressourceService.addPrivilegesToRoles("Contrôleur","CanReadRoles");
+			//			Permissions
 			
-			ressourceService.addPrivilegesToRoles("Viewer","CanReadUser");
-			ressourceService.addPrivilegesToRoles("Viewer","CanReadRoles"); 
-			ressourceService.addPrivilegesToRoles("Viewer","CanReadRoles");
-			ressourceService.addPrivilegesToRoles("Viewer","CanDeleteRoles");
+			Permissions per1 = ressourceService.createPermissions(new Permissions(p1,r1,p1.getNameP()+r1.getName()));
+			Permissions per2 = ressourceService.createPermissions(new Permissions(p2,r2,p2.getNameP()+r2.getName()));
+			Permissions per3 = ressourceService.createPermissions(new Permissions(p5,r1,p5.getNameP()+r1.getName()));
+			Permissions per4 = ressourceService.createPermissions(new Permissions(p6,r2,p6.getNameP()+r2.getName()));
 			
-			
-			ressourceService.addPrivilegesToRoles("Utilisateur","CanReadUser");
-			ressourceService.addPrivilegesToRoles("Utilisateur","CanUpdateUser");
+//			//Add Permission to roles 
+////			
+//			
+			ressourceService.PrermissionsToRoles(role1.getId(), per2.getId());
+			ressourceService.PrermissionsToRoles(role1.getId(), per1.getId());
+			ressourceService.PrermissionsToRoles(role1.getId(), per3.getId());
+			ressourceService.PrermissionsToRoles(role2.getId(), per1.getId());
+	
 		};
 	}
 

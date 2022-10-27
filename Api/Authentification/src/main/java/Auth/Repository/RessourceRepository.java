@@ -9,4 +9,5 @@ import Auth.entities.Ressource;
 public interface RessourceRepository extends JpaRepository<Ressource, Long> {
 
 	public Ressource findRessourceByName(String name);
+	public Ressource getRessourceById(Long id_Ressources);
 }

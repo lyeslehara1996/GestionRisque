@@ -58,6 +58,18 @@ public class JwtUtils {
 			
 
 	}
+	
+	public String generateJwtRefreshToken(Authentication authentication) {
+
+		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
+		Algorithm algorithm = Algorithm.HMAC256("secret12309");
+		return JWT.create()
+				.withSubject(userPrincipal.getUsername())
+				.sign(algorithm); 
+			
+
+	}
+
 
 	
 	public boolean validateJwtToken(String authToken) {

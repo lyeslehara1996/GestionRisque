@@ -1,14 +1,23 @@
 package Auth.Service.ServiceImp;
 
+import java.security.Permission;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import Auth.Repository.PermissionRepo;
 import Auth.Repository.PrivilegeRepository;
 import Auth.Repository.RessourceRepository;
 import Auth.Repository.RoleRepository;
 import Auth.Service.RessourceService;
+import Auth.entities.Permissions;
 import Auth.entities.Privilege;
 import Auth.entities.Ressource;
 import Auth.entities.Role;
@@ -31,7 +40,8 @@ public class RessourceServiceImp  implements RessourceService{
 	
 	private RoleRepository roleRepo;
 	
-	
+	@Autowired
+	private PermissionRepo PermRepo;
 	//Create a new privilege
 	
 	@Override
@@ -48,42 +58,202 @@ public class RessourceServiceImp  implements RessourceService{
 	    
 	}
 	
-	// affecter des privilege a les roles 
-	
-	@Override
-	public void addPrivilegesToRoles(@RequestBody String roleName, String nameP) {
-		Role role =roleRepo.getRolesByName(roleName);
-		Privilege privilege =privilegeRepo.getPrivilegeBynameP(nameP);
-		role.getPrivileges().add(privilege);
-
-	}
-
-
-
-//Affecter des privileges a des ressources 
-	@Override
-	public void addPrivilegeToRessource(@RequestBody String name, String nameP) throws Exception{
-		// TODO Auto-generated method stub
-		Ressource ressource =ressourcesRepo.findRessourceByName(name);
-		Privilege privilege =privilegeRepo.getPrivilegeBynameP(nameP);
-		
-		ressource.getPrivileges().add(privilege);
-	}
-
 
 	//Create a new ressource 
 	
 	@Override
-	public Ressource CreateRessource(Ressource ressource) throws Exception{
-		Ressource ressourceByName = ressourcesRepo.findRessourceByName(ressource.getName());
-		
-		if(ressourceByName != null) {
-			throw  new Exception("Ressource existe deja !!");
-		}else {
+	public Ressource CreateRessource(Ressource ressource) {
+
 			// TODO Auto-generated method stub
 			return ressourcesRepo.save(ressource);
+	
+	}
+
+	@Override
+	public List<Privilege> AllPrivilege() {
+		// TODO Auto-generated method stub
+		return privilegeRepo.findAll();
+	}
+
+	@Override
+	public List<Ressource> AllRessources() {
+		// TODO Auto-generated method stub
+		return ressourcesRepo.findAll();
+	}
+	
+	
+
+	public List<Permissions> AllPermissions(){
+		return PermRepo.findAll();
+	}
+	
+	
+
+	@Override
+	public Permissions addPermissions(Long id_Privileges, Long id_Ressources) throws Exception {
+		// TODO Auto-generated method stub
+		Privilege previlege = privilegeRepo.findById(id_Privileges).get();
+		Ressource ressource  = ressourcesRepo.findById(id_Ressources).get();
+		
+		List<Permissions> Listper = PermRepo.permissionWhereId(id_Privileges,id_Ressources);
+		
+		if(previlege == null || ressource == null) {
+			throw new RuntimeException("le privilege ou la resssource n'existe pas ");
+			
+		}
+		else{
+		
+		Listper.forEach(p->{
+			if((p.getPrivileges().getId()==id_Privileges ) && (p.getRessources().getId() ==id_Ressources)) {
+				
+				throw new RuntimeException("la Permission existe deja dans la base de données");
+			
+			}
+		});
+		Permissions Permissions = new Permissions(previlege,ressource,previlege.getNameP().toString() + ressource.getName().toString());
+		
+		
+		
+		return PermRepo.save(Permissions);
+	}
+	
+	
+	}
+	
+	@Override
+	public Permissions createPermissions(Permissions permission) throws RuntimeException {
+		// TODO Auto-generated method stub
+		Privilege previlege = privilegeRepo.findById(permission.getPrivileges().getId()).get();
+		Ressource ressource  = ressourcesRepo.findById(permission.getRessources().getId()).get();
+		List<Permissions> ListPerm = PermRepo.findAll();
+		
+		if(previlege == null || ressource == null) {
+			throw new RuntimeException("le privilege ou la resssource n'existe pas ");
+			
+		}
+		else{
+	
+	ListPerm.forEach(p->{
+		if((p.getPrivileges().getId()==permission.getPrivileges().getId() ) && (p.getRessources().getId() ==permission.getRessources().getId())) {
+			
+			throw new RuntimeException("la Permission existe deja dans la base de données");
+		
+		}
+	});
+		
+			Permissions Permissions = new Permissions(previlege,ressource,previlege.getNameP().toString() + ressource.getName().toString());
+			
+			return PermRepo.save(Permissions);
 		}
 		
 	}
 
-}
+
+	@Override
+	public void PrermissionsToRoles(Long id_Roles, Long id_Permissions)throws Exception {
+		// TODO Auto-generated method stub
+		Role role =roleRepo.getRoleById(id_Roles);
+		Permissions permissions = PermRepo.getPermissionsById(id_Permissions);
+		
+		if(role == null || permissions == null) {
+			throw new Exception("role ou permission n'existe pas");
+		}else {
+			
+			role.getPermissions().add(permissions);
+		}
+		
+	}
+
+
+	@Override
+	public void DeletePermission(Long id_permission) throws Exception{
+		// TODO Auto-generated method stub
+		Permissions permission = PermRepo.getPermissionsById(id_permission);
+		
+		if(permission == null ) {
+			
+			throw new Exception("La permission n'existe pas");
+		}else {
+			PermRepo.delete(permission);
+		}
+	}
+
+
+	@Override
+	public void RemovePermissionToRole(Long id_Roles, Long id_Permissions) throws Exception {
+		// TODO Auto-generated method stub
+		Role role =roleRepo.getRoleById(id_Roles);
+		Permissions permissions = PermRepo.getPermissionsById(id_Permissions);
+		
+		Set<Permissions> ListPerm = role.getPermissions();
+
+		ListPerm.forEach(p->{
+		
+			if((p.getId() == id_Permissions)) {
+				
+				throw new RuntimeException("la Permission est deja desactiver");
+			
+			}
+		});
+			
+		
+		if(role == null || permissions == null) {
+			throw new Exception("role ou permission n'existe pas");
+			
+		}else {
+			if(role.getPermissions().contains(id_Permissions))
+			{
+				throw new Exception("cette permission est desactiver ce role");
+			}else {
+				
+				role.getPermissions().remove(permissions);
+			
+			}
+		}
+		
+	}
+
+
+	@Override
+	public 	Permissions UpdatePermission(Long id_Permission, Permissions permission) throws Exception{
+		// TODO Auto-generated method stub
+Permissions permissions = PermRepo.findById(id_Permission).get();
+List<Permissions> ListPerm = PermRepo.findAll();
+
+		Privilege previlege = privilegeRepo.findById(permission.getPrivileges().getId()).get();
+		Ressource ressource  = ressourcesRepo.findById(permission.getRessources().getId()).get();
+		
+		if (permissions == null) {
+			throw new Exception("Permission dans id  "+id_Permission+" not existe");
+	}else {
+		
+		
+		ListPerm.forEach(p->{
+			if((p.getPrivileges().getId()==permission.getPrivileges().getId() ) && (p.getRessources().getId() ==permission.getRessources().getId())) {
+				
+				throw new RuntimeException("la Permission existe deja dans la base de données");
+			
+			}
+		});
+			
+				permissions.setNamepermission(previlege.getNameP().toString() + ressource.getName().toString());
+				
+				permissions.setPrivileges(permission.getPrivileges());
+				permissions.getPrivileges().setNameP(previlege.getNameP());
+				permissions.getPrivileges().setDescription(previlege.getDescription());
+				
+				permissions.setRessources(permission.getRessources());
+				permissions.getRessources().setName(ressource.getName());
+				permissions.getRessources().setDescription(ressource.getDescription());
+				
+			return	PermRepo.save(permissions);
+			}
+			
+		
+			
+		}
+
+	
+		
+	}
+
