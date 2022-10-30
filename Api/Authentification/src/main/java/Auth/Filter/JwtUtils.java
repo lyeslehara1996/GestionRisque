@@ -41,7 +41,6 @@ public class JwtUtils {
 	public static final  String AUTH_HEADER = "Authorization";
 	public static final  String PREFIX = "Bearer ";
 	public static final  long EXCPIRE_ACCESS_TOKEN =1*60*1000;
-	public static final long EXCPIRE_refersh_TOKEN = 15*60*1000;
 
 	// private final int jwtExpirationMs = new Date(System.currentTimeMillis() +
 	// 25*60* 1000);
@@ -59,17 +58,6 @@ public class JwtUtils {
 
 	}
 	
-	public String generateJwtRefreshToken(Authentication authentication) {
-
-		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
-		Algorithm algorithm = Algorithm.HMAC256("secret12309");
-		return JWT.create()
-				.withSubject(userPrincipal.getUsername())
-				.sign(algorithm); 
-			
-
-	}
-
 
 	
 	public boolean validateJwtToken(String authToken) {

@@ -70,11 +70,11 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		 .authorizeRequests(authorizeRequests ->
 	        authorizeRequests
-	          //  .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
+	            .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
 	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
 	    )
 
-		.authorizeRequests().antMatchers("/Auth/RefreshToken","/Auth/signin/**","/api/permissions/**","/api/ressources/**","/api/roles","/api/user/**").permitAll()
+		.authorizeRequests().antMatchers("/Auth/signin").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
