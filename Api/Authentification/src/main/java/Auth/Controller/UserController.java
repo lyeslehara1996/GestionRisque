@@ -28,6 +28,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import Auth.Repository.AgenceRepository;
+import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
 import Auth.entities.Agence;
@@ -49,6 +51,14 @@ public class UserController {
 	
 	@Autowired
 	private UserRepository userRepo;
+	
+	@Autowired
+	private RoleRepository roleRepo;
+	
+	@Autowired
+	private AgenceRepository ageneceRepo;
+	
+	
 	@GetMapping("/user")
 
 	public ResponseEntity<List<User>> getUsers(){
@@ -151,6 +161,43 @@ public class UserController {
 			return  new ResponseEntity<>(accountService.UpdateUser(id_user, user), HttpStatus.CREATED);
 		}else {
 			 return new ResponseEntity("l'utilisateur n'existe pas ",HttpStatus.NOT_FOUND);
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+}
+	@PutMapping("/role/update/{id_role}")
+	public ResponseEntity<User> UpdateUser(@PathVariable Long id_role, @RequestBody Role role ){
+	try {
+		
+		Optional<Role> RoleData = roleRepo.findById(id_role);
+		
+		if(RoleData.isPresent()) {
+			return  new ResponseEntity(accountService.UpdateRole(id_role, role), HttpStatus.CREATED);
+		}else {
+			 return new ResponseEntity("le role n'existe pas ",HttpStatus.NOT_FOUND);
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+}
+	
+	@PutMapping("/agence/update/{id_agence}")
+	public ResponseEntity<Agence> UpdateAgence(@PathVariable Long id_agence, @RequestBody Agence agence ){
+	try {
+		
+		Optional<Agence> AgenceData = ageneceRepo.findById(id_agence);
+		
+		if(AgenceData.isPresent()) {
+			return  new ResponseEntity(accountService.UpdateAgence(id_agence, agence), HttpStatus.CREATED);
+		}else {
+			 return new ResponseEntity("cette Agence n'existe pas ",HttpStatus.NOT_FOUND);
 		}
 		
 	} catch (Exception e) {

@@ -3,6 +3,7 @@
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.transaction.Transactional;
 
@@ -61,12 +62,17 @@ public class AccountServiceImpl  implements AccountService{
 
 
 	@Override
-	public User addNewUser(User user) {
-		
-		// TODO Auto-generated method stub
-		String Pws  =user.getPassword();
-		user.setPassword(passwordEncoder.encode(Pws));
-		return userRepository.save(user);
+	public User addNewUser(User user) throws Exception{
+		Optional<Role> role = roleRepository.findById(user.getRoles().getId());
+		if(role == null ) {
+			throw new Exception("Ce Role n'existe pas ");
+		}else {
+			
+			// TODO Auto-generated method stub
+			String Pws  =user.getPassword();
+			user.setPassword(passwordEncoder.encode(Pws));
+			return userRepository.save(user);
+		}
 	}
 
 	@Override
@@ -246,7 +252,17 @@ public class AccountServiceImpl  implements AccountService{
 	@Override
 	public Role UpdateRole(Long id_role, Role role) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		Role roleData = roleRepository.findById(id_role).get();
+		
+		if(roleData ==  null ) {
+			throw new Exception("Le role n'existe pas dans la base de donnée");
+			
+		}else {
+			roleData.setName(role.getName());
+			return roleRepository.save(roleData);
+			
+		}
+		
 	}
 
 
@@ -255,7 +271,18 @@ public class AccountServiceImpl  implements AccountService{
 	@Override
 	public Agence UpdateAgence(Long id_agence, Agence agence) throws Exception {
 		// TODO Auto-generated method stub
-		return null;
+		
+	Agence agenceData = agenceRepo.findById(id_agence).get();
+		
+		if(agenceData ==  null ) {
+			throw new Exception("L'agence n'existe pas dans la base de donnée");
+			
+		}else {
+			agenceData.setAgenceName(agenceData.getAgenceName());
+			agenceData.setDescription(agenceData.getDescription());
+			return agenceRepo.save(agenceData);
+			
+		}
 	}
 
 	

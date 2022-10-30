@@ -11,7 +11,7 @@ import Auth.entities.User;
 
 public interface AccountService {
 
-	User addNewUser(User user);
+	User addNewUser(User user) throws Exception;
 	List<User> ListUsers();
 	User getUser(String username);
 	void DeleteUser(Long id_user) throws Exception;
