@@ -3,6 +3,7 @@ package Auth.Controller;
 import java.net.URI;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +21,17 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
 import Auth.entities.Agence;
+import Auth.entities.Permissions;
 import Auth.entities.Ressource;
 import Auth.entities.Role;
 import Auth.entities.User;
@@ -43,6 +47,8 @@ public class UserController {
 	@Autowired
 	private AccountService accountService ;
 	
+	@Autowired
+	private UserRepository userRepo;
 	@GetMapping("/user")
 
 	public ResponseEntity<List<User>> getUsers(){
@@ -133,6 +139,26 @@ public class UserController {
 		}
 			
 	}
+	
+	
+	@PutMapping("/user/update/{id_user}")
+	public ResponseEntity<User> UpdateUser(@PathVariable Long id_user, @RequestBody User user ){
+	try {
+		
+		Optional<User> UserData = userRepo.findById(id_user);
+		
+		if(UserData.isPresent()) {
+			return  new ResponseEntity<>(accountService.UpdateUser(id_user, user), HttpStatus.CREATED);
+		}else {
+			 return new ResponseEntity("l'utilisateur n'existe pas ",HttpStatus.NOT_FOUND);
+		}
+		
+	} catch (Exception e) {
+		e.printStackTrace();
+		return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+	
+}
 	
 	@DeleteMapping("/user/delete/{id_user}")
 	public ResponseEntity<?> DeleteUser(@PathVariable Long id_user){

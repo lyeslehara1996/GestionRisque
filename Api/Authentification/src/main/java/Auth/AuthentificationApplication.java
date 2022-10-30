@@ -17,6 +17,7 @@ import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
 import Auth.Service.RessourceService;
+import Auth.entities.Agence;
 import Auth.entities.Niveau;
 import Auth.entities.Permissions;
 import Auth.entities.Privilege;
@@ -48,8 +49,11 @@ public class AuthentificationApplication {
 			Role role2=accountService.addNewRolle(new Role(null, "Utilisateur",  new ArrayList<>(),new ArrayList<>(),new HashSet()));
 			Role role3=accountService.addNewRolle(new Role(null, "Manager Risque ", new ArrayList<>(),new ArrayList<>(),new HashSet()));
 
+			//Create agence
+			Agence agence1 =  accountService.AddAgence(new Agence(null, "BNA", "l'agence de BNA", new ArrayList<>()));
+			
 ////			//	Create User
-			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,null));
+			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,agence1));
 			
 			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",role1,null));
 						

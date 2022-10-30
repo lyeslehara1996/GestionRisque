@@ -17,6 +17,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
@@ -25,6 +26,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @Data
+@NoArgsConstructor
 public class Agence implements Serializable {
 
 	@Id

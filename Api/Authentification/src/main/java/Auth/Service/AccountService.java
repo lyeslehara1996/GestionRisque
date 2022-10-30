@@ -15,18 +15,18 @@ public interface AccountService {
 	List<User> ListUsers();
 	User getUser(String username);
 	void DeleteUser(Long id_user) throws Exception;
-//	User UpdateUser();
+	User UpdateUser(Long id_user,User user) throws Exception;
 	
 	
 	Role addNewRolle (Role role);
 	List<Role> ListRoles() throws Exception;
 	void DeleteRole(Long id_Role) throws Exception;
-//	Role UpdateRole();
+	Role UpdateRole(Long id_role, Role role) throws Exception;
 	
 	Agence AddAgence (Agence agence) throws Exception;
 	List<Agence> AllAgence();
 	void DeleteAgence(Long id_Agence) throws Exception;
-//	Agence UpdateUser();
+	Agence UpdateAgence(Long id_agence, Agence agence) throws Exception;
 	
 	
 	Niveau AddNiveau (Niveau niveau) throws Exception;

@@ -19,4 +19,7 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
 	
 	@Query(value = "SELECT * FROM roles_permissions", nativeQuery = true)
 	public Map<Long,Long> RolPermission();
+	
+	@Query(value = "SELECT * FROM roles_permissions WHERE role_id=?1 AND permissions_id=?2", nativeQuery = true)
+	public Map<Long,Long> roleHasPermission(Long roleId, Long permissionId);
 }

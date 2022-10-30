@@ -168,9 +168,9 @@ public class AccountServiceImpl  implements AccountService{
 		Agence agence = agenceRepo.getAgenceById(id_Agence);
 		
 		if(agence ==null) {
-			throw new Exception("Role not found ");
+			throw new Exception("Agence is  not found ");
 		}else {
-			roleRepository.deleteById(id_Agence);
+			agenceRepo.deleteById(id_Agence);
 		}
 	}
 
@@ -205,6 +205,57 @@ public class AccountServiceImpl  implements AccountService{
 		}else {
 			niveauRepo.deleteById(id_Niveau);
 		}
+	}
+
+
+
+
+	@Override
+	public User UpdateUser(Long id_user, User user) throws  Exception{
+		// TODO Auto-generated method stub
+		User users = userRepository.findById(id_user).get();
+		Role role = roleRepository.getRoleById(user.getRoles().getId());
+		Agence agence = agenceRepo.getAgenceById(user.getAgence().getId());
+		
+		if(users == null) {
+			throw new Exception("L'utilisateur dans id  "+id_user+" not existe");
+		}else {
+			if(role == null || agence == null) {
+				throw new Exception("le role ou l'agence n'existe pas ");
+			}
+			users.setNom(user.getNom());
+			users.setPrenom(user.getPrenom());
+			users.setEmail(user.getEmail());
+			users.setPassword(users.getPassword());
+			user.setRoles(role);
+			user.getRoles().setName(role.getName());
+			user.getRoles().setNiveaux(role.getNiveaux());
+			user.getRoles().setPermissions(role.getPermissions());
+			users.setAgence(agence);
+			user.getAgence().setAgenceName(agence.getAgenceName());
+			user.getAgence().setDescription(agence.getDescription());
+			
+			return userRepository.save(users);
+		}
+		
+	}
+
+
+
+
+	@Override
+	public Role UpdateRole(Long id_role, Role role) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+
+
+	@Override
+	public Agence UpdateAgence(Long id_agence, Agence agence) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	
