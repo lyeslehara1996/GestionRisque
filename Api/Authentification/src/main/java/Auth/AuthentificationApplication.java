@@ -82,6 +82,8 @@ public class AuthentificationApplication {
 			Ressource r2 = ressourceService.CreateRessource(new Ressource(null, "User", "Ressource liee a un utilisateur",new ArrayList()));
 			Ressource r4 = ressourceService.CreateRessource(new Ressource(null, "Donnee", "Ressource liee aux donnees",new ArrayList()));
 			
+			Ressource ressource = ressourceService.CreateRessource(new Ressource(null, "Ressources", "Ressource liee aux Ressources",new ArrayList()));
+			
 			
 			//			Permissions
 			
@@ -89,6 +91,8 @@ public class AuthentificationApplication {
 			Permissions per2 = ressourceService.createPermissions(new Permissions(p2,r2,p2.getNameP()+r2.getName()));
 			Permissions per3 = ressourceService.createPermissions(new Permissions(p5,r1,p5.getNameP()+r1.getName()));
 			Permissions per4 = ressourceService.createPermissions(new Permissions(p6,r2,p6.getNameP()+r2.getName()));
+			
+			Permissions RessourcePermission = ressourceService.createPermissions(new Permissions(p2,ressource,p2.getNameP()+ressource.getName()));
 			
 //			//Add Permission to roles 
 ////			
@@ -98,6 +102,8 @@ public class AuthentificationApplication {
 			ressourceService.PrermissionsToRoles(role1.getId(), per3.getId());
 			ressourceService.PrermissionsToRoles(role2.getId(), per1.getId());
 	
+			ressourceService.PrermissionsToRoles(role1.getId(), RessourcePermission.getId());
+			
 		};
 	}
 

@@ -72,9 +72,10 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 	        authorizeRequests
 	            .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
 	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
+	            .antMatchers("/api/ressources").hasAnyAuthority("ConsulterRessources")
 	    )
 
-		.authorizeRequests().antMatchers("/Auth/signin").permitAll()
+		.authorizeRequests().antMatchers("/Auth/signin","/Auth/RefreshToken").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
