@@ -26,16 +26,23 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+@Service 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Service 
 public class UserDetailsImp implements UserDetails{
 	private Long id;
 
 	private String username;
 
+	private String Nom;
+	
+	
+	private String Prenom;
+	
+	
 	@JsonIgnore
 	private String password;
 	
@@ -63,6 +70,8 @@ public class UserDetailsImp implements UserDetails{
 		return new UserDetailsImp(
 				user.getId(), 
 				user.getUsername(), 
+				user.getNom(),
+				user.getPrenom(),
 				user.getPassword(), 
 				user.getEmail(),
 				authorities);

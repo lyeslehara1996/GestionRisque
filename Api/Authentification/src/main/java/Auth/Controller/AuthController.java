@@ -97,12 +97,12 @@ public class AuthController {
 				
 				
 				
-				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getUsername(),userDetails.getEmail(),permissions));
+				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getNom(),userDetails.getPrenom(),userDetails.getEmail(),permissions));
 				}
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
-			return new ResponseEntity("401-Unauthorized", HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
 		}
 	
 			}
@@ -128,10 +128,10 @@ public class AuthController {
 				.withClaim("roles", appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList()))
 				.sign(algorithm); 
 		List<String> permissions = appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList());
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getUsername(),appuser.getEmail(),permissions));
+			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getNom(),appuser.getPrenom(),appuser.getEmail(),permissions));
 	
 			}catch (Exception e) {
-			return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
 				// TODO: handle exception
 			}
 			

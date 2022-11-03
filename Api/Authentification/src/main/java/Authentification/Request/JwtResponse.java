@@ -15,17 +15,19 @@ public class JwtResponse {
 
 	//List<String> roles
 
-	public JwtResponse(String jwtAccessTocken,String JwtRefreshToken, String username,String email, List<String> permissions) {
+	public JwtResponse(String jwtAccessTocken,String JwtRefreshToken, String Nom,String prenom ,String email, List<String> permissions) {
 		super();
 		this.jwtAccessTocken = jwtAccessTocken;
 this.JwtRefreshToken=JwtRefreshToken;
-		this.username = username;
+		this.Nom = Nom;
+		this.prenom=prenom;
 		this.email=email;
 		this.permissions = permissions;
 	}
 	private String jwtAccessTocken;
 	private String JwtRefreshToken;
-	private String username;
+	private String Nom;
+	private String prenom;
 	private String email;
 	private List<String> permissions;
 

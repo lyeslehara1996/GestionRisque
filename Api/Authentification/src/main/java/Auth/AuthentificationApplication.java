@@ -4,12 +4,18 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.UUID;
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
+import org.springframework.jdbc.datasource.init.DataSourceInitializer;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -37,7 +43,15 @@ public class AuthentificationApplication {
 		return new BCryptPasswordEncoder();
 	}
 	
-	
+//	@Bean
+//	public DataSourceInitializer dataSourceInitializer(@Qualifier("dataSource") final DataSource dataSource) {
+//	    ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
+//	    resourceDatabasePopulator.addScript(new ClassPathResource("/data.sql"));
+//	    DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
+//	    dataSourceInitializer.setDataSource(dataSource);
+//	    dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
+//	    return dataSourceInitializer;
+//	}
 
 	@Bean
 	CommandLineRunner start(AccountService accountService, RessourceService ressourceService, RepositoryRestConfiguration restConfiguration) {
