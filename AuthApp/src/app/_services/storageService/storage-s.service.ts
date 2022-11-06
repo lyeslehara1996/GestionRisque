@@ -2,9 +2,10 @@ import { Token } from '@angular/compiler';
 import { Injectable } from '@angular/core';
 import { AppUser } from 'src/app/Models/AppUser';
 
-const TOKEN_KEY = 'auth-token';
-const REFRESHTOKEN_KEY = 'auth-refreshtoken';
+const TOKEN_KEY = 'accesstoken';
+const REFRESHTOKEN_KEY = 'refreshtoken';
 const USER_KEY = 'auth-user';
+
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +13,6 @@ const USER_KEY = 'auth-user';
 export class StorageSService {
   constructor() {}
 
- 
   signOut(): void {
     window.sessionStorage.clear();
   }
@@ -36,8 +36,12 @@ export class StorageSService {
     window.sessionStorage.setItem(REFRESHTOKEN_KEY, token);
   }
 
-  public getRefreshToken(): string | null {
+  public getRefreshToken() {
     return window.sessionStorage.getItem(REFRESHTOKEN_KEY);
+  }
+
+  public removeRefreshToken(): void {
+    window.sessionStorage.removeItem(REFRESHTOKEN_KEY);
   }
 
   public saveUser(user: any): void {

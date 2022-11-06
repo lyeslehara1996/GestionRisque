@@ -16,6 +16,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatInputModule } from '@angular/material/input';
 import { NotFoundComponent } from './not-found/not-found.component';
+import {  authInterceptorProviders } from './_helpper/AuthInterceptor';
 
 @NgModule({
   declarations: [
@@ -43,8 +44,7 @@ import { NotFoundComponent } from './not-found/not-found.component';
 
 
   ],
-
-  providers: [],
+  providers: [authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

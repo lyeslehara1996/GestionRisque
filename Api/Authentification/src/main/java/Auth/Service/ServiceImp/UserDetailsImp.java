@@ -1,8 +1,11 @@
 package Auth.Service.ServiceImp;
 
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
@@ -12,7 +15,10 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
+import Auth.entities.Niveau;
+import Auth.entities.Permissions;
 import Auth.entities.Privilege;
+import Auth.entities.Ressource;
 import Auth.entities.Role;
 import Auth.entities.User;
 import lombok.AllArgsConstructor;
@@ -20,21 +26,28 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+
+@Service 
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Service 
 public class UserDetailsImp implements UserDetails{
 	private Long id;
 
 	private String username;
 
+	private String Nom;
+	
+	
+	private String Prenom;
+	
+	
 	@JsonIgnore
 	private String password;
 	
 	private String email;
-
+//
 	private Collection<? extends GrantedAuthority> authorities;
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -43,13 +56,22 @@ public class UserDetailsImp implements UserDetails{
 	}
 	
 	public static UserDetailsImp build(User user) {
-		List<GrantedAuthority> authorities = user.getRoles().stream()
-				.map(roles -> new SimpleGrantedAuthority(roles.getName()))
-				.collect(Collectors.toList());
+
+        Set<GrantedAuthority> authorities = new HashSet<>();
+
+
+	for(Permissions per : user.getRoles().getPermissions() ){
+	
+	 authorities.add(new SimpleGrantedAuthority(per.getPrivileges().getNameP()+per.getRessources().getName()));
+
+}
+
 
 		return new UserDetailsImp(
 				user.getId(), 
 				user.getUsername(), 
+				user.getNom(),
+				user.getPrenom(),
 				user.getPassword(), 
 				user.getEmail(),
 				authorities);

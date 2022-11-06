@@ -1,14 +1,6 @@
 
 @import '~src/scss/variables';
 
-:host {
-  display: block;
-  position: fixed;
-  left: 0;
-  right: 0;
-  top: 0;
-  z-index: 1000;
-}
 .nav-brand {
   text-align: center;
   margin-right: 10px;
@@ -31,7 +23,8 @@
 }
 .Links{
   color :#fff;
-  font-weight: 800;
+  font-weight: 900;
+  align-items: center;
 
 }
 @media screen and (max-width: 992px) {
@@ -53,9 +46,18 @@
   }
 }
 
+.container{
 
-.card{
-display: flex;
-flex-direction: row;
-max-width: max-content;
+  text-align: center;
+  margin-top: 20px;
+
+  .card{
+  display: flex;
+  flex-direction: row;
+  max-width: max-content;
+  }
+  .table{
+
+    padding: 15px;
+  }
 }

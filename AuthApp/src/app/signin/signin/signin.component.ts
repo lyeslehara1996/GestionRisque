@@ -30,17 +30,17 @@ export class SigninComponent implements OnInit {
       password: new FormControl('', [Validators.required]),
     });
 
-    if (this.storageSService.getToken() && this.storageSService.isLoggedIn() == true) {
-     
-      this.isLoggedIn == true;
-      this.isLoginFailed == false;
+    if (this.storageSService.getToken() && this.storageSService.isLoggedIn() === true) {
+     console.log(this.storageSService.getUser().privileges)
+      this.isLoggedIn === true;
+      this.isLoginFailed === false;
       this.roles = this.storageSService.getUser().roles;
       this.router.navigateByUrl('/Admin');
     }else{
       this.storageSService.signOut();
       this.router.navigate(['/Signin']);
-      this.isLoggedIn==false
-      this.isLoginFailed==true
+      this.isLoggedIn===false
+      this.isLoginFailed===true
    
     }
   }
@@ -55,15 +55,16 @@ export class SigninComponent implements OnInit {
     
     this.authService.Login(this.LoginForm.value).subscribe(
       (Response:any)=>{
-      
+      console.log(Response);
         this.storageSService.saveToken(Response.jwtAccessTocken);
+        this.storageSService.saveRefreshToken(Response.jwtRefreshToken);
         this.storageSService.saveUser(Response);
-
-        this.isLoginFailed = false;
-        this.isLoggedIn = true;
+        console.log(this.storageSService.getUser())
+        this.isLoginFailed ===false;
+        this.isLoggedIn === true;
         this.roles = this.storageSService.getUser().roles;
     
-        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === false ){
+        if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === true ){
           this.router.navigateByUrl('/Admin')
         }
         this.reloadPage();
@@ -71,8 +72,8 @@ export class SigninComponent implements OnInit {
       },
       (error)=>{
 
-        this.isLoginFailed = true;
-        this.isLoggedIn = false;
+        this.isLoginFailed === true;
+        this.isLoggedIn === false;
       
       }
     )

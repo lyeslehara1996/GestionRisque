@@ -13,21 +13,23 @@ import lombok.Setter;
 
 public class JwtResponse {
 
+	//List<String> roles
 
-	public JwtResponse(String jwtAccessTocken, String jwtRefreshToken, String username,String email, List<String> roles) {
+	public JwtResponse(String jwtAccessTocken,String JwtRefreshToken, String Nom,String prenom ,String email, List<String> permissions) {
 		super();
 		this.jwtAccessTocken = jwtAccessTocken;
-		this.JwtRefreshToken = jwtRefreshToken;
-		this.username = username;
+this.JwtRefreshToken=JwtRefreshToken;
+		this.Nom = Nom;
+		this.prenom=prenom;
 		this.email=email;
-		this.roles = roles;
+		this.permissions = permissions;
 	}
 	private String jwtAccessTocken;
 	private String JwtRefreshToken;
-	private String username;
+	private String Nom;
+	private String prenom;
 	private String email;
-	private List<String> roles;
-
+	private List<String> permissions;
 
 
 }

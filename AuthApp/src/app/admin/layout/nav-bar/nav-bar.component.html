@@ -3,10 +3,18 @@
     <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
   </button>
   <div class="nav-brand tw-text-red-800 tw-font-larg" >
-   Dashboard {{username}}
-  </div>
-  
+    <a routerLink="">  Dashboard {{username}}</a>
  
+  </div>
+  <div  >
+   <a class="text-balck-900 mr-3" routerLink="Users">Gestion utilisateur</a>  
+   </div>
+   <div  >
+    <a class="text-balck-900 mr-3" routerLink="Roles">Gestion des roles</a>  
+    </div>
+    <div  >
+      <a class="text-balck-900 mr-3" routerLink="Privilege">Gestion des Privilege</a>  
+      </div>
   <span class="nav-spacer "></span>
   <form class="hidden-sm" style="margin-right: 10px; margin-top: 8px">
     <mat-form-field style="font-size: 1rem;">
@@ -33,15 +41,116 @@
 </mat-toolbar>
 
 
-<mat-card class="card">
-     <mat-card-actions>
+<mat-card class="card shadow-lg shadow-black-300 bg-gradient-to-l from-indigo-400">
+     <mat-card-actions class="">
 
-      <button mat-button *ngIf="roles.includes('Utilisateur') || ('Admin') "  >List User</button>
-      <button mat-button *ngIf="roles.includes('Admin') "  >Add User </button>
-      <button mat-button *ngIf="roles.includes('Utilisateur') || ('Manager Risque') || ('Admin')"  >Add Role to user </button>
-      <button mat-button *ngIf="roles.includes('Admin') " >Delete Role </button>
+      <button class="font-bold  hover:bg-indigo-400" (click)="onShowUsers()" mat-button *ngIf="roles.includes('CanReadUser') "  >List des Utilisateur</button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanAddUser')"  >Ajouter Utilisateur </button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanAddRoleToUser')"  >Ajouter un role a un utilisateur </button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanDeleteUser') || ('CanUpdateUser')" >Supprimer Utilisateur  </button>
+   
+      <button class="font-bold  hover:bg-indigo-400" (click)="onShowUsers()" mat-button *ngIf="roles.includes('CanReadRoles') "  >List des roles</button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanAddRoles')"  >Ajouter un role </button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanDeleteRoles')"  >Supprimer un role </button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanAddPrivilegesToRoles') " >Ajouter des privilege a un role </button>
+      <button  class="font-bold hover:bg-indigo-400" mat-button *ngIf="roles.includes('CanReadPrivileges') " >Listes Des Privileges </button>
+   
+   
+   
     </mat-card-actions>
   </mat-card>
 
+
   
 
+<!-- Liste des Utilisateur -->
+<div *ngIf="users" class=" place-content-center">
+<div class="container card shadow-lg shadow-black-300">
+<div class="row">
+  <div class=" text-center text-Indigo-600">
+      <h1>Liste des Utilisateur </h1>
+  </div>
+  <div class="w-full">
+    <table class="table table-striped table-hover table-bordered ">
+      <thead>
+        <tr>
+          <th>Id </th>
+          <th>Nom</th>
+          <th>Prenom</th>
+          <th>Username</th>
+          <th>Email </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of users">
+          <td>{{ p.id }}</td>
+          <td>{{ p.nom }}</td>
+          <td>{{ p.prenom }}</td>
+          <td>{{ p.username }}</td>
+          <td>{{ p.email }}</td>
+          <td>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  </div>
+</div>
+</div>
+
+ 
+  <!-- Ajouter Des Utilisateur  -->
+
+<div class=" card ">
+
+  <h1>Ajouter des Utilisateurs </h1>
+
+      <form  [formGroup]="AddUsersForm" (ngSubmit)="onAddUsers()">
+        <div class="row">
+          <div class="col-lg-6">  
+
+             <div class="mb-3">
+          <label for="exampleInputEmail1" class="font-bold form-label">Nom</label>
+          <input type="text" class="form-control"  formControlName="nom" ngModel>
+        </div>
+
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="font-bold form-label">Prenom</label>
+          <input type="text" class="form-control"  formControlName="prenom" ngModel>
+        </div>
+        <div class="mb-3">
+          <label for="exampleInputEmail1" class="font-bold form-label">Username</label>
+          <input type="text" class="form-control" formControlName="username" ngModel>
+        </div>
+
+      </div>
+          <div class="col-lg-6">
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="font-bold form-label">Email</label>
+              <input type="text" class="form-control" formControlName="email" ngModel >
+            </div>
+            <div class="mb-3">
+              <label for="exampleInputEmail1" class="font-bold form-label">Password</label>
+              <input type="text" class="form-control" formControlName="password" ngModel>
+            </div>
+            <div class="mb-3">
+              <label for="Role" class="font-bold form-label">Roles</label>
+              <select id="Roles" class="form-select" formControlName="roles" ngModel>
+                <option>Admin</option>
+                <option>Utilisateur</option>
+                <option>Manager Risque</option>
+                <option>Analyste Risque</option>
+                <option>Contrôleur</option>
+                <option>Viewer</option>
+              </select>
+            </div>
+          </div>
+        </div>
+    
+        <button type="submit" class="text-white  bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
+      </form>
+
+  
+  </div>
+
+  

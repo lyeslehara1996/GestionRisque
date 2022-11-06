@@ -8,9 +8,12 @@ import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -62,35 +65,48 @@ public class AuthController {
 	@Autowired
 	JwtUtils jwtUtils;
 	
-	
+	@Autowired
+	UserDetailsImp userDetailsImp;
 	
 	
 	
 	@PostMapping("/signin")
-	public ResponseEntity<JwtResponse> authenticateUser( @RequestBody AuthRequest authRequest) throws Exception {
-
-		User usr = userRepository.getUserByUsername(authRequest.getUsername()); 
-		if(usr.getUsername() == null || usr.getPassword() == null) {
-			log.info(usr.getUsername()+"not fouund ");
-			throw new Exception("User not found");
-		}else {
-			
-		
-			Authentication authentication = authenticationManager.authenticate(
-					new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
-			log.info(authRequest.getUsername());
-			SecurityContextHolder.getContext().setAuthentication(authentication);
-			String jwtAccessTocken = jwtUtils.generateJwtAccessToken(authentication);
-			String JwtRefreshToken = jwtUtils.generateJwtRefreshToken(authentication);
-			UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();		
-			List<String> roles = userDetails.getAuthorities().stream()
-					.map(item -> item.getAuthority())
-					.collect(Collectors.toList());
-			
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getUsername(),userDetails.getEmail(),roles));
 	
+	public ResponseEntity<JwtResponse> authenticateUser(@Valid @RequestBody AuthRequest authRequest) throws Exception {
+
+		try {
+			User usr = userRepository.getUserByUsername(authRequest.getUsername()); 
+			if(usr.getUsername() == null || usr.getPassword() == null) {
+			
+				return new ResponseEntity(" not found ", HttpStatus.NOT_FOUND);
+			}else {
+				
+		
+				Authentication authentication = authenticationManager.authenticate(
+						new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+				log.info(authRequest.getUsername());
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				String jwtAccessTocken = jwtUtils.generateJwtAccessToken(authentication);
+				String JwtRefreshToken = jwtUtils.generateJwtRefreshToken(authentication);
+				UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();		
+				System.out.println(userDetails.getAuthorities());
+
+				List<String> permissions = userDetails.getAuthorities().stream()
+						.map(item -> item.getAuthority())
+						.collect(Collectors.toList());
+				
+				
+				
+				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getNom(),userDetails.getPrenom(),userDetails.getEmail(),permissions));
+				}
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
 		}
-	}
+	
+			}
+	
 	
 	@PostMapping("/RefreshToken")
 	public ResponseEntity<JwtResponse> RefreshingToken( HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -104,20 +120,18 @@ public class AuthController {
 				DecodedJWT decodedJWT =jwtVerfier.verify(JwtRefreshToken);
 		String nom =decodedJWT.getSubject();
 		User appuser = userRepository.getUserByUsername(nom);
-		
+		Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
+
 		String jwtAccessTocken =JWT.create().withSubject(appuser.getUsername()).
-				withExpiresAt(new Date(System.currentTimeMillis()+10 * 60 * 1000)).
+				withExpiresAt(new Date(System.currentTimeMillis()+ 360* 60 * 1000)).
 				withIssuer(request.getRequestURI().toString())
-				.withClaim("roles", appuser.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList()))
+				.withClaim("roles", appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList()))
 				.sign(algorithm); 
-		response.setHeader("Authorization", jwtAccessTocken);
-		
-		List<String> roles = appuser.getRoles().stream().map(ga->ga.getName()).collect(Collectors.toList());
-		
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getUsername(),appuser.getEmail(),roles));
+		List<String> permissions = appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList());
+			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getNom(),appuser.getPrenom(),appuser.getEmail(),permissions));
 	
 			}catch (Exception e) {
-			throw new RuntimeException("error tokens");
+			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
 				// TODO: handle exception
 			}
 			
@@ -127,12 +141,4 @@ public class AuthController {
 			throw new RuntimeException("refersh token required !!!") ;
 		}
 		}
-	
-	
-	
-
-	
-
-
-	
 }

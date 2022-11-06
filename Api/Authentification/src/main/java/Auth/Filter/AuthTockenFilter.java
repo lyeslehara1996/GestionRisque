@@ -3,6 +3,8 @@ package Auth.Filter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -12,6 +14,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,7 +31,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import Auth.Repository.UserRepository;
 import Auth.Service.ServiceImp.UserDetailsServiceImp;
+import Auth.entities.Privilege;
+import Auth.entities.Role;
+import Auth.entities.User;
 
 @Component
 public class AuthTockenFilter extends OncePerRequestFilter{
@@ -37,7 +45,8 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 	@Autowired
 	private UserDetailsServiceImp userDetailsService;
 
-	private static final Logger logger = LoggerFactory.getLogger(AuthTockenFilter.class);
+	@Autowired
+	private UserRepository userRepo;
 	
 
 	
@@ -46,7 +55,7 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
 			throws ServletException, IOException {
 
-		if(request.getServletPath().equals("/api/refreshToken") || request.getServletPath().equals("/Auth/signin")) {
+		if(request.getServletPath().equals("/Auth/RefreshToken")|| request.getServletPath().equals("/Auth/signin")) {
 			filterChain.doFilter(request, response);
 		}else {
 		String authorizationTocken = request.getHeader("Authorization");
@@ -57,6 +66,7 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 				JWTVerifier jwtverify =JWT.require(algo).build();
 				DecodedJWT decodedJwt =jwtverify.verify(jwt);
 				String username = decodedJwt.getSubject();
+				User user = userRepo.getUserByUsername(username);
 				String[] roles = decodedJwt.getClaim("roles").asArray(String.class); 
 				Collection< GrantedAuthority> authorities =new ArrayList<>();
 				for(String r:roles) {

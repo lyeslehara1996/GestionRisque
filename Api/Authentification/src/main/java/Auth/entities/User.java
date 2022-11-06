@@ -3,7 +3,9 @@ package Auth.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.persistence.CascadeType;
@@ -16,10 +18,12 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import org.springframework.data.relational.core.mapping.Embedded.Nullable;
+import org.springframework.lang.Nullable;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -30,14 +34,12 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Data
-@Getter
-@Setter
 @Table(name = "User")
-@AllArgsConstructor
-
+@Getter@Setter@AllArgsConstructor@ToString
 public class User  implements Serializable{
 
 	public User() {
@@ -51,8 +53,14 @@ public class User  implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id ;
 	
+	@Column ( name =  " Nom" )
+	private String Nom;
+	
+	@Column ( name =  " Prenom" )
+	private String Prenom;
+	
 	@Column ( name =  "Username" )
-	@Nullable
+	@Nullable()
 	private String username;
 	
 	@Column ( name =  "email" )
@@ -65,10 +73,10 @@ public class User  implements Serializable{
 	private String password;
 	
 
-	@ManyToMany(fetch = FetchType.EAGER)
-	
-	private List<Role> roles = new ArrayList<>();
-	
+	 @ManyToOne
+	 private Role roles; 
 
+	@ManyToOne()
+	private Agence agence;
 	
 }

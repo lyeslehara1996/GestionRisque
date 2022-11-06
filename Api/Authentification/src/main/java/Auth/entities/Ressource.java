@@ -3,6 +3,7 @@ package Auth.entities;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,7 +12,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.lang.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,11 +40,14 @@ public class Ressource implements Serializable {
 	private Long id;
 	
 	@Column(name ="nom_Res")
+	@Nullable
 	private String name;
 	
 	@Column(name="Description")
 	private String Description;
-	
-	@ManyToMany(fetch = FetchType.EAGER)
-	private Collection<Privilege> Privileges = new ArrayList<>();
+
+	@OneToMany(mappedBy = "ressources")
+	@JsonIgnore
+	private List<Permissions> permissions = new ArrayList<>();
+
 }

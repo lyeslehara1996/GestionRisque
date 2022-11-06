@@ -30,19 +30,21 @@ import Auth.Service.ServiceImp.UserDetailsServiceImp;
 		securedEnabled = true,
 		jsr250Enabled = true,
 		prePostEnabled = true)
+
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 private final PasswordEncoder passwordEncoder;
 
-private final UserDetailsServiceImp userDetailsService;
+
+private final UserDetailsService userDetailsService;
 
 @Autowired
 private JwtEntryPoint unauthorizedHandler;
 
-	public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsServiceImp userDetailsService) {
-		super();
-		this.passwordEncoder = passwordEncoder;
-		this.userDetailsService = userDetailsService;
+public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDetailsService) {
+	super();
+	this.passwordEncoder = passwordEncoder;
+	this.userDetailsService = userDetailsService;
 
 	}
 	@Bean
@@ -66,9 +68,14 @@ private JwtEntryPoint unauthorizedHandler;
 		http.cors().and().csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
-		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("Admin").and()
-		.authorizeRequests().antMatchers("/Auth/signin/**").permitAll()
+		 .authorizeRequests(authorizeRequests ->
+	        authorizeRequests
+	            .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
+	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
+	            .antMatchers("/api/ressources").hasAnyAuthority("ConsulterRessources")
+	    )
+
+		.authorizeRequests().antMatchers("/Auth/signin","/Auth/RefreshToken").permitAll()
 		.anyRequest().authenticated();
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -82,6 +89,7 @@ private JwtEntryPoint unauthorizedHandler;
 		return super.authenticationManagerBean();
 	}
 	
+
 
 	
 	

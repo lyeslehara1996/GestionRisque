@@ -21,6 +21,9 @@ import { ListUserComponent } from './layout/list-user/list-user.component';
 import { AddUserComponent } from './layout/add-user/add-user.component';
 import { AddRoleComponent } from './layout/add-role/add-role.component';
 import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-user.component';
+import { authInterceptorProviders } from '../_helpper/AuthInterceptor';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FooterComponent } from './layout/footer/footer.component';
 @NgModule({
   declarations: [
     NavBarComponent,
@@ -28,7 +31,8 @@ import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-us
      ListUserComponent,
      AddUserComponent,
      AddRoleComponent,
-     AddRoleToUserComponent
+     AddRoleToUserComponent,
+     FooterComponent
   ],
   imports: [
     DashboardModule,
@@ -44,8 +48,13 @@ import { AddRoleToUserComponent } from './layout/add-role-to-user/add-role-to-us
     MatListModule,
     MatToolbarModule,
     MatMenuModule,
-    MatTableModule
+    MatTableModule,
+    FormsModule,
+    ReactiveFormsModule
     
-  ]
+  ],
+    
+
+  providers: [authInterceptorProviders],
 })
 export class AdminModule { }

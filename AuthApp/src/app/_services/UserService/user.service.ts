@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient,HttpEvent,HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { AppUser } from 'src/app/Models/AppUser';
+import { StorageSService } from '../storageService/storage-s.service';
+
+
 
 @Injectable({
   providedIn: 'root'
@@ -11,20 +14,26 @@ export class UserService {
 
   PATH_API='http://localhost:8085/api/';
 
-   requestHeader =new HttpHeaders(
-    {"No-Auth":"true"}
-   );
- 
-  constructor(private httpClient: HttpClient) { }
 
+ 
+  constructor(private httpClient: HttpClient,private storageSer:StorageSService) { }
+
+  
+  httpOptions:any = {
+    headers: new Headers({ 
+      'Content-Type': 'application/json',
+      'Authorization':"Bearer "+ this.storageSer.getToken(),
+
+     })
+  };
 //get users methode 
 
-  public getUsers():Observable <any> {
-    return this.httpClient.get(this.PATH_API+"users");
+  public getAllUsers():Observable<HttpEvent<AppUser[]>> {
+    return this.httpClient.get<AppUser[]>(this.PATH_API+"user",this.httpOptions);
   }
 
   //add Users methode
-  public AddUsers( appUser:Object):Observable <any> {
+  public AddUsers( appUser:Object) {
     return this.httpClient.get(this.PATH_API+"Adduser",appUser);
   }
 
