@@ -10770,3 +10770,13 @@
 2022-11-03 14:01:12,950 [Worker-168: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
 2022-11-03 14:01:12,956 [Worker-168: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
 2022-11-03 14:01:12,958 [Worker-168: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-11-03 14:01:12,958 [Worker-168: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2022-11-03 14:01:12,959 [Worker-168: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\pc\Desktop\gestionrisques\Api\Authentification\src\test\resources
+2022-11-06 09:56:53,164 [Worker-7: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is out-of-date. Trying to update.
+2022-11-06 10:01:14,351 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-11-06 10:01:14,351 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2022-11-06 10:01:14,356 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2022-11-06 10:01:14,404 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 0 resource
+2022-11-06 10:01:14,453 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2022-11-06 10:01:14,453 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2022-11-06 10:01:14,453 [Worker-14: Launching Authentification - AuthentificationApplication] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\pc\Desktop\gestionrisques\Api\Authentification\src\test\resources
