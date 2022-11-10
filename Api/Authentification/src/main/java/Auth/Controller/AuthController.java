@@ -87,7 +87,6 @@ public class AuthController {
 				log.info(authRequest.getUsername());
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 				String jwtAccessTocken = jwtUtils.generateJwtAccessToken(authentication);
-				String JwtRefreshToken = jwtUtils.generateJwtRefreshToken(authentication);
 				UserDetailsImp userDetails = (UserDetailsImp) authentication.getPrincipal();		
 				System.out.println(userDetails.getAuthorities());
 
@@ -97,7 +96,7 @@ public class AuthController {
 				
 				
 				
-				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,userDetails.getNom(),userDetails.getPrenom(),userDetails.getEmail(),permissions));
+				return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,userDetails.getRoles(),userDetails.getNom(),userDetails.getPrenom(),userDetails.getEmail(),permissions));
 				}
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -108,37 +107,37 @@ public class AuthController {
 			}
 	
 	
-	@PostMapping("/RefreshToken")
-	public ResponseEntity<JwtResponse> RefreshingToken( HttpServletRequest request, HttpServletResponse response) throws Exception {
-	
-		String authToken =request.getHeader("Authorization");
-		if(authToken!=null && authToken.startsWith("Bearer ")) {
-			try {
-				String JwtRefreshToken = authToken.substring(7);
-				Algorithm algorithm = Algorithm.HMAC256(jwtUtils.jwtSecret.getBytes());
-				JWTVerifier jwtVerfier= JWT.require(algorithm).build();
-				DecodedJWT decodedJWT =jwtVerfier.verify(JwtRefreshToken);
-		String nom =decodedJWT.getSubject();
-		User appuser = userRepository.getUserByUsername(nom);
-		Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
-
-		String jwtAccessTocken =JWT.create().withSubject(appuser.getUsername()).
-				withExpiresAt(new Date(System.currentTimeMillis()+ 360* 60 * 1000)).
-				withIssuer(request.getRequestURI().toString())
-				.withClaim("roles", appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList()))
-				.sign(algorithm); 
-		List<String> permissions = appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList());
-			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getNom(),appuser.getPrenom(),appuser.getEmail(),permissions));
-	
-			}catch (Exception e) {
-			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
-				// TODO: handle exception
-			}
-			
-			
-		  	
-		}else{
-			throw new RuntimeException("refersh token required !!!") ;
-		}
-		}
+//	@PostMapping("/RefreshToken")
+//	public ResponseEntity<JwtResponse> RefreshingToken( HttpServletRequest request, HttpServletResponse response) throws Exception {
+//	
+//		String authToken =request.getHeader("Authorization");
+//		if(authToken!=null && authToken.startsWith("Bearer ")) {
+//			try {
+//				String JwtRefreshToken = authToken.substring(7);
+//				Algorithm algorithm = Algorithm.HMAC256(jwtUtils.jwtSecret.getBytes());
+//				JWTVerifier jwtVerfier= JWT.require(algorithm).build();
+//				DecodedJWT decodedJWT =jwtVerfier.verify(JwtRefreshToken);
+//		String nom =decodedJWT.getSubject();
+//		User appuser = userRepository.getUserByUsername(nom);
+//		Authentication userAuth = SecurityContextHolder.getContext().getAuthentication();
+//
+//		String jwtAccessTocken =JWT.create().withSubject(appuser.getUsername()).
+//				withExpiresAt(new Date(System.currentTimeMillis()+ 360* 60 * 1000)).
+//				withIssuer(request.getRequestURI().toString())
+//				.withClaim("roles", appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList()))
+//				.sign(algorithm); 
+//		List<String> permissions = appuser.getRoles().getPermissions().stream().map(ga->ga.getPrivileges().getNameP()+ga.getRessources().getName()).collect(Collectors.toList());
+//			return  ResponseEntity.ok(new JwtResponse(jwtAccessTocken,JwtRefreshToken,appuser.getRoles(),appuser.getNom(),appuser.getPrenom(),appuser.getEmail(),permissions));
+//	
+//			}catch (Exception e) {
+//			return new ResponseEntity("Username ou mot de passe incorrect", HttpStatus.BAD_REQUEST);
+//				// TODO: handle exception
+//			}
+//			
+//			
+//		  	
+//		}else{
+//			throw new RuntimeException("refersh token required !!!") ;
+//		}
+//		}
 }

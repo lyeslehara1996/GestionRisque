@@ -42,6 +42,7 @@ public class UserDetailsImp implements UserDetails{
 	
 	private String Prenom;
 	
+	private Role roles;
 	
 	@JsonIgnore
 	private String password;
@@ -72,6 +73,7 @@ public class UserDetailsImp implements UserDetails{
 				user.getUsername(), 
 				user.getNom(),
 				user.getPrenom(),
+				user.getRoles(),
 				user.getPassword(), 
 				user.getEmail(),
 				authorities);

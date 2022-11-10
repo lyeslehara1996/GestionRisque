@@ -1,0 +1,11 @@
+.arrow-down {
+    transform: rotate(0deg);
+    transition: .3s ease;
+}
+.rotate {
+    transform: rotate(180deg);
+}
+
+.submenu-toggle p {
+    cursor: pointer;
+}

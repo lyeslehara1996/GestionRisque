@@ -1,0 +1,58 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">La Liste Des Utilisateurs</h4>
+                        <p class="card-category"> Here is a subtitle for this table</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Nom
+                                    </th>
+                                    <th>
+                                        Prenom
+                                    </th>
+                                    <th>
+                                        Username
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Agence
+                                    </th>
+                                    <th>
+                                        Role
+                                    </th>
+                                    <th>
+                                        Permissions
+                                    </th>
+                                    <th>
+                                        Update
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody  >
+                                    <tr *ngFor="let p of users">
+                                       <td>{{p.nom}}</td>
+                                       <td>{{p.prenom}}</td>
+                                       <td>{{p.username}}</td>
+                                       <td>{{p.email}}</td>
+                                       <td>{{p.agence.agenceName}}</td>
+                                       <td>{{p.roles.name}}</td>
+                                    </tr>
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          

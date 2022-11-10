@@ -1,0 +1,51 @@
+
+<div class="body">
+
+        <!-- Background Video-->
+        <video class="bg-video" playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop"><source src="../../assets/imgHomePage/pexels-mikhail-nilov-7735816.mp4" type="video/mp4" /></video>
+        <!-- Masthead-->
+        <div class="masthead">
+            <div class="masthead-content text-white">
+                <div class="container-fluid px-4 px-lg-0 d-flex flex-column">
+                    <h1 class="fst-italic lh-1 mb-4">Our Website is Coming Soon</h1>
+                    <p class="mb-5">We're working hard to finish the development of this site. Sign up below to receive updates and to be notified when we launch!</p>
+   
+         
+                        <form id="contactForm"  [formGroup]="LoginForm" (ngSubmit)="onSubmit()">
+                            <!-- Email address input-->
+                            <div class="row input-group-newsletter d-flex flex-column">
+                                <div class="col mb-2">
+                                    <input class="form-control" id="Username" type="text" placeholder="Enter un Username" aria-label="Enter un Username" formControlName="username" name="username" ngModel  />
+                                    <mat-error *ngIf="submitted && hasError('username', 'required')">username is required</mat-error>
+                                    <mat-error *ngIf="submitted && hasError('username', 'maxlength')">You have more than 10 characters</mat-error>
+                                    <mat-error *ngIf="submitted && hasError('username', 'minlength')">Your username must be more than 6 characters</mat-error>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" id="Password" type="Password" placeholder="Enter Password " aria-label="Enter Password " name="password" formControlName="password" ngModel />
+                                    <mat-error *ngIf="submitted && hasError('password', 'required')">password is required</mat-error>
+                                </div>
+                                <div class="col-auto mt-2 d-flex flex-row  ">
+
+                                    <button class="btn btn-primary"   type="submit"   [disabled]="LoginForm.invalid">Signin</button>
+                                    <div *ngIf="!isLoggedIn && submitted" class="alert alert-danger ml-2 " role="alert" >
+                                     {{ this.errorMessage }}
+                                       </div>
+                                </div>
+                            </div>
+
+                           </form>
+               
+            
+                     
+                
+                </div>
+            </div>
+        </div>
+        <div class="social-icons">
+            <div class="d-flex flex-row flex-lg-column justify-content-center align-items-center h-100 mt-3 mt-lg-0">
+                <a class="btn btn-dark m-3" href="#!"><i class="fa fa-twitter"></i></a>
+                <a class="btn btn-dark m-3" href="#!"><i class="fa fa-facebook-f"></i></a>
+                <a class="btn btn-dark m-3" href="#!"><i class="fa fa-instagram"></i></a>
+            </div>
+        </div>
+    </div>

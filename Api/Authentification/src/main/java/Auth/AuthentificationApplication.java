@@ -65,11 +65,12 @@ public class AuthentificationApplication {
 
 			//Create agence
 			Agence agence1 =  accountService.AddAgence(new Agence(null, "BNA", "l'agence de BNA", new ArrayList<>()));
+			Agence agence2 =  accountService.AddAgence(new Agence(null, "BA", "l'agence de BA", new ArrayList<>()));
 			
 ////			//	Create User
 			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,agence1));
 			
-			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",role1,null));
+			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",role2,agence2));
 						
 //			// creer un niveau 
 			
@@ -113,10 +114,7 @@ public class AuthentificationApplication {
 //			
 			ressourceService.PrermissionsToRoles(role1.getId(), per2.getId());
 			ressourceService.PrermissionsToRoles(role1.getId(), per1.getId());
-			ressourceService.PrermissionsToRoles(role1.getId(), per3.getId());
-			ressourceService.PrermissionsToRoles(role2.getId(), per1.getId());
-	
-			ressourceService.PrermissionsToRoles(role1.getId(), RessourcePermission.getId());
+			ressourceService.PrermissionsToRoles(role2.getId(), per3.getId());	
 			
 		};
 	}
