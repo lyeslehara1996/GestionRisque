@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.transaction.Transactional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,6 +19,7 @@ import Auth.entities.User;
 @Transactional
 public class UserDetailsServiceImp implements UserDetailsService {
 
+	@Autowired
 	private final UserRepository userRepository;
 	
 	public UserDetailsServiceImp(UserRepository userRepository) {

@@ -32,10 +32,10 @@ import Auth.Service.ServiceImp.UserDetailsServiceImp;
 		prePostEnabled = true)
 
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-
+@Autowired
 private final PasswordEncoder passwordEncoder;
 
-
+@Autowired
 private final UserDetailsService userDetailsService;
 
 @Autowired
@@ -47,11 +47,10 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 	this.userDetailsService = userDetailsService;
 
 	}
-	@Bean
-	public AuthTockenFilter authenticationJwtTokenFilter() {
-		return new AuthTockenFilter();
-	}
-
+@Bean
+public AuthTockenFilter authenticationJwtTokenFilter() {
+	return new AuthTockenFilter();
+}
 	
 	
 	@Override
