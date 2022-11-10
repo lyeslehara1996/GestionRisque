@@ -48,7 +48,6 @@ public class AuthTockenFilter extends OncePerRequestFilter{
 	@Autowired
 	private UserRepository userRepo;
 	
-	
 
 	
 	

@@ -51,24 +51,24 @@ public class JwtUtils {
 		Algorithm algorithm = Algorithm.HMAC256("secret12309");
 		return JWT.create()
 				.withSubject(userPrincipal.getUsername())
-				.withExpiresAt(new Date(System.currentTimeMillis()+  30* 30 * 1000))
+				.withExpiresAt(new Date(System.currentTimeMillis()+  500* 60 * 1000))
 				.withClaim("roles", userPrincipal.getAuthorities().stream().map(ga->ga.getAuthority()).collect(Collectors.toList()))
 				.sign(algorithm);
 			
 
 	}
 	
-
-	public String generateJwtRefreshToken(Authentication authentication) {
-
-		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
-		Algorithm algorithm = Algorithm.HMAC256("secret12309");
-		return JWT.create()
-				.withSubject(userPrincipal.getUsername())
-				.sign(algorithm); 
-			
-
-	}
+//
+//	public String generateJwtRefreshToken(Authentication authentication) {
+//
+//		UserDetailsImp userPrincipal = (UserDetailsImp) authentication.getPrincipal();
+//		Algorithm algorithm = Algorithm.HMAC256("secret12309");
+//		return JWT.create()
+//				.withSubject(userPrincipal.getUsername())
+//				.sign(algorithm); 
+//			
+//
+//	}
 
 	public boolean validateJwtToken(String authToken) {
 		try {

@@ -16,18 +16,16 @@ public class JwtResponse {
 
 	//List<String> roles
 
-	public JwtResponse(String jwtAccessTocken,String JwtRefreshToken,Role roles, String Nom,String prenom ,String email, List<String> permissions) {
+	public JwtResponse(String jwtAccessTocken,Role roles, String Nom,String prenom ,String email, List<String> permissions) {
 		super();
 		this.jwtAccessTocken = jwtAccessTocken;
-this.JwtRefreshToken=JwtRefreshToken;
-this.roles=roles;
+		this.roles=roles;
 		this.Nom = Nom;
 		this.prenom=prenom;
 		this.email=email;
 		this.permissions = permissions;
 	}
 	private String jwtAccessTocken;
-	private String JwtRefreshToken;
 	private String Nom;
 	private String prenom;
 	private Role roles;
