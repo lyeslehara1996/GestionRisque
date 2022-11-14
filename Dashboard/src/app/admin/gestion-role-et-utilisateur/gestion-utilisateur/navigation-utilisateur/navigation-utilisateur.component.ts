@@ -24,7 +24,7 @@ export class NavigationUtilisateurComponent implements OnInit {
     },
     {
       menuItem: 'Modifier Des Utilisateurs',
-      path: 'ModifierDesUtilisateurs',
+      path: 'ModifierDesUtilisateurs/:id',
 
     },
   ]

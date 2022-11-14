@@ -1,3 +1,9 @@
+<style>
+    .card .card-header {
+        background: var(--theme-color)!important;
+    }
+</style>
+
 <div class="main-content">
     <div class="container-fluid">
         <div class="row">
@@ -7,10 +13,37 @@
                         <h4 class="card-title ">La Liste Des Utilisateurs</h4>
                         <p class="card-category"> Here is a subtitle for this table</p>
                     </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
+
+
+
+                    <div class="card-body"   >
+
+                    <ng-container   *ngIf="users$ | async as result"
+                    [ngSwitch]="result.dataState">
+
+                  
+                        <ng-container
+                        *ngSwitchCase="DataStateEnum.LOADING"
+                      >
+                       <p class="text-lg-center text-uppercase" style="font-weight: 700; " >LOADING ... </p> 
+                      </ng-container>
+
+                      <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+                        <div class="col-12 text-center">
+                          <div class="alert alert-danger">
+                            {{ result.erroMessage }}
+                          </div>
+                        </div>
+                      </ng-container>
+
+                         <ng-container *ngSwitchCase="DataStateEnum.LOADED"> 
+                         
+                        <div class="table-responsive" >
                             <table class="table">
                                 <thead class=" text-primary">
+                                    <th class=" hidden-xs">
+                                        id
+                                    </th>
                                     <th>
                                         Nom
                                     </th>
@@ -40,19 +73,31 @@
                                     </th>
                                 </thead>
                                 <tbody  >
-                                    <tr *ngFor="let p of users">
+                                    <tr *ngFor="let p of  result.data">
+                                        <td  class="hidden">{{p.id}}</td>
                                        <td>{{p.nom}}</td>
                                        <td>{{p.prenom}}</td>
                                        <td>{{p.username}}</td>
                                        <td>{{p.email}}</td>
-                                       <td>{{p.agence.agenceName}}</td>
+                                       <td>{{p.agence ? p.agence.agenceName : (empty) }}</td>
                                        <td>{{p.roles.name}}</td>
+                                       <td>
+                                        <select class="form-select">
+                                            <option *ngFor="let permission of p.roles.permissions">{{permission.namepermission}}</option>
+                                        </select>
+                                       </td>
+                                     <td>  <button class="btn btn-primary" (click)="onUpdateUser(p)"> Update</button></td>
+                                       <td><button class="btn btn-danger" (click)="onDeleteUser(p)"> Delete</button></td>
                                     </tr>
                                  
                                 </tbody>
                             </table>
                         </div>
+                    </ng-container>
+
+                    </ng-container> 
                     </div>
                 </div>
             </div>
+
           

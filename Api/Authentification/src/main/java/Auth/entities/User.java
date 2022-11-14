@@ -79,4 +79,7 @@ public class User  implements Serializable{
 	@ManyToOne()
 	private Agence agence;
 	
+	@OneToMany(mappedBy = "user")
+	@JsonIgnore
+	private List<PasswordResetToken> tokens = new ArrayList<>();
 }

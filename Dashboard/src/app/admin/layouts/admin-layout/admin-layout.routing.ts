@@ -55,7 +55,7 @@ export const AdminLayoutRoutes: Routes = [
             component: AjouterDesUtilisateusComponent,
           },
           {
-            path: "ModifierDesUtilisateurs",
+            path: 'ModifierDesUtilisateurs/:id',
             component: ModifierUtilisateursComponent,
           },
         ],

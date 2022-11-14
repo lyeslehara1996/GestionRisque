@@ -14,6 +14,7 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -33,17 +34,18 @@ import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
 import Auth.entities.Agence;
+import Auth.entities.Niveau;
 import Auth.entities.Permissions;
 import Auth.entities.Ressource;
 import Auth.entities.Role;
 import Auth.entities.User;
 import lombok.RequiredArgsConstructor;
 
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 @CrossOrigin("*")
+
 public class UserController {
 
 	@Autowired
@@ -60,12 +62,31 @@ public class UserController {
 	
 	
 	@GetMapping("/user")
-
+	@PreAuthorize("hasAuthority('ConsulterUser')")
 	public ResponseEntity<List<User>> getUsers(){
 		try {
 			List<User> user = accountService.ListUsers();
 			if (user.isEmpty()) {
 		        return new ResponseEntity("Liste Users est null",HttpStatus.NO_CONTENT);
+		      }else {
+			
+			return new ResponseEntity(user, HttpStatus.ACCEPTED);
+		      }
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+			 return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+			
+	}
+	
+	@GetMapping("/user/{id_user}")
+
+	public ResponseEntity<User> getUserById(@PathVariable Long id_user){
+		try {
+			User user = accountService.getUserById(id_user);
+			if (user == null) {
+		        return new ResponseEntity("L'Utilisateur n'existe pas",HttpStatus.NO_CONTENT);
 		      }else {
 			
 			return new ResponseEntity(user, HttpStatus.ACCEPTED);
@@ -95,6 +116,61 @@ public class UserController {
 	}
 			
 	}
+
+@GetMapping("/role/{id_role}")
+
+public ResponseEntity<Role> getRoleById(@PathVariable Long id_role){
+	try {
+		Role role = accountService.getRoleById(id_role);
+		if (role == null) {
+	        return new ResponseEntity("Le role n'existe pas",HttpStatus.NO_CONTENT);
+	      }else {
+		
+		return new ResponseEntity(role, HttpStatus.ACCEPTED);
+	      }
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		 return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
+}
+@GetMapping("/agence/{id_agence}")
+
+public ResponseEntity<Agence> getAgenceById(@PathVariable Long id_agence){
+	try {
+		Agence agence = accountService.getAgenceByID(id_agence);
+		if (agence == null) {
+	        return new ResponseEntity("L'agence n'existe pas",HttpStatus.NO_CONTENT);
+	      }else {
+		
+		return new ResponseEntity(agence, HttpStatus.ACCEPTED);
+	      }
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		 return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
+}
+@GetMapping("/niveau/{id_niv}")
+
+public ResponseEntity<Niveau> getNiveauById(@PathVariable Long id_niv){
+	try {
+		Niveau niveau = accountService.getNiveauById(id_niv);
+		if (niveau == null) {
+	        return new ResponseEntity("Le niveau n'existe pas",HttpStatus.NO_CONTENT);
+	      }else {
+		
+		return new ResponseEntity(niveau, HttpStatus.ACCEPTED);
+	      }
+		
+	} catch (Exception e) {
+		// TODO: handle exception
+		 return new ResponseEntity(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+		
+}
 	
 	 @RequestMapping(value = "/users/save", method = RequestMethod.POST)
 	public ResponseEntity<User> saveUser(@RequestBody User user){

@@ -27,8 +27,13 @@ export class UserService {
   };
 //get users methode 
 
-  public getAllUsers()
-  {    return this.httpClient.get<AppUser[]>(this.PATH_API+"user");
+  public getAllUsers():Observable<HttpEvent<AppUser[]>>
+  {    return this.httpClient.get<AppUser[]>(this.PATH_API+"user",this.httpOptions);
+  }
+
+  
+  public getUser(id:number):Observable<HttpEvent<AppUser[]>>
+  {    return this.httpClient.get<AppUser[]>(this.PATH_API+`/user${id}`,this.httpOptions);
   }
 
   //add Users methode
@@ -36,15 +41,36 @@ export class UserService {
     return this.httpClient.get(this.PATH_API+"Adduser",appUser);
   }
 
+  public UpdateUsers(){
 
-  //get roles methode 
-  public getRoles(url:any):Observable <any> {
-    return this.httpClient.get(this.PATH_API+"Roles");
+    
   }
 
+  public DeleteUser(user:AppUser){
+return this.httpClient.delete(this.PATH_API+`user/delete/${user.id}`, this.httpOptions)
+  }
+
+
+
+  //get roles methode 
+  public getAllRoles(url:any) {
+    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+  }
+
+    public getRole(url:any) {
+    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+  }
+
+  public UpdateRole(url:any) {
+    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+  }
+
+  
+  
+
   // add role methode 
-  public AddRoles(url:any):Observable <any> {
-    return this.httpClient.get(this.PATH_API+"AddRole");
+  public AddRoles(url:any) {
+    return this.httpClient.get(this.PATH_API+"AddRole",this.httpOptions);
   }
 
   //add role to user methode 

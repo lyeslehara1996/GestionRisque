@@ -5,12 +5,22 @@ import { Routes, RouterModule } from '@angular/router';
 import { AppPageHomeComponent } from './app-page-home/app-page-home.component';
 import { AuthGGuard } from './_Guards/auth-g.guard';
 import { AuthPermissionsGuard } from './_Guards/auth-permissions.guard';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ConfirmationPasswordComponent } from './confirmation-password/confirmation-password.component';
 
 const routes: Routes =[
   {
     path: 'Home',
     redirectTo: '',
     component : AppPageHomeComponent
+  },
+  {
+    path: 'ForgotPassword',
+    component : ForgotPasswordComponent
+  },
+  {
+    path: 'ConfirmPassword',
+    component : ConfirmationPasswordComponent
   },
   {
     path: '',

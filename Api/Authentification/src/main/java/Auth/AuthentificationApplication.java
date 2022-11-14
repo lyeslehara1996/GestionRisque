@@ -68,9 +68,11 @@ public class AuthentificationApplication {
 			Agence agence2 =  accountService.AddAgence(new Agence(null, "BA", "l'agence de BA", new ArrayList<>()));
 			
 ////			//	Create User
-			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,agence1));
+			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,agence1,new ArrayList()));
 			
-			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","ManagerRisque@Risque.com","User4",role2,agence2));
+			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","Utilisateur@Risque.com","User2",role2,agence2,new ArrayList<>()));
+		
+			User user3 =accountService.addNewUser(new User(null,"Yanis","Ziani","YanisZiani","ManagerRisque@Risque.com","User3",role3,null,new ArrayList<>()));
 						
 //			// creer un niveau 
 			
@@ -115,7 +117,8 @@ public class AuthentificationApplication {
 			ressourceService.PrermissionsToRoles(role1.getId(), per2.getId());
 			ressourceService.PrermissionsToRoles(role1.getId(), per1.getId());
 			ressourceService.PrermissionsToRoles(role2.getId(), per3.getId());	
-			
+			ressourceService.PrermissionsToRoles(role3.getId(), per1.getId());	
+			ressourceService.PrermissionsToRoles(role3.getId(), per3.getId());	
 		};
 	}
 

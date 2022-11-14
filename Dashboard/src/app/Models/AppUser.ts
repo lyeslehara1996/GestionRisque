@@ -1,5 +1,5 @@
 export interface AppUser {
-userid ?: string;
+id ?: number;
 nomUser ?:string ;
 prenomUser ?:string;
 username ?: string;
@@ -7,7 +7,7 @@ email ?:string;
 password ?: string;
 roles?:roles;
 agence?:agence;
-permissions ?: string[];
+
 jwtAccessToken ?: string;
 
 
@@ -22,4 +22,12 @@ export interface agence {
 export interface roles {
     roleId?:string ;
     name?:string ;
+    permissions ?:any[];
 }
+
+export interface permisision {
+    permisisionId?:string ;
+    namepermission?:string ;
+   
+}
+

@@ -2,6 +2,7 @@
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,12 +22,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import Auth.Repository.AgenceRepository;
 import Auth.Repository.PrivilegeRepository;
+import Auth.Repository.RestPasswordTokenRepository;
 import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Repository.niveauRepository;
 import Auth.Service.AccountService;
+import Auth.Service.ResetPasswordToken;
 import Auth.entities.Agence;
 import Auth.entities.Niveau;
+import Auth.entities.PasswordResetToken;
 import Auth.entities.Privilege;
 import Auth.entities.Role;
 import Auth.entities.User;
@@ -35,7 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @Slf4j
-public class AccountServiceImpl  implements AccountService{
+public class AccountServiceImpl  implements AccountService,ResetPasswordToken{
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -50,6 +54,9 @@ public class AccountServiceImpl  implements AccountService{
 	
 	@Autowired
 	private AgenceRepository agenceRepo;
+	
+	@Autowired
+	private RestPasswordTokenRepository passwordRestTokenRepo;
 	
 	public AccountServiceImpl(RoleRepository roleRepository, UserRepository userRepository) {
 		super();
@@ -112,7 +119,12 @@ public class AccountServiceImpl  implements AccountService{
 	}
 
 
-	
+	@Override
+	public User getUserByMail(String userEmail) {
+		// TODO Auto-generated method stub
+		return userRepository.getUserByEmail(userEmail);
+	}
+
 
 
 
@@ -285,5 +297,81 @@ public class AccountServiceImpl  implements AccountService{
 		}
 	}
 
+
+
+
+	@Override
+	public User getUserById(Long id_user) throws Exception {
+		
+		// TODO Auto-generated method stub
+		User user = userRepository.findById(id_user).get();
+		if(user == null ) {
+			throw new Exception("L'Utilisateur n'existe pas ");
+		}else {
+			
+			return userRepository.findById(id_user).get();
+		}
+	}
+
+
+
+
+	@Override
+	public Role getRoleById(Long id_role) {
+		// TODO Auto-generated method stub
+		return roleRepository.findById(id_role).get();
+	}
+
+
+
+
+	@Override
+	public Agence getAgenceByID(Long id_Agence) {
+		// TODO Auto-generated method stub
+		return agenceRepo.findById(id_Agence).get();
+	}
+
+
+
+
+	@Override
+	public Niveau getNiveauById(Long id_Niv) {
+		// TODO Auto-generated method stub
+		return niveauRepo.findNiveauByIdNiv(id_Niv);
+	}
+
+
+
+
+	@Override
+	public void createPasswordResetTokenForUser(User user, String token) {
+		// TODO Auto-generated method stub
+		 PasswordResetToken myToken = new PasswordResetToken(token, user);
+		    passwordRestTokenRepo.save(myToken);
+		
+	}
+
+
+
+
+	@Override
+	public PasswordResetToken findByToken(String token) {
+		// TODO Auto-generated method stub
+		return passwordRestTokenRepo.findByToken(token);
+	}
+
+
+
+
+	@Override
+	public PasswordResetToken savePasswordResetToken(PasswordResetToken passwordResetToken) {
+		// TODO Auto-generated method stub
+		return passwordRestTokenRepo.save(passwordResetToken);
+	}
+
+
+
+
+	
 	
 }

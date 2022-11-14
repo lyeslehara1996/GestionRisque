@@ -31,7 +31,7 @@ export const ROUTES: RouteInfo[] = [
           },
          {
               path: '/Admin/GestionDesPermission',
-              title:'Gestion Des Roles'
+              title:'Gestion Des Permissions Utilisateurs '
           },
         
         ]

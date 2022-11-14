@@ -15,6 +15,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { authInterceptorProviders } from './_helpper/AuthInterceptor';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { ConfirmationPasswordComponent } from './confirmation-password/confirmation-password.component';
 @NgModule({
   imports: [
     BrowserAnimationsModule,
@@ -33,6 +35,8 @@ import { authInterceptorProviders } from './_helpper/AuthInterceptor';
   declarations: [
     AppComponent,
     AppPageHomeComponent,
+    ForgotPasswordComponent,
+    ConfirmationPasswordComponent,
 
   ],
   providers: [authInterceptorProviders],

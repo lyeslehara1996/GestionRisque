@@ -70,7 +70,6 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 		 .authorizeRequests(authorizeRequests ->
 	        authorizeRequests
-	            .antMatchers("/api/user").hasAnyAuthority("ConsulterUser")
 	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
 	            .antMatchers("/api/ressources").hasAnyAuthority("ConsulterRessources")
 	    )

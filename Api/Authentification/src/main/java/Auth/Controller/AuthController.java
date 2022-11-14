@@ -4,8 +4,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
+import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auth0.jwt.JWT;
@@ -36,9 +39,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import Auth.Filter.JwtUtils;
 import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
+import Auth.Service.AccountService;
+import Auth.Service.ResetPasswordToken;
+import Auth.Service.ServiceImp.AccountServiceImpl;
 import Auth.Service.ServiceImp.UserDetailsImp;
 import Auth.entities.User;
 import Authentification.Request.AuthRequest;
+import Authentification.Request.GenericResponsePasswordReset;
 import Authentification.Request.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,6 +75,8 @@ public class AuthController {
 	@Autowired
 	UserDetailsImp userDetailsImp;
 	
+	@Autowired
+	AccountServiceImpl accountsSer;
 	
 	
 	@PostMapping("/signin")
@@ -140,4 +149,25 @@ public class AuthController {
 //			throw new RuntimeException("refersh token required !!!") ;
 //		}
 //		}
+	
+	
+	@PostMapping("/ResetPassword")
+	public ResponseEntity<GenericResponsePasswordReset> resetPassword(HttpServletRequest request,@RequestParam("email") String userEmail 	) throws AccountNotFoundException{
+	
+		User user = userRepository.getUserByEmail(userEmail);
+		
+		if(user == null) {
+			throw new AccountNotFoundException("User not found");
+		}
+		
+		String token = UUID.randomUUID().toString();
+		accountsSer.createPasswordResetTokenForUser(user,token);
+		return null;
+	}
+	
+	
+	
+	
+	
+	
 }

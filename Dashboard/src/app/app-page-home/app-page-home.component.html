@@ -27,10 +27,11 @@
                                 <div class="col-auto mt-2 d-flex flex-row  ">
 
                                     <button class="btn btn-primary"   type="submit"   [disabled]="LoginForm.invalid">Signin</button>
-                                    <div *ngIf="!isLoggedIn && submitted" class="alert alert-danger ml-2 " role="alert" >
-                                     {{ this.errorMessage }}
-                                       </div>
+                                    <a class="ml-5 mt-10 text-primary" routerLink="/ForgotPassword">Mot de passe oublié ?</a>
                                 </div>
+                                <div *ngIf="!isLoggedIn && submitted" class="alert alert-danger mt-5 center" role="alert" >
+                                 {{ this.errorMessage }}
+                                   </div>
                             </div>
 
                            </form>
