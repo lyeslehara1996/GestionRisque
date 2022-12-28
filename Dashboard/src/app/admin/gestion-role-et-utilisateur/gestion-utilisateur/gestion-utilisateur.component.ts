@@ -1,14 +1,34 @@
 import { Component, OnInit } from '@angular/core';
-import { StorageSService } from 'app/_services/storageService/storage-s.service';
-
 @Component({
   selector: 'app-gestion-utilisateur',
   templateUrl: './gestion-utilisateur.component.html',
   styleUrls: ['./gestion-utilisateur.component.css']
 })
 export class GestionUtilisateurComponent implements OnInit {
-
-  constructor(private storageService : StorageSService) { }
+  protected menuItems = [
+    {
+      menuItem: 'Ajouter Des Utilisateurs',
+      path: 'AjouterDesUtilisateurs',
+      
+    },
+    {
+      menuItem: 'List Des Utilisateurs',
+      
+      path: 'ListeUtilisateurs',
+     
+    },
+    {
+      menuItem: 'Ajouter Des Agences',
+      path: 'AjouterDesAgences',
+      
+    },
+    {
+      menuItem: 'List Agences',
+      path: 'ListAgences',
+      
+    },
+  ]
+  constructor() { }
 
   ngOnInit(): void {
   }

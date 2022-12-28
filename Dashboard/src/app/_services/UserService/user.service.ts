@@ -1,8 +1,21 @@
+
+
+
+import { Niveau } from './../../Models/Niveau';
+import { Ressources } from 'app/Models/Ressources';
+import { Privileges } from 'app/Models/Privileges';
+
 import { Injectable } from '@angular/core';
-import { HttpClient,HttpEvent,HttpHeaders } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 import { AppUser } from '../../Models/AppUser';
 import { StorageSService } from '../storageService/storage-s.service';
+import { Role } from 'app/Models/Role';
+import { Permission } from 'app/Models/Permission';
+import { Agence } from 'app/Models/Agence';
+import { environment } from 'environments/environment';
+
+
 
 
 
@@ -17,66 +30,319 @@ export class UserService {
  
   constructor(private httpClient: HttpClient,private storageSer:StorageSService) { }
 
-  
-  httpOptions:any = {
-    headers: new Headers({ 
-      'Content-Type': 'application/json',
-      'Authorization':"Bearer "+ this.storageSer.getToken(),
-
-     })
-  };
 //get users methode 
 
-  public getAllUsers():Observable<HttpEvent<AppUser[]>>
-  {    return this.httpClient.get<AppUser[]>(this.PATH_API+"user",this.httpOptions);
-  }
+  public getAllUsers():Observable<AppUser[]>
+  {    return this.httpClient.get<AppUser[]>(this.PATH_API+"user",{
+        headers: new HttpHeaders({ 
+         'Content-Type': 'application/json',
+         'Authorization':"Bearer "+this.storageSer.getToken()
+     })
+  });
+}
 
   
-  public getUser(id:number):Observable<HttpEvent<AppUser[]>>
-  {    return this.httpClient.get<AppUser[]>(this.PATH_API+`/user${id}`,this.httpOptions);
+  public getUser(id:number):Observable<AppUser[]>
+    {    return this.httpClient.get<AppUser[]>(this.PATH_API+`/user${id}`,{
+    headers: new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization':"Bearer "+this.storageSer.getToken(),
+  
+     })
+  });
   }
 
-  //add Users methode
-  public AddUsers( appUser:Object) {
-    return this.httpClient.get(this.PATH_API+"Adduser",appUser);
+  public AddUsers(formData) {
+    return this.httpClient.post(this.PATH_API+"users/save",formData,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
 
-  public UpdateUsers(){
-
+  public UpdateUsers(id:number,formData){
+return this.httpClient.put(this.PATH_API+`user/update/${id}`,formData,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
     
   }
 
   public DeleteUser(user:AppUser){
-return this.httpClient.delete(this.PATH_API+`user/delete/${user.id}`, this.httpOptions)
+return this.httpClient.delete(this.PATH_API+`user/delete/${user.id}`,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
 
 
 
   //get roles methode 
-  public getAllRoles(url:any) {
-    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+  public getAllRoles():Observable<Role[]> {
+    return this.httpClient.get<Role[]>(this.PATH_API+"roles",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
 
-    public getRole(url:any) {
-    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+    public getRole(id:number | null):Observable<Role> {
+      return this.httpClient.get<Role>(this.PATH_API+`role/${id}`,{
+        headers: new HttpHeaders({ 
+          'Content-Type': 'application/json',
+          'Authorization':"Bearer "+this.storageSer.getToken(),
+      
+         })
+      });
+  }
+  public newRole(formdata) {
+    return this.httpClient.post(this.PATH_API+"roles/saveRole",formdata,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+  public UpdateRole(id:number,formdata) {
+    return this.httpClient.put(this.PATH_API+`role/update/${id}`,formdata,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+  public DeleteRole(role:Role) {
+    return this.httpClient.delete(this.PATH_API+`role/delete/${role.id}`,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
 
-  public UpdateRole(url:any) {
-    return this.httpClient.get(this.PATH_API+"roles",this.httpOptions);
+  //get Agence methode 
+  public getAllAgence():Observable<Agence[]> {
+    return this.httpClient.get<Agence[]>(this.PATH_API+ "Agences",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
+
+    public getAgence(id:number):Observable<Agence>{
+    return this.httpClient.get<Agence>(this.PATH_API+`agence/${id}`,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
+  public AddAgence(formdata) {
+    return this.httpClient.post(this.PATH_API+"Agence/addAgence",formdata,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+  public UpdateAgence(id:number,agence:Agence) {
+    return this.httpClient.put(this.PATH_API+`agence/update/${id}`,agence,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+  public DeleteAgence(agence:Agence) {
+    return this.httpClient.delete(this.PATH_API+`agence/delete/${agence.id}`,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
 
   
   
 
-  // add role methode 
-  public AddRoles(url:any) {
-    return this.httpClient.get(this.PATH_API+"AddRole",this.httpOptions);
+  // add  methode  of Permissions
+  public getAllPermissions():Observable<Permission[]>  {
+    return this.httpClient.get<Permission[]>(this.PATH_API+"permissions", {
+          headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken()
+    
+       })
+    });
+  }
+  public getAllPermissionsCheckboxes():Observable<Permission[]> {
+    let permissionsArray
+    return this.httpClient.get<Permission[]>(this.PATH_API+"permissions", {
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
   }
 
-  //add role to user methode 
+    public getPermission(url:any) {
+    return this.httpClient.get(this.PATH_API+"Permissions",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
+  public newPermission(formdata) {
+    return this.httpClient.post(this.PATH_API+"permissions/save",formdata,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
+  public UpdatePermission(url:any) {
+    return this.httpClient.get(this.PATH_API+"Permissions",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+  public DeletePermission(permission:Permission) {
+    return this.httpClient.delete(this.PATH_API+`permissions/delete/${permission.id}`,{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
 
 
+
+  //add Ressource and privilege methode 
+
+  public getAllPrivileges():Observable<Privileges[]> {
+    return this.httpClient.get<Privileges[]>(this.PATH_API+"privileges", {
+          headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken()
+    
+       })
+    });
+  }
+
+    public getprivilege(url:any) {
+    return this.httpClient.get(this.PATH_API+"privileges",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
+
+  public getAllRessources():Observable<Ressources[]> {
+    return this.httpClient.get<Ressources[]>(this.PATH_API+"ressources", {
+          headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken()
+    
+       })
+    });
+  }
+
+    public getRessource(url:any) {
+    return this.httpClient.get(this.PATH_API+"Ressources",{
+      headers: new HttpHeaders({ 
+        'Content-Type': 'application/json',
+        'Authorization':"Bearer "+this.storageSer.getToken(),
+    
+       })
+    });
+  }
+
+
+  public getAllNiveauxRole():Observable<Niveau[]> {
+    return this.httpClient.get<Niveau[]>(this.PATH_API+"niveaux", {
+      headers: new HttpHeaders({ 
+    'Content-Type': 'application/json',
+    'Authorization':"Bearer "+this.storageSer.getToken()
+
+   })
+});
+  }
+  public deleteNiveau(id:number) {
+    return this.httpClient.delete(this.PATH_API+`niveau/delete/${id}`, {
+      headers: new HttpHeaders({ 
+    'Content-Type': 'application/json',
+    'Authorization':"Bearer "+this.storageSer.getToken()
+
+   })
+});
+  }
+  public updateNiveau(id:number,niveau) {
+    return this.httpClient.put(this.PATH_API+`niveau/update/${id}`,niveau, {
+      headers: new HttpHeaders({ 
+    'Content-Type': 'application/json',
+    'Authorization':"Bearer "+this.storageSer.getToken()
+
+   })
+});
+  }
+  public addNiveau(niveau) {
+    return this.httpClient.post(this.PATH_API+'niveau/addNiveau',niveau, {
+      headers: new HttpHeaders({ 
+    'Content-Type': 'application/json',
+    'Authorization':"Bearer "+this.storageSer.getToken()
+
+   })
+});
+  }
+
+
+//AddPermissionsTorole Methode
 
 
   
+public AddPermissionToRole(formData) {
+  return this.httpClient.post(this.PATH_API+'/permissions/permToRole',formData,{
+    headers: new HttpHeaders({ 
+      'Content-Type': 'application/json',
+      'Authorization':"Bearer "+this.storageSer.getToken(),
+  
+     })
+  });
+}
+
+
 }

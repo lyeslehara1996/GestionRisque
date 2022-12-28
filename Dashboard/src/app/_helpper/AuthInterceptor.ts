@@ -19,21 +19,20 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<Object>> {
       let authReq = req;
       const accesstoken = this.tokenService.getToken();
-      console.log(accesstoken)
       if (accesstoken != null) {
         authReq = this.addTokenHeader(req, accesstoken);
 
       }
   
       return next.handle(authReq).pipe(catchError(error => {
-   
-        if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/signin') && error.status === 401) {
-                alert('Votre Session est terminé')  
+
+        let user = this.tokenService.getUser();
+        if (error instanceof HttpErrorResponse && !authReq.url.includes('auth/signin') && error.status === 403 ) {
+               alert('Votre Session est terminé')  
                this.tokenService.signOut();
                this.router.navigateByUrl('/Home');
                
         }
-
         return throwError(error);
     
       }));

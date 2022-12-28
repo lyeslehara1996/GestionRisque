@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { StorageSService } from 'app/_services/storageService/storage-s.service';
 import { UserService } from 'app/_services/UserService/user.service';
 import {  Router } from '@angular/router';
+import { User } from 'app/Models/User.model';
 
 declare const $: any;
 declare interface RouteInfo {
@@ -18,7 +19,7 @@ declare interface children {
 }
 export const ROUTES: RouteInfo[] = [
  
-    { path: '/Admin/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
+    // { path: '/Admin/dashboard', title: 'Dashboard',  icon: 'dashboard', class: '' },
     { path: '', forAdmin: true, title: 'Gestion Administateur',  icon: 'admin_panel_settings', class: '', children :[ 
       {
               path: '/Admin/GestionUtilisateur',
@@ -29,12 +30,8 @@ export const ROUTES: RouteInfo[] = [
               path: '/Admin/GestionDesRoles',
               title:'Gestion Des Roles'
           },
-         {
-              path: '/Admin/GestionDesPermission',
-              title:'Gestion Des Permissions Utilisateurs '
-          },
-        
-        ]
+     
+                ]
         
         },
     { path: 'RisqueCredit', title: 'Risque Credit',  icon:'payments', class: '', children :[ 
@@ -165,13 +162,17 @@ onclicksubmenu(event: any){
   submenu.classList.toggle('show')
   submenu.parentElement.querySelector('span').classList.toggle('rotate')
   document.querySelectorAll('.submenu').forEach(function (item) {
-    if (item !== submenu) item.classList.remove('show')
+    if (item !== submenu) {
+      item.classList.remove('show'); 
+      item.parentElement.querySelector('span').classList.remove('rotate')}
   })
   // console.log(event.target)
 }
 
 getRoutes() {
-  let isAdmin = this.storageSer.userIsAdmin()
-  return ROUTES.filter(item => !isAdmin && item.forAdmin ? false : true )
+  let user = new User(this.storageSer.getUser());
+  let IsAdmine = user.hasRole('Admin')
+  //let isAdmin = this.storageSer.userIsAdmin()
+  return ROUTES.filter(item => !IsAdmine && item.forAdmin ? false : true )
 }
 }

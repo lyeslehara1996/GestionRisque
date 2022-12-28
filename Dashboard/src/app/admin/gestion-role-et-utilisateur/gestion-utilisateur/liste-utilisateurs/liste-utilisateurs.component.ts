@@ -1,28 +1,41 @@
-import { HttpEvent } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { UpdateUserModalComponent } from './../update-user-modal/update-user-modal.component';
+import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { AppUser } from 'app/Models/AppUser';
-import { User } from 'app/Models/User.model';
+
 import { StorageSService } from 'app/_services/storageService/storage-s.service';
 import { UserService } from 'app/_services/UserService/user.service';
-import { AppDataState, DataStateEnum } from 'app/_States/state';
-import { data } from 'jquery';
-import { catchError, map, Observable, of, startWith } from 'rxjs';
+import { AppDataState, DataStateEnum } from 'app/_States/appState';
 
+import { catchError, map, Observable, of, startWith } from 'rxjs';
 @Component({
   selector: 'app-liste-utilisateurs',
   templateUrl: './liste-utilisateurs.component.html',
-  styleUrls: ['./liste-utilisateurs.component.css']
+  styleUrls: ['./liste-utilisateurs.component.css'],
+
 })
 export class ListeUtilisateursComponent implements OnInit {
-  
+
   readonly DataStateEnum = DataStateEnum;
  public users$?: Observable<AppDataState<AppUser[]>> | null=null;
-  //users?: any;
-  constructor(private route: Router, private storage: StorageSService, private userService: UserService) { }
+ public user :AppUser | null=null;
+ protected updateUserModal:Element|null
+  constructor(private route: Router, private storage: StorageSService, private userService: UserService ) { }
 
   ngOnInit(): void {
-
+    this.updateUserModal = document.querySelector('.update-user-modal')
+    
+    this.updateUserModal.addEventListener('show.bs.modal', (e) => {
+      if (!this.user) return e.preventDefault()
+    })
+    
+    this.updateUserModal.addEventListener('hide.bs.modal', (e) => {
+      this.updateUserModal.classList.remove('show')
+      setTimeout(() => {
+        this.updateUserModal.classList.remove('d-block')
+      }, 100);
+    })
     this.getAllUsers();
   }
 
@@ -31,7 +44,6 @@ export class ListeUtilisateursComponent implements OnInit {
     this.userService.getAllUsers().pipe(
       map(
         data=>{
-          console.log(data);
        return ({dataState:DataStateEnum.LOADED,data:data}) 
         }),
       startWith({dataState:DataStateEnum.LOADING}),
@@ -39,10 +51,7 @@ export class ListeUtilisateursComponent implements OnInit {
     );
 }
 
-onUpdateUser(user:AppUser){
-  this.route.navigate(['/Admin/GestionUtilisateur/ModifierDesUtilisateurs/'+user.id])
-  // navigateByUrl('ModifierDesUtilisateurs/'+user.id)
-}
+
 
 
 onDeleteUser(user:AppUser){
@@ -53,6 +62,16 @@ onDeleteUser(user:AppUser){
     this.getAllUsers();
   })
 }
+
+  update( p){
+    this.user = p
+    this.updateUserModal.dispatchEvent(new Event('show.bs.modal', ))
+    
+    this.updateUserModal.classList.add('d-block')
+    setTimeout(() => {
+      this.updateUserModal.classList.add('show')
+    }, 100);
+  
+    
+  }
 }
-
-

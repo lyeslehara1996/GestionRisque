@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HasPermissionChildGuard } from './has-permission-child.guard';
+import { HasPermissionGuardChild } from './has-permission-child.guard';
 
 describe('HasPermissionChildGuard', () => {
-  let guard: HasPermissionChildGuard;
+  let guard: HasPermissionGuardChild;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    guard = TestBed.inject(HasPermissionChildGuard);
+    guard = TestBed.inject(HasPermissionGuardChild);
   });
 
   it('should be created', () => {

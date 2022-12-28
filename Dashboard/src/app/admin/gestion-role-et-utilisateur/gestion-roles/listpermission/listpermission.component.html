@@ -1,0 +1,95 @@
+<style>
+    .card .card-header {
+        background: var(--theme-color)!important;
+    }
+</style>
+
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">La Liste Des Permissions</h4>
+                    </div>
+
+
+
+                    <div class="card-body"   >
+
+                    <ng-container   *ngIf="permissions$ | async as result"
+                    [ngSwitch]="result.dataState">
+
+                  
+                        <ng-container
+                        *ngSwitchCase="DataStateEnum.LOADING"
+                      >
+                      <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                      </ng-container>
+
+                      <ng-container *ngSwitchCase="DataStateEnum.ERROR">
+                        <div class="col-12 text-center">
+                          <div class="alert alert-danger">
+                            {{ result.erroMessage }}
+                          </div>
+                        </div>
+                      </ng-container>
+
+                         <ng-container *ngSwitchCase="DataStateEnum.LOADED"> 
+                         
+                        <div class="table-responsive" >
+                            <table class="table table-bordered table-responsive table-primary">
+                                <thead class=" text-dark ">
+                                    <th class=" hidden-xs">
+                                        id
+                                    </th>
+                                    <th>
+                                        Nom de la permission
+                                    </th>
+                                    <th>
+                                        Nom de prévilege 
+                                    </th>
+                                    <th>
+                                        Description de prévilege 
+                                    </th>
+                                    <th>
+                                        Nom de la ressource
+                                    </th>
+                                    <th>
+                                        Description de la ressource
+                                    </th>
+                                
+                                    <th>
+                                        Supprimer
+                                    </th>
+                                </thead>
+                                <tbody  >
+                                    <tr *ngFor="let p of  result.data">
+                                        <td   class="bg-white" >{{p.id}}</td>
+                                       <td class="bg-white"><p class="font-weight-bold "> {{p.namepermission}}</p> </td>
+                                       <td class="bg-white" >{{p.privileges.nameP}}</td>
+                                       <td class="bg-white" >{{p.privileges.description}}</td>
+                                       <td class="bg-white" >{{p.ressources.name}}</td>
+                                       <td class="bg-white" >{{p.ressources.description}}</td>
+                                    
+                                  
+                                       <td ><button class="btn btn-danger " (click)="onDeletePermission(p)"> Supprimer</button></td>
+                                    </tr>
+                                 
+                                </tbody>
+                            </table>
+                        </div>
+                    </ng-container>
+                    
+
+                    
+                </ng-container> 
+            </div>
+        </div>
+    </div>
+    
+          

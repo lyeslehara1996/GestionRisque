@@ -3,10 +3,8 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthServiceService } from 'app/_services/AuthService/auth-service.service';
 import { StorageSService } from 'app/_services/storageService/storage-s.service';
 import { Router } from '@angular/router';
-import{ Observable } from 'rxjs';
 
 
-import { AppUser } from '../Models/AppUser'
 
 declare var $: any;
 @Component({
@@ -17,8 +15,9 @@ declare var $: any;
 export class AppPageHomeComponent implements OnInit {
   isLoggedIn = false;
   isLoginFailed = false;
-  errorMessage !:string[];
+  errorMessage :string|null = null;
   submitted:boolean = false;
+
 
 
   constructor(private authService:AuthServiceService,private storageSService:StorageSService ,private router:Router) {}
@@ -44,11 +43,21 @@ export class AppPageHomeComponent implements OnInit {
       this.router.navigate(['/Home']);
       this.isLoggedIn===false
       this.isLoginFailed===true
-
-      
-   
     }
 
+
+
+    const togglePassword = document.querySelector("#visibilityLoginPassword");
+
+    const password = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function () {
+        // toggle the type attribute
+        const type = password.getAttribute("type") === "password" ? "text" : "password";
+        password.setAttribute("type", type);
+         this.classList.toggle("fa-eye-slash");
+      
+    });
   
   }
 
@@ -60,14 +69,13 @@ export class AppPageHomeComponent implements OnInit {
 
 this.submitted= true;
     
-    this.authService.Login(this.LoginForm.value['username'],this.LoginForm.value['password']).subscribe(
-      (Response:any)=>{
-   
+    this.authService.Login(this.LoginForm.value['username'],this.LoginForm.value['password']).subscribe({
+    next:  (Response:any)=>{
+        this.errorMessage = null
+        this.isLoggedIn = true
+        this.isLoginFailed = false
         this.storageSService.saveToken(Response.jwtAccessTocken);
         this.storageSService.saveUser(Response);
-        console.log(this.storageSService.getUser())
-        this.isLoginFailed ===false;
-        this.isLoggedIn === true;
         if(this.storageSService.getToken() && this.storageSService.isLoggedIn() === true ){
           this.router.navigateByUrl('/Admin')
   
@@ -75,39 +83,17 @@ this.submitted= true;
         }
 
       },
-      (error)=>{
+    error:  (error)=>{
      
        this.errorMessage = error.error
-      console.log(this.errorMessage)
-        this.isLoginFailed === true;
-        this.isLoggedIn === false;
+        this.isLoginFailed = true;
+        this.isLoggedIn = false;
       
 
       
       }
-    )
+    } )
   }
-
-
-// onSubmit(){
-//   this.submitted= true;
-
-//   const payloads = {
-//     username: this.LoginForm.value['username'],
-//     password: this.LoginForm.value['password']
-//   };
- 
-//  this.authService.Login(this.LoginForm.value['username'],this.LoginForm.value['password']).subscribe(
-//   ()=>{
-//     this.store.dispatch(new LogIn(<AppUser>{
-//       username: this.LoginForm.value['username'],
-//       password: this.LoginForm.value['password']
-//     }));
-    
-//   }
-//   )
-
-// }
 
 
   reloadPage(): void {

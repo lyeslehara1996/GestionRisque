@@ -3,7 +3,8 @@ export class User {
     protected prenom:string
     protected email:string
     protected token:string
-    protected role:string
+    protected role:{name:string}
+    protected RoleData:{}
     protected permissions:[string]
 
     constructor (userData:userData) {
@@ -11,7 +12,7 @@ export class User {
         this.prenom = userData.prenom
         this.email = userData.email
         this.token = userData.token
-        this.role = userData.role
+        this.role = userData.roles
         this.permissions = userData.permissions
     }
 
@@ -25,8 +26,12 @@ export class User {
     /**
      * getRole
      */
-    public getRole(): string {
+    public getRole(): Object {
         return this.role
+    }
+
+    public getRoleName(): string {
+        return this.role.name
     }
 
     /**
@@ -37,13 +42,15 @@ export class User {
     }
 
     public hasRole(role:string): boolean {
-        return this.role.toLowerCase() === role.toLowerCase()
+        role = String(role).toLowerCase();
+        return   this.getRoleName().toLowerCase() === role;
+   
     }
 
     public hasPermission(permission:string): boolean {
-        // permission = String(permission).toLowerCase()
-        console.log(permission)
-        return this.getPermissions().includes(permission)
+        permission = String(permission).toLowerCase()
+        return String(this.getPermissions()).toLowerCase().includes(permission)
+        
     }
 }
 
@@ -53,6 +60,6 @@ interface userData {
     prenom:string,
     email:string,
     token:string,
-    role:string,
+    roles?:{name:string},
     permissions:[string]
 }

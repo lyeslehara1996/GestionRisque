@@ -1,5 +1,6 @@
 
 import { Injectable } from '@angular/core';
+import {  Router } from '@angular/router';
 
 const TOKEN_KEY = 'accesstoken';
 const REFRESHTOKEN_KEY = 'refreshtoken';
@@ -10,7 +11,7 @@ const USER_KEY = 'auth-user';
   providedIn: 'root',
 })
 export class StorageSService {
-  constructor() {}
+  constructor(private route:Router) {}
 
   signOut(): void {
     window.sessionStorage.clear();
@@ -53,6 +54,7 @@ export class StorageSService {
     if (user) {
       return JSON.parse(user);
     }
+  
 
     return {};
   }
@@ -69,7 +71,8 @@ export class StorageSService {
    * userIsAdmin
    */
   public userIsAdmin(): boolean {
-    return this.getUser().roles.name.toLowerCase() === 'admin'
+   return this.getUser().roles.name.toLowerCase() === 'admin'
+    
   }
 
 /**

@@ -1,6 +1,11 @@
+import { Niveau } from "./Niveau";
+import { Permission } from "./Permission";
+
 export interface Role{
 
-    idRole:string;
-    nomRole:string;
+    id:number;
+    name:string;
+    permissions:[Permission]
+    niveaux:[Niveau]
 
 }

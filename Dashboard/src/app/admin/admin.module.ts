@@ -1,3 +1,5 @@
+import { NavigationMenuComponent } from './components/navigation-menu/navigation-menu.component';
+
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -36,15 +38,28 @@ import { LimitesBanquesComponent } from './risque-de-marche/limites-banques/limi
 import { InvertissementsComponent } from './risque-de-marche/invertissements/invertissements.component';
 import { NotionsPaysComponent } from './risque-de-marche/notions-pays/notions-pays.component';
 import { NotionsBanquesComponent } from './risque-de-marche/notions-banques/notions-banques.component';
-import { AnalysePortfeuilleContentComponent } from './risque-credit/Analyse-portfeuille/analyse-portfeuille-content/analyse-portfeuille-content.component';
 
 import { GestionUtilisateurComponent } from './gestion-Role-Et-Utilisateur/gestion-utilisateur/gestion-utilisateur.component';
 import { GestionRolesComponent } from './gestion-Role-Et-Utilisateur/gestion-roles/gestion-roles.component';
-import { GestionPermissionsComponent } from './gestion-Role-Et-Utilisateur/gestion-permissions/gestion-permissions.component';
-import { NavigationUtilisateurComponent } from './gestion-role-et-utilisateur/gestion-utilisateur/navigation-utilisateur/navigation-utilisateur.component';
 import { ListeUtilisateursComponent } from './Gestion-role-et-utilisateur/gestion-utilisateur/liste-utilisateurs/liste-utilisateurs.component';
 import { AjouterDesUtilisateusComponent } from './Gestion-role-et-utilisateur/gestion-utilisateur/ajouter-des-utilisateus/ajouter-des-utilisateus.component';
-import { ModifierUtilisateursComponent } from './Gestion-role-et-utilisateur/gestion-utilisateur/modifier-utilisateurs/modifier-utilisateurs.component';
+import { UpdateUserModalComponent } from './gestion-role-et-utilisateur/gestion-utilisateur/update-user-modal/update-user-modal.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ListsRolesComponent } from './gestion-role-et-utilisateur/gestion-roles/lists-roles/lists-roles.component';
+import { AjouterDesRolesComponent } from './gestion-role-et-utilisateur/gestion-roles/ajouter-des-roles/ajouter-des-roles.component';
+import { ModalUpdateRoleComponent } from './gestion-role-et-utilisateur/gestion-roles/modal-update-role/modal-update-role.component';
+import { TauxDefautChartComponent } from './risque-credit/analyse-portfeuille/creation-douteuse/taux-defaut-chart/taux-defaut-chart.component';
+import { ImpayeMilliardsChartComponent } from './risque-credit/analyse-portfeuille/creation-douteuse/impaye-milliards-chart/impaye-milliards-chart.component';
+import { CreanceDouteuseEtProvisionChartComponent } from './risque-credit/analyse-portfeuille/creation-douteuse/creance-douteuse-et-provision-chart/creance-douteuse-et-provision-chart.component';
+import { ActionJusticeComponent } from './risque-credit/analyse-portfeuille/action-justice/action-justice.component';
+import { ListpermissionComponent } from './gestion-role-et-utilisateur/gestion-roles/listpermission/listpermission.component';
+import { AddPermissionComponent } from './gestion-role-et-utilisateur/gestion-roles/add-permission/add-permission.component';
+import { AjouterAgenceComponent } from './gestion-role-et-utilisateur/gestion-utilisateur/ajouter-agence/ajouter-agence.component';
+import { ListAgencesComponent } from './gestion-role-et-utilisateur/gestion-utilisateur/list-agences/list-agences.component';
+import { AjouterNiveauComponent } from './gestion-role-et-utilisateur/gestion-roles/ajouter-niveau/ajouter-niveau.component';
+import { ListNiveauComponent } from './gestion-role-et-utilisateur/gestion-roles/list-niveau/list-niveau.component';
+import { UpdateAgenceComponent } from './gestion-role-et-utilisateur/gestion-utilisateur/update-agence/update-agence.component';
+import { UpdateNiveauComponent } from './gestion-role-et-utilisateur/gestion-roles/update-niveau/update-niveau.component';
 
 
 
@@ -78,15 +93,28 @@ import { ModifierUtilisateursComponent } from './Gestion-role-et-utilisateur/ges
     InvertissementsComponent,
     NotionsPaysComponent,
     NotionsBanquesComponent,
-    AnalysePortfeuilleContentComponent,
 
     GestionUtilisateurComponent,
     GestionRolesComponent,
-    GestionPermissionsComponent,
-    NavigationUtilisateurComponent,
     ListeUtilisateursComponent,
     AjouterDesUtilisateusComponent,
-    ModifierUtilisateursComponent,
+    UpdateUserModalComponent,
+    ListsRolesComponent,
+    AjouterDesRolesComponent,
+    ModalUpdateRoleComponent,
+    TauxDefautChartComponent,
+    ImpayeMilliardsChartComponent,
+    CreanceDouteuseEtProvisionChartComponent,
+    ActionJusticeComponent,
+    NavigationMenuComponent,
+    ListpermissionComponent,
+    AddPermissionComponent,
+    AjouterAgenceComponent,
+    ListAgencesComponent,
+    AjouterNiveauComponent,
+    ListNiveauComponent,
+    UpdateAgenceComponent,
+    UpdateNiveauComponent
 
   
   ],
@@ -94,6 +122,8 @@ import { ModifierUtilisateursComponent } from './Gestion-role-et-utilisateur/ges
     CommonModule,
     AdminRoutingModule,
     CommonModule,
+    FormsModule,
+    ReactiveFormsModule, 
     MatInputModule,
     MatPseudoCheckboxModule,
     MatButtonModule,

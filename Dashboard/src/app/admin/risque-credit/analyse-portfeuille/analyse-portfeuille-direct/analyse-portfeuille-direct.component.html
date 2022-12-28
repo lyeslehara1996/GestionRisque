@@ -1,1 +1,485 @@
-<p>analyse-portfeuille-direct works!</p>
+<body ng-app="myapp" ng-controller="ListController">
+  <div class="container">
+    <button
+      class="btn btn-primary"
+      (click)="genrerRapportAnalysePortefeuilleDirect()"
+    >
+      Générer Rapport
+    </button>
+ <button class="btn btn-success pull-right"  (click)="graphePortefeuilDirect()"> Graphiques </button>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <form ng-submit="addNew()">
+              <table class="table table-striped table-bordered">
+                <tbody>
+                  <tr>
+                    <td rowspan="1" colspan="1">
+                      Portfeuille des credits direct
+                    </td>
+
+                    <td [attr.colspan]="slectedPeriods.length + 1">
+                      Credit Particulier
+                    </td>
+                    <td [attr.colspan]="slectedPeriods.length + 1">
+                      credit Entreprise
+                    </td>
+
+                    <td [attr.colspan]="slectedPeriods.length + 1">Total</td>
+                    <td colspan="2">Variation</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <div class="multiselect">
+                        <div
+                          class="selectBox"
+                          id="myselct"
+                          (click)="showCheckboxes()"
+                        >
+                          <select style="width: 120px">
+                            <option>periods</option>
+                          </select>
+                          <div class="overSelect"></div>
+                        </div>
+                        <ng-container *ngIf="visible">
+                          <div
+                            class="card"
+                            style="border: 1px solid black; width: 120px"
+                          >
+                            <div *ngFor="let t of availablePeriods">
+                              <label for="{{ t }}">
+                                <input
+                                  type="checkbox"
+                                  id="check{{ t.datereporte }}"
+                                  (change)="stateChanged($event, t)"
+                                  [checked]="t.checked"
+                                  [value]="t.datereporte"
+                                />{{ t.datereporte |date:'yyyy-MM-dd'  }}
+                              </label>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                    </td>
+                    <td><div style="width: 100px">2021-12-31</div></td>
+                    <td
+                      *ngFor="let sel of slectedPeriods"
+                      stddyle="width: 140px"
+                    >
+                      {{ sel.datereporte |date:'yyyy-MM-dd' }}
+                    </td>
+
+                    <td><div style="width: 100px">2021-12-31</div></td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.datereporte |date:'yyyy-MM-dd'  }}
+                    </td>
+                    <td><div style="width: 100px">2021-12-31</div></td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.datereporte  |date:'yyyy-MM-dd' }}
+                    </td>
+                    <td><div style="width: 100px">Montant</div></td>
+                    <td><div style="width: 100px">%</div></td>
+                  </tr>
+                  <tr>
+                    <td>Total credits Direct</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.creditTotaldirect }}
+                    </td>
+
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.creditTotaldirect }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.creditTotaldirect }}
+                    </td>
+
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.creditTotaldirect }}
+                    </td>
+
+                    <td>
+                      {{ creditReportFix.totalFix.creditTotaldirect }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.creditTotaldirect }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .creditTotaldirect
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .creditTotaldirect
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Creances doutouse</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.creanceDouteuse }}
+                    </td>
+
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.creanceDouteuse }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.creanceDouteuse }}
+                    </td>
+
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.creanceDouteuse }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.creanceDouteuse }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.creanceDouteuse }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .creanceDouteuse
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .creanceDouteuse
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Creances courantes</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.creanceCourant }}
+                    </td>
+
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.creanceCourant }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.creanceCourant }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.creanceCourant }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.creanceCourant }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.creanceCourant }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .creanceCourant
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .creanceCourant
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Intérêts réservés</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.interetReserve }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.interetReserve }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.interetReserve }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.interetReserve }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.interetReserve }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.interetReserve }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .interetReserve
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .interetReserve
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Provisions</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.provisions }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.provisions }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.provisions }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.provisions }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.provisions }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.provisions }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .provisions
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .provisions
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Taux de créances douteuses</td>
+                    <td>
+                      {{
+                        creditReportFix.creditParticulier.tauxCreanceDouteuse
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.tauxCreanceDouteuse }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.tauxCreanceDouteuse }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.tauxCreanceDouteuse }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.tauxCreanceDouteuse }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.tauxCreanceDouteuse }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .tauxCreanceDouteuse
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .tauxCreanceDouteuse
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Taux de couverture</td>
+                    <td>
+                      {{ creditReportFix.creditParticulier.tauxOuverture }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.tauxOuverture }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.tauxOuverture }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.tauxOuverture }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.tauxOuverture }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.tauxOuverture }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .tauxOuverture
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .tauxOuverture
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Intérêts réservés des créances douteuses</td>
+                    <td>
+                      {{
+                        creditReportFix.creditParticulier
+                          .interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{
+                        sel.creditParticulier.interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                    <td>
+                      {{
+                        creditReportFix.creditEntreprise
+                          .interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.interetreservesCreancesDouteuse }}
+                    </td>
+                    <td>
+                      {{
+                        creditReportFix.totalFix.interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.interetreservesCreancesDouteuse }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .interetreservesCreancesDouteuse
+                      }}
+                    </td>
+                  </tr>
+
+                  <tr>
+                    <td>Créances douteuses net d'intérêts réservés</td>
+                    <td>
+                      {{
+                        creditReportFix.creditParticulier.creanceDouteuseNets
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.creanceDouteuseNets }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.creditEntreprise.creanceDouteuseNets }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.creanceDouteuseNets }}
+                    </td>
+                    <td>
+                      {{ creditReportFix.totalFix.creanceDouteuseNets }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.creanceDouteuseNets }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .creanceDouteuseNets
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .creanceDouteuseNets
+                      }}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Crédit Direct Net d'intérêts réservés</td>
+                    <td>
+                      {{
+                        creditReportFix.creditParticulier
+                          .creditDirectNetInteretReserve
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditParticulier.creditDirectNetInteretReserve }}
+                    </td>
+                    <td>
+                      {{
+                        creditReportFix.creditEntreprise
+                          .creditDirectNetInteretReserve
+                      }}
+                    </td>
+                    <td *ngFor="let sel of slectedPeriods" style="width: 140px">
+                      {{ sel.creditEntreprise.creditDirectNetInteretReserve }}
+                    </td>
+                    <td>
+                      {{
+                        creditReportFix.totalFix.creditDirectNetInteretReserve
+                      }}
+                    </td>
+                    <td
+                      *ngFor="let total of creditReportTotal"
+                      style="width: 140px"
+                    >
+                      {{ total.creditDirectNetInteretReserve }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        creditReportAnalysePortfeuille.variationMontant
+                          .creditDirectNetInteretReserve
+                      }}
+                    </td>
+                    <td *ngIf="slectedPeriods.length > 0">
+                      {{
+                        this.creditReportAnalysePortfeuille.resultPourcentage
+                          .creditDirectNetInteretReserve
+                      }}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>

@@ -20,15 +20,6 @@ export class AuthPermissionsGuard implements CanActivate {
       // let Permission =  this.storages.getUser().permissions;
       let user = new User(this.storages.getUser())
       let requiredPermission = route.data.requiredPermission;
-      // const PermissionMatches = Permission.findIndex(Permission=>expectedPermission.indexOf(Permission) !== -1)   
-      // console.log(Permission);
-   
-      // if(PermissionMatches < 0){
-      //   alert("Vous etes pas authoriser");
-      //   return false
-      // }else{
-      //   return true;
-      // }
       console.log(route, user.getPermissions(), user.hasPermission(requiredPermission))
       if (!user.hasPermission(requiredPermission)) {
         alert('Not authorized')

@@ -1,7 +1,7 @@
 export interface AppUser {
 id ?: number;
-nomUser ?:string ;
-prenomUser ?:string;
+nom ?:string ;
+prenom ?:string;
 username ?: string;
 email ?:string;
 password ?: string;

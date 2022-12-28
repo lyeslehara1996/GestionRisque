@@ -89,7 +89,7 @@ export class AdminLayoutComponent implements OnInit {
       });
 
       $('.fixed-plugin .badge').click(function(elem){
-        console.log(elem)
+    
           let $full_page_background = $('.full-page-background');
 
 
