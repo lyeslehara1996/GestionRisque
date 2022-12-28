@@ -20,6 +20,4 @@ public class PasswordReset {
     private String password;
     @NotEmpty
     private String confirmPassword;
-    @NotEmpty
-    private String token;
 }

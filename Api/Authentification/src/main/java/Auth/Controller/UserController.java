@@ -1,10 +1,16 @@
 package Auth.Controller;
 
 import java.net.URI;
+import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,11 +36,16 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import Auth.Repository.AgenceRepository;
+import Auth.Repository.RestPasswordTokenRepository;
 import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
+import Auth.Service.MailService;
+import Auth.Service.ResetPasswordToken;
 import Auth.entities.Agence;
+import Auth.entities.Mail;
 import Auth.entities.Niveau;
+import Auth.entities.PasswordResetToken;
 import Auth.entities.Permissions;
 import Auth.entities.Ressource;
 import Auth.entities.Role;
@@ -59,10 +70,13 @@ public class UserController {
 	
 	@Autowired
 	private AgenceRepository ageneceRepo;
-	
+	@Autowired
+	private ResetPasswordToken restpasswordTokenSer;
+	@Autowired
+	private MailService mailService;
 	
 	@GetMapping("/user")
-	@PreAuthorize("hasAuthority('ConsulterUser')")
+//	@PreAuthorize("hasAuthority('ConsulterUser')")
 	public ResponseEntity<List<User>> getUsers(){
 		try {
 			List<User> user = accountService.ListUsers();
@@ -173,9 +187,35 @@ public ResponseEntity<Niveau> getNiveauById(@PathVariable Long id_niv){
 }
 	
 	 @RequestMapping(value = "/users/save", method = RequestMethod.POST)
-	public ResponseEntity<User> saveUser(@RequestBody User user){
+	public ResponseEntity<User> saveUser(HttpServletRequest request,@RequestBody User user){
 		 try {
 				accountService.addNewUser(user);
+				String token = UUID.randomUUID().toString();
+				PasswordResetToken passwordResetToken = new PasswordResetToken();
+				passwordResetToken.setToken(token);
+				passwordResetToken.setUser(user);
+				passwordResetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
+				restpasswordTokenSer.savePasswordResetToken(passwordResetToken);
+				
+				  Mail mail = new Mail();
+			        mail.setFrom("Intervalle-Technologies.com");
+			        mail.setTo(user.getEmail());
+			        mail.setSubject("Reset your password");
+
+			        Map<String, Object> model = new HashMap<>();
+			        model.put("token", token);
+			        model.put("Username", user.getUsername());
+			        model.put("Email", user.getEmail());
+			        model.put("expiryDate", passwordResetToken.getExpiryDate());
+			        
+			        String url = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort();
+			        String resetPasswordLink = "http://localhost:4200/ResetPassword/" + passwordResetToken.getToken();
+				       
+			        
+			        model.put("Link", resetPasswordLink);
+			       
+			        mail.setModel(model);
+			        mailService.send(mail);
 				return  new ResponseEntity(user, HttpStatus.CREATED);
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

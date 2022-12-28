@@ -40,7 +40,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @AllArgsConstructor
-@NoArgsConstructor@ToString
+@NoArgsConstructor
 public class Role implements Serializable{
 
 

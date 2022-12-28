@@ -38,8 +38,8 @@ import lombok.ToString;
 
 @Entity
 @Data
-@Table(name = "User")
-@Getter@Setter@AllArgsConstructor@ToString
+@Table(name = "Utilisateurs")
+@Getter@Setter@AllArgsConstructor
 public class User  implements Serializable{
 
 	public User() {

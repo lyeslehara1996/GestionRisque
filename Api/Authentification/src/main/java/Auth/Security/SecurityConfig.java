@@ -65,17 +65,25 @@ public SecurityConfig(PasswordEncoder passwordEncoder,UserDetailsService userDet
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 
+//		http.cors().and().csrf().disable()
+//		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
+//		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
+////		 .authorizeRequests(authorizeRequests ->
+////	        authorizeRequests
+////	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
+////	            .antMatchers("/api/ressources").hasAnyAuthority("ConsulterRessources")
+////	    )
+//
+//		.authorizeRequests().antMatchers("/Auth/signin","/Auth/ForgotPassword","/Auth/ResetPassword/**","/Auth/TemplateMail","/Auth/CheckResetPassword/**","/api/user/update/**").permitAll()
+//		.anyRequest().permitAll();
 		http.cors().and().csrf().disable()
 		.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 		.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-		 .authorizeRequests(authorizeRequests ->
-	        authorizeRequests
-	            .antMatchers("/api/roles").hasAnyAuthority("ConsulterRole")
-	            .antMatchers("/api/ressources").hasAnyAuthority("ConsulterRessources")
-	    )
-
-		.authorizeRequests().antMatchers("/Auth/signin","/Auth/RefreshToken").permitAll()
+//		.authorizeRequests().antMatchers("/Produit/**","/produits").hasAnyAuthority("Manager Risque").and()
+//		.authorizeRequests().antMatchers("/api/user/**").hasAnyAuthority("Admin").and()
+		.authorizeRequests().antMatchers("/Auth/**","/api/**/**").permitAll()
 		.anyRequest().authenticated();
+
 
 	http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 

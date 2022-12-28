@@ -1,6 +1,8 @@
  package Auth.Service.ServiceImp;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +41,7 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Transactional
 @Slf4j
-public class AccountServiceImpl  implements AccountService,ResetPasswordToken{
+public class AccountServiceImpl  implements AccountService{
 
 	@Autowired
 	private RoleRepository roleRepository;
@@ -54,9 +56,9 @@ public class AccountServiceImpl  implements AccountService,ResetPasswordToken{
 	
 	@Autowired
 	private AgenceRepository agenceRepo;
-	
 	@Autowired
-	private RestPasswordTokenRepository passwordRestTokenRepo;
+	private RestPasswordTokenRepository PasswordRestTokenRepo;
+	
 	
 	public AccountServiceImpl(RoleRepository roleRepository, UserRepository userRepository) {
 		super();
@@ -233,32 +235,43 @@ public class AccountServiceImpl  implements AccountService,ResetPasswordToken{
 		// TODO Auto-generated method stub
 		User users = userRepository.findById(id_user).get();
 		Role role = roleRepository.getRoleById(user.getRoles().getId());
+		
 		Agence agence = agenceRepo.getAgenceById(user.getAgence().getId());
 		
 		if(users == null) {
 			throw new Exception("L'utilisateur dans id  "+id_user+" not existe");
-		}else {
+		}
+		else {
 			if(role == null || agence == null) {
 				throw new Exception("le role ou l'agence n'existe pas ");
 			}
+//		
 			users.setNom(user.getNom());
 			users.setPrenom(user.getPrenom());
 			users.setEmail(user.getEmail());
-			users.setPassword(users.getPassword());
-			user.setRoles(role);
-			user.getRoles().setName(role.getName());
-			user.getRoles().setNiveaux(role.getNiveaux());
-			user.getRoles().setPermissions(role.getPermissions());
+			users.setRoles(role);
+			users.getRoles().setName(role.getName());
+			users.getRoles().setNiveaux(role.getNiveaux());
+			users.getRoles().setPermissions(role.getPermissions());
 			users.setAgence(agence);
-			user.getAgence().setAgenceName(agence.getAgenceName());
-			user.getAgence().setDescription(agence.getDescription());
-			
+			users.getAgence().setAgenceName(agence.getAgenceName());
+			users.getAgence().setDescription(agence.getDescription());
+//			
 			return userRepository.save(users);
 		}
 		
 	}
 
-
+//Update Password OfUser
+	@Override
+	public User UpdatePasswordUser(String Password, Long UserId) {
+		// TODO Auto-generated method stub
+		User user = userRepository.getUserById(UserId);
+		
+		user.setPassword(passwordEncoder.encode(Password));
+		return userRepository.save(user);
+		
+	}
 
 
 	@Override
@@ -343,35 +356,18 @@ public class AccountServiceImpl  implements AccountService,ResetPasswordToken{
 
 
 
-	@Override
-	public void createPasswordResetTokenForUser(User user, String token) {
-		// TODO Auto-generated method stub
-		 PasswordResetToken myToken = new PasswordResetToken(token, user);
-		    passwordRestTokenRepo.save(myToken);
-		
-	}
 
 
 
 
-	@Override
-	public PasswordResetToken findByToken(String token) {
-		// TODO Auto-generated method stub
-		return passwordRestTokenRepo.findByToken(token);
-	}
-
-
-
-
-	@Override
-	public PasswordResetToken savePasswordResetToken(PasswordResetToken passwordResetToken) {
-		// TODO Auto-generated method stub
-		return passwordRestTokenRepo.save(passwordResetToken);
-	}
-
+//	Forgot and Reset Password
 
 
 
 	
+	
+
+
+
 	
 }

@@ -1,5 +1,6 @@
 package Auth.Controller;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +12,7 @@ import javax.security.auth.login.AccountNotFoundException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
-
+import org.aspectj.weaver.bcel.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,9 +22,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,18 +42,25 @@ import com.auth0.jwt.interfaces.JWTVerifier;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import Auth.Filter.JwtUtils;
+import Auth.Repository.RestPasswordTokenRepository;
 import Auth.Repository.RoleRepository;
 import Auth.Repository.UserRepository;
 import Auth.Service.AccountService;
+import Auth.Service.MailService;
 import Auth.Service.ResetPasswordToken;
 import Auth.Service.ServiceImp.AccountServiceImpl;
 import Auth.Service.ServiceImp.UserDetailsImp;
+import Auth.entities.Mail;
+import Auth.entities.PasswordForgot;
+import Auth.entities.PasswordReset;
+import Auth.entities.PasswordResetToken;
 import Auth.entities.User;
 import Authentification.Request.AuthRequest;
 import Authentification.Request.GenericResponsePasswordReset;
 import Authentification.Request.JwtResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.utility.RandomString;
 
 @RestController
 @RequiredArgsConstructor
@@ -64,6 +76,9 @@ public class AuthController {
 	UserRepository userRepository;
 
 	@Autowired
+	AccountService accountService;
+
+	@Autowired
 	RoleRepository roleRepository;
 
 	@Autowired
@@ -76,8 +91,15 @@ public class AuthController {
 	UserDetailsImp userDetailsImp;
 	
 	@Autowired
-	AccountServiceImpl accountsSer;
+	ResetPasswordToken restTokenSer;
+
+
 	
+	@Autowired
+	RestPasswordTokenRepository ResetPasswordRepository;
+	
+	@Autowired
+	MailService mailService;
 	
 	@PostMapping("/signin")
 	
@@ -149,25 +171,108 @@ public class AuthController {
 //			throw new RuntimeException("refersh token required !!!") ;
 //		}
 //		}
+	  
+	@PostMapping("/ForgotPassword")
+	public ResponseEntity<GenericResponsePasswordReset> ForgotPassword(HttpServletRequest request,@RequestBody PasswordForgot passwordForgot, Model modelFarmework	) throws AccountNotFoundException{
 	
-	
-	@PostMapping("/ResetPassword")
-	public ResponseEntity<GenericResponsePasswordReset> resetPassword(HttpServletRequest request,@RequestParam("email") String userEmail 	) throws AccountNotFoundException{
-	
-		User user = userRepository.getUserByEmail(userEmail);
-		
+		User user = userRepository.getUserByEmail(passwordForgot.getEmail());
+
+		 
 		if(user == null) {
 			throw new AccountNotFoundException("User not found");
 		}
 		
 		String token = UUID.randomUUID().toString();
-		accountsSer.createPasswordResetTokenForUser(user,token);
-		return null;
+		PasswordResetToken passwordResetToken = new PasswordResetToken();
+		passwordResetToken.setToken(token);
+		passwordResetToken.setUser(user);
+		passwordResetToken.setExpiryDate(LocalDateTime.now().plusHours(1));
+		restTokenSer.savePasswordResetToken(passwordResetToken);
+		
+		  Mail mail = new Mail();
+	        mail.setFrom("Intervalle-Technologies.com");
+	        mail.setTo(user.getEmail());
+	        mail.setSubject("Reset your password");
+
+	        Map<String, Object> model = new HashMap<>();
+	        model.put("token", token);
+	        model.put("Username", user.getUsername());
+	        model.put("Email", user.getEmail());
+	        model.put("expiryDate", passwordResetToken.getExpiryDate());
+	        
+	         String resetPasswordLink = "http://localhost:4200/ResetPassword/" + passwordResetToken.getToken();
+	       
+	        
+	        model.put("Link", resetPasswordLink);
+	       
+	        mail.setModel(model);
+	        mailService.send(mail);
+	        
+	        
+	return  ResponseEntity.ok(new GenericResponsePasswordReset("token est généré ",""));
+		
+		
+		
+	}
+//
+	
+	
+	@PostMapping("/ResetPassword/{token}")
+	public ResponseEntity<PasswordResetToken> ResetPassword(HttpServletRequest request,
+			@PathVariable String token, 
+			@RequestBody PasswordReset passwordReset) throws AccountNotFoundException {
+		
+		PasswordResetToken resetToken = ResetPasswordRepository.findByToken(token);
+		
+		if (resetToken == null) {
+			return new ResponseEntity("Le token n'est pas générer !!!", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if (restTokenSer.isTokenExpired(resetToken)) {
+			return new ResponseEntity("Le token est expiré", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if (restTokenSer.isTokenUsed(resetToken) == true) {
+			return new ResponseEntity("Le token est utilisé déja ", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		User user = resetToken.getUser();
+
+		if (user == null) {
+			return new ResponseEntity("User not Found ", HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if (passwordReset.getPassword() == "" || passwordReset.getConfirmPassword() == "" 
+			|| passwordReset.getPassword() == null || passwordReset.getConfirmPassword() == null) {
+			return new ResponseEntity("Password and confirm Password required !  ",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+		if (!passwordReset.getPassword().toString().equals(passwordReset.getConfirmPassword().toString())) {
+			return new ResponseEntity("Password and confirm Password must be identical !",HttpStatus.INTERNAL_SERVER_ERROR);
+		}
+		
+
+		String updatedPassword = passwordReset.getPassword();
+		accountService.UpdatePasswordUser(updatedPassword, user.getId());
+		resetToken.setUsed(true);
+		ResetPasswordRepository.save(resetToken);
+		
+		return new ResponseEntity(resetToken, HttpStatus.CREATED);
 	}
 	
+	@GetMapping("/CheckResetPassword/{token}")
+	public ResponseEntity<PasswordResetToken> CheckTokenPassword(@PathVariable String token){
+		PasswordResetToken passwordReset = ResetPasswordRepository.checkUserToken(token);
+		
+		if (passwordReset == null) {
+			return new ResponseEntity(passwordReset, HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity(passwordReset, HttpStatus.ACCEPTED);
+	}
+		
 	
+	//End of class
+	}
 	
-	
-	
-	
-}
+
+

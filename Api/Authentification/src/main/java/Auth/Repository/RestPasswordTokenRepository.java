@@ -10,7 +10,12 @@ import Auth.entities.PasswordResetToken;
 public interface RestPasswordTokenRepository extends JpaRepository<PasswordResetToken, Long> {
 
 	@Query(value = "SELECT * FROM password_reset_token WHERE token = ?1 AND expiry_date > NOW() AND used = 0 ", nativeQuery = true)
-	public Boolean checkUserToken(String token);
+	public PasswordResetToken checkUserToken(String token);
 	
 	public PasswordResetToken findByToken(String token);
+	
+	
+	
+	public PasswordResetToken getByToken(String token);
+
 }

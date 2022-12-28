@@ -5,6 +5,7 @@ import java.util.List;
 
 import Auth.entities.Agence;
 import Auth.entities.Niveau;
+import Auth.entities.PasswordResetToken;
 import Auth.entities.Privilege;
 import Auth.entities.Role;
 import Auth.entities.User;
@@ -19,6 +20,7 @@ public interface AccountService {
 	void DeleteUser(Long id_user) throws Exception;
 	User UpdateUser(Long id_user,User user) throws Exception;
 	
+	User UpdatePasswordUser(String Password,Long UserId);
 	
 	Role addNewRolle (Role role);
 	List<Role> ListRoles() throws Exception;
@@ -38,7 +40,7 @@ public interface AccountService {
 	Niveau getNiveauById(Long id_Niv);
 	void DeleteNiveau(Long id_Niveau) throws Exception;
 //	Niveau UpdateNiveau();
+
 	
 	
-	public void createPasswordResetTokenForUser(User user, String token);
 }

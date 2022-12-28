@@ -43,15 +43,6 @@ public class AuthentificationApplication {
 		return new BCryptPasswordEncoder();
 	}
 	
-//	@Bean
-//	public DataSourceInitializer dataSourceInitializer(@Qualifier("dataSource") final DataSource dataSource) {
-//	    ResourceDatabasePopulator resourceDatabasePopulator = new ResourceDatabasePopulator();
-//	    resourceDatabasePopulator.addScript(new ClassPathResource("/data.sql"));
-//	    DataSourceInitializer dataSourceInitializer = new DataSourceInitializer();
-//	    dataSourceInitializer.setDataSource(dataSource);
-//	    dataSourceInitializer.setDatabasePopulator(resourceDatabasePopulator);
-//	    return dataSourceInitializer;
-//	}
 
 	@Bean
 	CommandLineRunner start(AccountService accountService, RessourceService ressourceService, RepositoryRestConfiguration restConfiguration) {
@@ -70,7 +61,7 @@ public class AuthentificationApplication {
 ////			//	Create User
 			User user1=	accountService.addNewUser(new User(null,"Admin" ,"Admin" ,"Admin","admin@Risque.com","Admin1234",role1,agence1,new ArrayList()));
 			
-			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","Utilisateur@Risque.com","User2",role2,agence2,new ArrayList<>()));
+			User user2 =accountService.addNewUser(new User(null,"Lyes","Lehara","LyesLehara","lyeslehara88@gmail.com","User2",role2,agence2,new ArrayList<>()));
 		
 			User user3 =accountService.addNewUser(new User(null,"Yanis","Ziani","YanisZiani","ManagerRisque@Risque.com","User3",role3,null,new ArrayList<>()));
 						
